@@ -15,7 +15,7 @@
     <module>xinblog-blog</module>
     <module>xinblog-admin</module>
     <module>xinblog-common</module>
-    <module>renren-generator</module>
+<!--    <module>renren-generator</module>-->
   </modules>
   <packaging>pom</packaging>
 
