@@ -13,7 +13,6 @@
 
   <modules>
     <module>xinblog-blog</module>
-    <module>xinblog-test</module>
     <module>xinblog-admin</module>
     <module>xinblog-common</module>
     <module>renren-generator</module>
