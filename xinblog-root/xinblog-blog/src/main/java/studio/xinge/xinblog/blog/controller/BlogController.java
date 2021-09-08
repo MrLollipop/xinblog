@@ -17,11 +17,10 @@ import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
+import studio.xinge.xinblog.common.utils.ReturnCode;
 
 
 /**
- * 
- *
  * @author 欣哥工作室
  * @email haoxin_2014@163.com
  * @date 2021-07-19 14:43:52
@@ -45,7 +44,7 @@ public class BlogController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = blogService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -66,8 +65,8 @@ public class BlogController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody BlogEntity blog){
-		blogService.save(blog);
+    public R save(@RequestBody BlogEntity blog) {
+        blogService.save(blog);
 
         return R.ok();
     }
@@ -76,8 +75,8 @@ public class BlogController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody BlogEntity blog){
-		blogService.updateById(blog);
+    public R update(@RequestBody BlogEntity blog) {
+        blogService.updateById(blog);
 
         return R.ok();
     }
@@ -86,10 +85,27 @@ public class BlogController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		blogService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        blogService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
 
+    /**
+     * @param blogs
+     * @return R
+     * @Author xinge
+     * @Description 批量添加
+     * @Date 2021/9/8
+     */
+    @RequestMapping("/batch")
+    public R batchInsert(@RequestBody BlogEntity[] blogs) {
+
+        boolean flag = blogService.saveBatch(Arrays.asList(blogs), 1000);
+
+        if (flag) {
+            return R.ok();
+        }
+        return R.error(ReturnCode.BATCHINSERT_ERROR);
+    }
 }
