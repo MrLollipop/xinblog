@@ -19,9 +19,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
 
+        QueryWrapper<BlogEntity> wrapper = new QueryWrapper<>();
+//        wrapper.eq("status", params.get("status"));
+
         IPage<BlogEntity> page = this.page(
                 new Query<BlogEntity>().getPage(params),
-                new QueryWrapper<BlogEntity>()
+                wrapper
         );
 
         return new PageUtils(page);
