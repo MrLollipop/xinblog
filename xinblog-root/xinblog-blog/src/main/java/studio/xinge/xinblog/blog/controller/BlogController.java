@@ -30,13 +30,6 @@ import studio.xinge.xinblog.common.utils.ReturnCode;
 @RefreshScope
 public class BlogController {
 
-    @Value("${name}")
-    private String name;
-    @Value("${age}")
-    private String age;
-    @Value("${p}")
-    private String p;
-
     @Autowired
     private BlogService blogService;
 
@@ -55,10 +48,12 @@ public class BlogController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
+    public R info(@PathVariable("id") Long id) {
+
 		BlogEntity blog = blogService.getById(id);
 
-        return R.ok().put("blog", blog).put("properties", String.format("%s,%s,%s", name, age, p));
+        return R.ok().put("blog", blog);
+
     }
 
     /**
