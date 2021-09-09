@@ -33,6 +33,8 @@ class XinblogBlogApplicationTests {
         blogService.save(blogEntity);
     }
 
+
+
     @Test
     void batchInsert(){
 
