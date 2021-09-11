@@ -28,7 +28,7 @@ var blogList = [
     'id': 9,
     'title': '第9篇博客',
     'content': '这里记录9篇博客',
-    'status': 1,
+    'status': 0,
     'createTime': '2021-07-19T14:06:50.000+0000',
     'updateTime': '2021-07-19T14:06:50.000+0000'
   },
@@ -36,7 +36,7 @@ var blogList = [
     'id': 10,
     'title': '第10篇博客',
     'content': '这里记录10篇博客',
-    'status': 1,
+    'status': 2,
     'createTime': '2021-07-19T14:06:50.000+0000',
     'updateTime': '2021-07-19T14:06:50.000+0000'
   }

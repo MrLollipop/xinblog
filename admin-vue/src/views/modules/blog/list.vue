@@ -31,8 +31,34 @@
     </el-form> -->
 
     <div style="margin: 20px 0px">
-      <el-button @click="toggleSelection()">取消选择</el-button>
+      <el-button type="info" plain @click="toggleSelection()"
+        >取消选择</el-button
+      >
+      <el-button type="primary">新建博客</el-button>
+      <el-button type="danger">批量删除</el-button>
     </div>
+
+    <!-- 搜索表单 -->
+    <el-form :inline="true" :model="search" class="demo-form-inline">
+      <el-form-item label="博客标题">
+        <el-input v-model="search.title" placeholder="搜索标题"></el-input>
+      </el-form-item>
+      <el-form-item label="博客内容">
+        <el-input v-model="search.content" placeholder="搜索内容"></el-input>
+      </el-form-item>
+      <el-form-item label="状态">
+        <el-select v-model="search.status" placeholder="状态">
+          <el-option label="正常" value="1"></el-option>
+          <el-option label="草稿" value="2"></el-option>
+          <el-option label="删除" value="0"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </el-form>
+
+    <!-- 列表清单 -->
     <el-table
       ref="blogList"
       :data="tableData"
@@ -44,7 +70,13 @@
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="id" label="博客ID" width="90"> </el-table-column>
       <el-table-column prop="title" label="标题" width="180"> </el-table-column>
-      <el-table-column prop="status" label="状态" width="90"> </el-table-column>
+      <el-table-column prop="status" label="状态" width="90">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status === 0" size="small" type="danger">删除</el-tag>
+          <el-tag v-else-if="scope.row.status === 1" size="small">正常</el-tag>
+          <el-tag v-else-if="scope.row.status === 2" size="small" type="info">草稿</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="createTime"
         label="创建时间"
@@ -61,12 +93,33 @@
       </el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="scope">
-          <el-button @click="handleShow(scope.$index, scope.row)" type="primary" round size="small">查看</el-button>
-          <el-button @click="handleShow(scope.$index, scope.row)" type="warning" round size="small">编辑</el-button>
-          <el-button @click="handleShow(scope.$index, scope.row)" type="danger" round size="small">删除</el-button>
+          <el-button
+            @click="handleShow(scope.$index, scope.row)"
+            type="primary"
+            round
+            size="small"
+            >查看</el-button
+          >
+          <el-button
+            @click="handleEdit(scope.$index, scope.row)"
+            type="warning"
+            round
+            size="small"
+            >编辑</el-button
+          >
+          <el-button
+            @click="handleDelete(scope.$index, scope.row)"
+            type="danger"
+            round
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination background layout="prev, pager, next" :total="1000">
+    </el-pagination>
   </div>
 </template>
 
@@ -83,6 +136,11 @@ export default {
       //   addOrUpdateVisible: false,
       tableData: [],
       multipleSelection: [],
+      search: {
+        title: "",
+        content: "",
+        status: "",
+      },
     };
   },
 
@@ -103,7 +161,7 @@ export default {
         //     }),
         // this.$axios.get('/blog/blog/list')
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
 
         this.tableData = data;
         // if (data && data.code === 0) {
@@ -152,6 +210,14 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    // 展示
+    handleShow(index, row) {
+      console.log(index, row.id);
+    },
+    // 提交查询
+    onSubmit() {
+      console.log("submit!");
     },
   },
 };
