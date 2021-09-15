@@ -15,7 +15,8 @@
     <module>xinblog-blog</module>
     <module>xinblog-admin</module>
     <module>xinblog-common</module>
-<!--    <module>renren-generator</module>-->
+    <module>xinblog-gateway</module>
+    <!--    <module>renren-generator</module>-->
   </modules>
   <packaging>pom</packaging>
 
@@ -25,7 +26,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
-    <spring.cloud.version>Hoxton.SR11</spring.cloud.version>
+    <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
     <spring.alibaba.version>2.2.0.RELEASE</spring.alibaba.version>
     <junit.version>4.12</junit.version>
     <log4j.version>2.13.3</log4j.version>
