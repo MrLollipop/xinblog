@@ -20,7 +20,7 @@ fnCreate(sysLog, false)
 fnCreate(sysMenu, false)
 fnCreate(sysRole, false)
 fnCreate(sysUser, false)
-fnCreate(blogList, true)
+fnCreate(blogList, false)
 
 /**
  * 创建mock模拟数据

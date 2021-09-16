@@ -35,7 +35,7 @@
         >取消选择</el-button
       >
       <el-button type="primary">新建博客</el-button>
-      <el-button type="danger">批量删除</el-button>
+      <el-button type="danger" :disabled="multipleSelection.length <= 0">批量删除</el-button>
     </div>
 
     <!-- 搜索表单 -->
@@ -65,6 +65,7 @@
       border
       stripe
       style="width: 100%"
+      v-loading="dataListLoading"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -127,12 +128,11 @@
 export default {
   data() {
     return {
-      //   dataList: [],
-      //   pageIndex: 1,
-      //   pageSize: 10,
-      //   totalPage: 0,
-      //   dataListLoading: false,
-      //   dataListSelections: [],
+      blogList: [],
+      pageIndex: 1,
+      pageSize: 10,
+      totalPage: 0,
+      dataListLoading: false,
       //   addOrUpdateVisible: false,
       tableData: [],
       multipleSelection: [],
@@ -151,29 +151,38 @@ export default {
   methods: {
     // 获取数据列表
     getBlogList() {
-      //   this.dataListLoading = true;
+      this.dataListLoading = true;
       this.$http({
         url: this.$http.adornUrl("/blog/blog/list"),
         method: "get",
-        //     params: this.$http.adornParams({
-        //       page: this.pageIndex,
-        //       limit: this.pageSize,
-        //     }),
-        // this.$axios.get('/blog/blog/list')
+        params: this.$http.adornParams({
+          page: this.pageIndex,
+          limit: this.pageSize,
+        }),
       }).then(({ data }) => {
-        // console.log(data);
-
-        this.tableData = data;
-        // if (data && data.code === 0) {
-        //   this.dataList = data.page.list;
-        //   this.totalPage = data.page.totalCount;
-        // } else {
-        //   this.dataList = [];
-        //   this.totalPage = 0;
-        // }
-        // this.dataListLoading = false;
+        console.log(data);
+        if(data.code===10000) {
+          this.blogList = data.page.list;
+          this.totalPage = data.page.totalPage;
+        } else {
+          this.dataList = [];
+          this.totalPage = 0;
+        }
+        this.dataListLoading = false;
       });
     },
+
+    // 每页数
+      sizeChangeHandle (val) {
+        this.pageSize = val
+        this.pageIndex = 1
+        this.getBlogList()
+      },
+      // 当前页
+      currentChangeHandle (val) {
+        this.pageIndex = val
+        this.getBlogList()
+      },
 
     //时间格式化
     formatDate(row, column) {
