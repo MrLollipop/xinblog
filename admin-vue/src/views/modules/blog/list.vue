@@ -35,7 +35,9 @@
         >取消选择</el-button
       >
       <el-button type="primary">新建博客</el-button>
-      <el-button type="danger" :disabled="multipleSelection.length <= 0">批量删除</el-button>
+      <el-button type="danger" :disabled="multipleSelection.length <= 0"
+        >批量删除</el-button
+      >
     </div>
 
     <!-- 搜索表单 -->
@@ -73,9 +75,13 @@
       <el-table-column prop="title" label="标题" width="180"> </el-table-column>
       <el-table-column prop="status" label="状态" width="90">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" size="small" type="danger">删除</el-tag>
+          <el-tag v-if="scope.row.status === 0" size="small" type="danger"
+            >删除</el-tag
+          >
           <el-tag v-else-if="scope.row.status === 1" size="small">正常</el-tag>
-          <el-tag v-else-if="scope.row.status === 2" size="small" type="info">草稿</el-tag>
+          <el-tag v-else-if="scope.row.status === 2" size="small" type="info"
+            >草稿</el-tag
+          >
         </template>
       </el-table-column>
       <el-table-column
@@ -119,7 +125,14 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination background layout="prev, pager, next" :total="1000">
+    <el-pagination
+      background
+      layout="prev, pager, next, jumper"
+      :total="totalCount"
+      :page-size="pageSize"
+      :current-page="pageIndex"
+      @current-change="currentChangeHandle"
+    >
     </el-pagination>
   </div>
 </template>
@@ -128,13 +141,13 @@
 export default {
   data() {
     return {
-      blogList: [],
+      tableData: [],
       pageIndex: 1,
       pageSize: 10,
       totalPage: 0,
+      totalCount: 0,
       dataListLoading: false,
       //   addOrUpdateVisible: false,
-      tableData: [],
       multipleSelection: [],
       search: {
         title: "",
@@ -153,7 +166,7 @@ export default {
     getBlogList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/blog/blog/list"),
+        url: this.$http.adornUrl("api/blog/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -161,28 +174,30 @@ export default {
         }),
       }).then(({ data }) => {
         console.log(data);
-        if(data.code===10000) {
-          this.blogList = data.page.list;
+        if (data.code === 10000) {
+          this.tableData = data.page.list;
           this.totalPage = data.page.totalPage;
+          this.totalCount = data.page.totalCount;
         } else {
           this.dataList = [];
           this.totalPage = 0;
+          this.totalCount = 0;
         }
         this.dataListLoading = false;
       });
     },
 
     // 每页数
-      sizeChangeHandle (val) {
-        this.pageSize = val
-        this.pageIndex = 1
-        this.getBlogList()
-      },
-      // 当前页
-      currentChangeHandle (val) {
-        this.pageIndex = val
-        this.getBlogList()
-      },
+    sizeChangeHandle(val) {
+      this.pageSize = val;
+      this.pageIndex = 1;
+      this.getBlogList();
+    },
+    // 当前页
+    currentChangeHandle(val) {
+      this.pageIndex = val;
+      this.getBlogList();
+    },
 
     //时间格式化
     formatDate(row, column) {
