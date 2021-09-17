@@ -26,7 +26,7 @@ import studio.xinge.xinblog.common.utils.ReturnCode;
  * @date 2021-07-19 14:43:52
  */
 @RestController
-@RequestMapping("blog/blog")
+@RequestMapping("api/blog")
 @RefreshScope
 public class BlogController {
 
