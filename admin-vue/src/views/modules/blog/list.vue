@@ -56,7 +56,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="getBlogList">查询</el-button>
       </el-form-item>
     </el-form>
 
@@ -71,7 +71,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="id" label="博客ID" width="90"> </el-table-column>
+      <el-table-column prop="id" label="博客ID" width="180"> </el-table-column>
       <el-table-column prop="title" label="标题" width="180"> </el-table-column>
       <el-table-column prop="status" label="状态" width="90">
         <template slot-scope="scope">
@@ -87,18 +87,28 @@
       <el-table-column
         prop="createTime"
         label="创建时间"
-        width="180"
+        width="150"
         :formatter="formatDate"
       >
       </el-table-column>
       <el-table-column
         prop="updateTime"
         label="更新时间"
-        width="180"
+        width="150"
         :formatter="formatDate"
       >
       </el-table-column>
-      <el-table-column label="操作" width="300">
+      <el-table-column prop="likeNum" label="点赞数" width="70"> </el-table-column>
+      <el-table-column prop="forwardNum" label="转发数" width="70"> </el-table-column>
+      <el-table-column prop="collectNum" label="收藏数" width="70"> </el-table-column>
+      <el-table-column prop="isTop" label="置顶" width="70">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.isTop" size="small" type="danger">是
+          </el-tag>
+          <el-tag v-else size="small" >否</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="240">
         <template slot-scope="scope">
           <el-button
             @click="handleShow(scope.$index, scope.row)"
@@ -238,10 +248,6 @@ export default {
     // 展示
     handleShow(index, row) {
       console.log(index, row.id);
-    },
-    // 提交查询
-    onSubmit() {
-      console.log("submit!");
     },
   },
 };
