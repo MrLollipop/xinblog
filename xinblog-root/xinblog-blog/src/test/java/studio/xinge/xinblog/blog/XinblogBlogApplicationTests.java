@@ -1,8 +1,11 @@
 package studio.xinge.xinblog.blog;
 
+import cn.hutool.core.util.RandomUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 
@@ -10,7 +13,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-@SpringBootTest
+@SpringBootTest()
+@ActiveProfiles("uat")
 class XinblogBlogApplicationTests {
 
     @Autowired
@@ -40,14 +44,18 @@ class XinblogBlogApplicationTests {
 
         LinkedList<BlogEntity> list = new LinkedList<>();
 
-        for (int i = 4; i < 1000; i++) {
+        for (int i = 0; i < 1000; i++) {
             BlogEntity blogEntity = new BlogEntity();
             blogEntity.setTitle(String.format("第%d篇博客", i));
             blogEntity.setContent(String.format("这里记录%d篇博客", i));
-            blogEntity.setStatus(1);
+            blogEntity.setStatus(new int[]{0,1,2}[RandomUtil.randomInt(0,3)]);
             Date date = new Date();
             blogEntity.setCreateTime(date);
             blogEntity.setUpdateTime(date);
+            blogEntity.setLikeNum(RandomUtil.randomInt(1,200));
+            blogEntity.setForwardNum(RandomUtil.randomInt(1,200));
+            blogEntity.setCollectNum(RandomUtil.randomInt(1,200));
+            blogEntity.setIsTop(false);
             list.add(blogEntity);
         }
 
