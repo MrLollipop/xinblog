@@ -42,19 +42,42 @@
 
     <!-- 搜索表单 -->
     <el-form :inline="true" :model="search" class="demo-form-inline">
-      <el-form-item label="博客标题">
+      <el-form-item label="标题">
         <el-input v-model="search.title" placeholder="搜索标题"></el-input>
       </el-form-item>
-      <el-form-item label="博客内容">
+
+      <el-form-item label="内容">
         <el-input v-model="search.content" placeholder="搜索内容"></el-input>
       </el-form-item>
+
       <el-form-item label="状态">
-        <el-select v-model="search.status" placeholder="状态">
+        <el-select v-model="search.status" placeholder="选择状态">
           <el-option label="正常" value="1"></el-option>
           <el-option label="草稿" value="2"></el-option>
           <el-option label="删除" value="0"></el-option>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="置顶">
+        <el-select v-model="search.isTop" placeholder="是否置顶">
+          <el-option label="是" value="true"></el-option>
+          <el-option label="否" value="false"></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="日期">
+        <el-date-picker
+          v-model="search.queryDate"
+          type="daterange"
+          align="center"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker
+      ></el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getBlogList">查询</el-button>
       </el-form-item>
@@ -98,14 +121,16 @@
         :formatter="formatDate"
       >
       </el-table-column>
-      <el-table-column prop="likeNum" label="点赞数" width="70"> </el-table-column>
-      <el-table-column prop="forwardNum" label="转发数" width="70"> </el-table-column>
-      <el-table-column prop="collectNum" label="收藏数" width="70"> </el-table-column>
+      <el-table-column prop="likeNum" label="点赞数" width="70">
+      </el-table-column>
+      <el-table-column prop="forwardNum" label="转发数" width="70">
+      </el-table-column>
+      <el-table-column prop="collectNum" label="收藏数" width="70">
+      </el-table-column>
       <el-table-column prop="isTop" label="置顶" width="70">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.isTop" size="small" type="danger">是
-          </el-tag>
-          <el-tag v-else size="small" >否</el-tag>
+          <el-tag v-if="scope.row.isTop" size="small" type="danger">是 </el-tag>
+          <el-tag v-else size="small">否</el-tag>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="240">
@@ -137,7 +162,7 @@
 
     <el-pagination
       background
-      layout="prev, pager, next, jumper"
+      layout="prev, pager, next, total, jumper"
       :total="totalCount"
       :page-size="pageSize"
       :current-page="pageIndex"
@@ -163,6 +188,41 @@ export default {
         title: "",
         content: "",
         status: "",
+        queryDate: "",
+        startDate: "",
+        endDate: "",
+        isTop: "",
+      },
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
       },
     };
   },
@@ -181,6 +241,12 @@ export default {
         params: this.$http.adornParams({
           page: this.pageIndex,
           limit: this.pageSize,
+          title: this.search.title,
+          content: this.search.content,
+          status: this.search.status,
+          startDate: this.search.queryDate[0],
+          endDate: this.search.queryDate[1],
+          isTop: this.search.isTop,
         }),
       }).then(({ data }) => {
         console.log(data);
