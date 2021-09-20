@@ -48,8 +48,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             Date _startDate = DateUtil.parse(startDate.toString());
             Date _endDate = DateUtil.parse(endDate.toString().concat(" 23:59:59"));
 
-            wrapper.ge("create_time", _startDate).le("create_time", _endDate).
-                    or().ge("update_time", _startDate).le("update_time", _endDate);
+            wrapper.and(_wrapper -> _wrapper.ge("create_time", _startDate).le("create_time", _endDate).
+                    or().ge("update_time", _startDate).le("update_time", _endDate));
         }
         if (StrUtil.isNotBlank(isTop)) {
             wrapper.eq("is_top", Convert.toBool(params.get("isTop")));
