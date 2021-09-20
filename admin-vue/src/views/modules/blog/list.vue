@@ -66,8 +66,10 @@
       </el-form-item>
 
       <el-form-item label="日期">
+        <!-- 需要指定格式，否则返回UTC时间 -->
         <el-date-picker
           v-model="search.queryDate"
+          value-format="yyyy-MM-dd"
           type="daterange"
           align="center"
           unlink-panels
@@ -196,6 +198,14 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
+            text: "当天",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
             text: "最近一周",
             onClick(picker) {
               const end = new Date();
@@ -236,7 +246,7 @@ export default {
     getBlogList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("api/blog/list"),
+        url: this.$http.adornUrl("/api/blog/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -244,8 +254,8 @@ export default {
           title: this.search.title,
           content: this.search.content,
           status: this.search.status,
-          startDate: this.search.queryDate[0],
-          endDate: this.search.queryDate[1],
+          startDate: null != this.search.queryDate ? this.search.queryDate[0] : '',
+          endDate: null != this.search.queryDate ? this.search.queryDate[1] : '',
           isTop: this.search.isTop,
         }),
       }).then(({ data }) => {
@@ -315,6 +325,7 @@ export default {
     handleShow(index, row) {
       console.log(index, row.id);
     },
+    // UTC时间转为+8区时间
   },
 };
 </script>
