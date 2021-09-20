@@ -1,6 +1,7 @@
 package studio.xinge.xinblog.blog.service.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             wrapper.eq("status", status);
         }
         if (ObjectUtil.isAllNotEmpty(startDate, endDate)) {
-            Date _startDate = Convert.toDate(startDate);
-            Date _endDate = Convert.toDate(endDate);
+            Date _startDate = DateUtil.parse(startDate.toString());
+            Date _endDate = DateUtil.parse(endDate.toString().concat(" 23:59:59"));
 
             wrapper.ge("create_time", _startDate).le("create_time", _endDate).
                     or().ge("update_time", _startDate).le("update_time", _endDate);
