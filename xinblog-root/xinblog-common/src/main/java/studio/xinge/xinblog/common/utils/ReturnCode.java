@@ -4,7 +4,9 @@ public enum ReturnCode {
 
     SUCCESS(10000, "SUCCESS!"),
     UNKNOW_ERROR(20000, "未知错误，请联系管理员"),
-    BATCHINSERT_ERROR(30001, "批量插入错误")
+    BATCHINSERT_ERROR(30001, "批量插入错误"),
+    UPDATE_FAIL(30002, "批量更新失败"),
+    DELETE_FAIL(30003, "批量删除失败")
     ;
 
     private int code;

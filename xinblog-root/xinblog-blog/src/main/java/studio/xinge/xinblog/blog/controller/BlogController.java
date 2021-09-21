@@ -1,20 +1,19 @@
 package studio.xinge.xinblog.blog.controller;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
@@ -77,10 +76,46 @@ public class BlogController {
     }
 
     /**
-     * 删除
-     */
-    @RequestMapping("/delete")
+     *
+     * @Author xinge
+     * @Description 伪删除，修改status为1
+     * @Date 2021/9/20
+    * @param ids
+    * @return R
+    */
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
+//        blogService.removeByIds(Arrays.asList(ids));
+
+        Boolean result = false;
+        LinkedList<BlogEntity> blogEntities = new LinkedList<>();
+        for (Long id : ids) {
+            BlogEntity entity = blogService.getById(id);
+            if (null != entity) {
+                entity.setStatus(Constant.DELETED_STATUS);
+                entity.setUpdateTime(new Date());
+                blogEntities.add(entity);
+            }
+             result = blogService.updateBatchById(blogEntities, 1000);
+        }
+
+        if (result) {
+            return R.ok("删除成功");
+        }
+
+        return R.error(ReturnCode.DELETE_FAIL);
+    }
+
+    /**
+     *
+     * @Author xinge
+     * @Description 数据库物理删除
+     * @Date 2021/9/21
+    * @param ids
+    * @return R
+    */
+    @RequestMapping("/deletefromdb")
+    public R deleteFromDB(@RequestBody Long[] ids) {
         blogService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
