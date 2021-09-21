@@ -152,7 +152,7 @@
             >编辑</el-button
           >
           <el-button
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="handleDelete(scope.row.id)"
             type="danger"
             round
             size="small"
@@ -254,8 +254,10 @@ export default {
           title: this.search.title,
           content: this.search.content,
           status: this.search.status,
-          startDate: null != this.search.queryDate ? this.search.queryDate[0] : '',
-          endDate: null != this.search.queryDate ? this.search.queryDate[1] : '',
+          startDate:
+            null != this.search.queryDate ? this.search.queryDate[0] : "",
+          endDate:
+            null != this.search.queryDate ? this.search.queryDate[1] : "",
           isTop: this.search.isTop,
         }),
       }).then(({ data }) => {
@@ -326,6 +328,45 @@ export default {
       console.log(index, row.id);
     },
     // UTC时间转为+8区时间
+
+    // 删除
+    handleDelete(id) {
+      var userIds = id
+        ? [id]
+        : this.multipleSelection.map((item) => {
+            return item.userId;
+          });
+      this.$confirm(
+        `确定对[id=${userIds.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          this.$http({
+            url: this.$http.adornUrl("/api/blog/delete"),
+            method: "post",
+            data: this.$http.adornData(userIds, false),
+          }).then(({ data }) => {
+            if (data && data.code === 10000) {
+              this.$message({
+                message: "操作成功",
+                type: "success",
+                duration: 1500,
+                onClose: () => {
+                  this.getBlogList();
+                },
+              });
+            } else {
+              this.$message.error(data.msg);
+            }
+          });
+        })
+        .catch(() => {});
+    },
   },
 };
 </script>
