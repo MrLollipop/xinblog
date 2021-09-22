@@ -85,8 +85,6 @@ public class BlogController {
     */
     @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
-//        blogService.removeByIds(Arrays.asList(ids));
-
         Boolean result = false;
         LinkedList<BlogEntity> blogEntities = new LinkedList<>();
         for (Long id : ids) {
