@@ -151,7 +151,7 @@
             size="small"
             >编辑</el-button
           >
-          <el-button
+          <el-button :disabled="scope.row.status == 0"
             @click="handleDelete(scope.row.id)"
             type="danger"
             round
