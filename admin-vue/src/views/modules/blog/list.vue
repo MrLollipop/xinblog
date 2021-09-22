@@ -35,7 +35,7 @@
         >取消选择</el-button
       >
       <el-button type="primary">新建博客</el-button>
-      <el-button type="danger" :disabled="multipleSelection.length <= 0"
+      <el-button type="danger" @click="handleDelete()" :disabled="multipleSelection.length <= 0"
         >批量删除</el-button
       >
     </div>
@@ -331,13 +331,13 @@ export default {
 
     // 删除
     handleDelete(id) {
-      var userIds = id
+      var blogIds = id
         ? [id]
         : this.multipleSelection.map((item) => {
-            return item.userId;
+            return item.id;
           });
       this.$confirm(
-        `确定对[id=${userIds.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        `确定对[id=${blogIds.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
         "提示",
         {
           confirmButtonText: "确定",
@@ -349,7 +349,7 @@ export default {
           this.$http({
             url: this.$http.adornUrl("/api/blog/delete"),
             method: "post",
-            data: this.$http.adornData(userIds, false),
+            data: this.$http.adornData(blogIds, false),
           }).then(({ data }) => {
             if (data && data.code === 10000) {
               this.$message({
