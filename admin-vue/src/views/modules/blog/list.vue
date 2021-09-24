@@ -51,7 +51,11 @@
       </el-form-item>
 
       <el-form-item label="状态">
-        <el-select clearable="true" v-model="search.status" placeholder="选择状态">
+        <el-select
+          clearable
+          v-model="search.status"
+          placeholder="选择状态"
+        >
           <el-option label="正常" value="1"></el-option>
           <el-option label="草稿" value="2"></el-option>
           <el-option label="删除" value="0"></el-option>
