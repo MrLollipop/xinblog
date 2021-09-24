@@ -34,8 +34,11 @@
       <el-button type="info" plain @click="toggleSelection()"
         >取消选择</el-button
       >
-      <el-button type="primary">新建博客</el-button>
-      <el-button type="danger" @click="handleDelete()" :disabled="multipleSelection.length <= 0"
+      <el-button type="primary" @click="addOrUpdateHandle(0, 'new')">新建博客</el-button>
+      <el-button
+        type="danger"
+        @click="handleDelete()"
+        :disabled="multipleSelection.length <= 0"
         >批量删除</el-button
       >
     </div>
@@ -142,20 +145,21 @@
       <el-table-column fixed="right" label="操作" width="240">
         <template slot-scope="scope">
           <el-button
-            @click="handleShow(scope.$index, scope.row)"
+            @click="addOrUpdateHandle(scope.row.id, 'show')"
             type="primary"
             round
             size="small"
             >查看</el-button
           >
           <el-button
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="addOrUpdateHandle(scope.row.id, 'mod')"
             type="warning"
             round
             size="small"
             >编辑</el-button
           >
-          <el-button :disabled="scope.row.status == 0"
+          <el-button
+            :disabled="scope.row.status == 0"
             @click="handleDelete(scope.row.id)"
             type="danger"
             round
@@ -175,11 +179,18 @@
       @current-change="currentChangeHandle"
     >
     </el-pagination>
+    <blog-add-or-update
+      ref="blogData"
+      v-if="addOrUpdateVisible"
+      @refreshDataList="getBlogList()"
+    ></blog-add-or-update>
   </div>
 </template>
 
 <script>
+import BlogAddOrUpdate from "./blog-add-or-update.vue";
 export default {
+  components: { BlogAddOrUpdate },
   data() {
     return {
       tableData: [],
@@ -188,8 +199,8 @@ export default {
       totalPage: 0,
       totalCount: 0,
       dataListLoading: false,
-      //   addOrUpdateVisible: false,
       multipleSelection: [],
+      addOrUpdateVisible: false,
       search: {
         title: "",
         content: "",
@@ -239,6 +250,10 @@ export default {
         ],
       },
     };
+  },
+
+  components: {
+    BlogAddOrUpdate,
   },
 
   activated() {
@@ -370,6 +385,14 @@ export default {
           });
         })
         .catch(() => {});
+    },
+
+    // 新增 修改 弹窗
+    addOrUpdateHandle(id, act) {
+      this.addOrUpdateVisible = true;
+      this.$nextTick(() => {
+        this.$refs.blogData.init(id, act);
+      });
     },
   },
 };
