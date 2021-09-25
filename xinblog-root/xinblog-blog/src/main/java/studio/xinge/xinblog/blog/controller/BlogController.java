@@ -60,9 +60,13 @@ public class BlogController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody BlogEntity blog) {
+        Date date = new Date();
+        blog.setCreateTime(date);
+        blog.setUpdateTime(date);
         blogService.save(blog);
 
         return R.ok();
+
     }
 
     /**
@@ -70,6 +74,8 @@ public class BlogController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody BlogEntity blog) {
+        Date date = new Date();
+        blog.setUpdateTime(date);
         blogService.updateById(blog);
 
         return R.ok();
