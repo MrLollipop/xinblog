@@ -55,6 +55,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             wrapper.eq("is_top", Convert.toBool(params.get("isTop")));
         }
 
+        wrapper.orderByDesc("id");
+
         IPage<BlogEntity> page = this.page(
                 new Query<BlogEntity>().getPage(params),
                 wrapper
