@@ -12,35 +12,86 @@
       label-width="80px"
     >
       <el-form-item label="博客标题" prop="title">
-        <el-input v-model="dataForm.title" placeholder="输入标题"></el-input>
+        <el-input
+          v-model="dataForm.title"
+          placeholder="输入标题"
+          :disabled="act === 'show'"
+        ></el-input>
       </el-form-item>
       <el-form-item label="博客内容" prop="content">
-        <el-input v-model="dataForm.content" placeholder="输入内容"></el-input>
+        <el-input
+          v-model="dataForm.content"
+          placeholder="输入内容"
+          :disabled="act === 'show'"
+        ></el-input>
       </el-form-item>
       <el-form-item label="状态" size="mini" prop="status">
-        <el-radio-group v-model="dataForm.status">
+        <el-radio-group v-model="dataForm.status" :disabled="act === 'show'">
           <el-radio :label="0">禁用</el-radio>
           <el-radio :label="1">正常</el-radio>
           <el-radio :label="2">草稿</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="创建时间" prop="createTime" v-if="act === 'show' || act === 'mod'">
-        <el-input v-model="dataForm.createTime" placeholder=""></el-input>
+      <el-form-item
+        label="创建时间"
+        prop="createTime"
+        v-if="act === 'show' || act === 'mod'"
+      >
+        <el-date-picker
+          v-model="dataForm.createTime"
+          type="date"
+          placeholder="选择日期"
+          :disabled="act === 'show'"
+        >
+        </el-date-picker>
       </el-form-item>
-      <el-form-item label="修改时间" prop="updateTime" v-if="act === 'show' || act === 'mod'">
-        <el-input v-model="dataForm.updateTime" placeholder=""></el-input>
+      <el-form-item
+        label="修改时间"
+        prop="updateTime"
+        v-if="act === 'show' || act === 'mod'"
+      >
+        <el-date-picker
+          v-model="dataForm.updateTime"
+          type="date"
+          placeholder="选择日期"
+          :disabled="act === 'show'"
+        ></el-date-picker>
       </el-form-item>
-      <el-form-item label="点赞数" prop="likeNum" v-if="act === 'show' || act === 'mod'">
-        <el-input v-model="dataForm.likeNum" placeholder=""></el-input>
+      <el-form-item
+        label="点赞数"
+        prop="likeNum"
+        v-if="act === 'show' || act === 'mod'"
+      >
+        <el-input
+          v-model="dataForm.likeNum"
+          placeholder=""
+          :disabled="act === 'show'"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="转发数" prop="forwardNum" v-if="act === 'show' || act === 'mod'">
-        <el-input v-model="dataForm.forwardNum" placeholder=""></el-input>
+      <el-form-item
+        label="转发数"
+        prop="forwardNum"
+        v-if="act === 'show' || act === 'mod'"
+      >
+        <el-input
+          v-model="dataForm.forwardNum"
+          placeholder=""
+          :disabled="act === 'show'"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="收藏数" prop="collectNum" v-if="act === 'show' || act === 'mod'">
-        <el-input v-model="dataForm.collectNum" placeholder=""></el-input>
+      <el-form-item
+        label="收藏数"
+        prop="collectNum"
+        v-if="act === 'show' || act === 'mod'"
+      >
+        <el-input
+          v-model="dataForm.collectNum"
+          placeholder=""
+          :disabled="act === 'show'"
+        ></el-input>
       </el-form-item>
       <el-form-item label="置顶" size="mini" prop="isTop">
-        <el-radio-group v-model="dataForm.isTop">
+        <el-radio-group v-model="dataForm.isTop" :disabled="act === 'show'">
           <el-radio :label="false">否</el-radio>
           <el-radio :label="true">是</el-radio>
         </el-radio-group>
@@ -48,15 +99,21 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button
+        type="primary"
+        @click="dataFormSubmit()"
+        v-if="act === 'mod'"
+        >确定</el-button
+      >
     </span>
   </el-dialog>
 </template>
 
 <script>
-import { isEmail, isMobile } from "@/utils/validate";
+// import { isEmail, isMobile } from "@/utils/validate";
 export default {
   data() {
+    /** 
     var validatePassword = (rule, value, callback) => {
       if (!this.dataForm.id && !/\S/.test(value)) {
         callback(new Error("密码不能为空"));
@@ -87,22 +144,23 @@ export default {
         callback();
       }
     };
+    */
     return {
       visible: false,
-      dialog: '',
-      act: '',
+      dialog: "",
+      act: "",
       roleList: [],
       dataForm: {
         id: 0,
         title: "",
         content: "",
-        status: "",
+        status: 1,
         createTime: "",
         updateTime: "",
         likeNum: "",
         forwardNum: "",
         collectNum: "",
-        isTop: "",
+        isTop: false,
       },
       dataRule: {
         title: [
@@ -149,27 +207,20 @@ export default {
             this.dataForm.isTop = data.blog.isTop;
           }
         });
-        // this.$refs["dataForm"].resetFields();
       } else {
-        this.dataForm.title = "";
-        this.dataForm.content = "";
-        this.dataForm.status = "";
-        this.dataForm.createTime = "";
-        this.dataForm.updateTime = "";
-        this.dataForm.likeNum = "";
-        this.dataForm.forwardNum = "";
-        this.dataForm.collectNum = "";
-        this.dataForm.isTop = "";
+        if (this.dataForm.title) {
+          this.$refs["dataForm"].resetFields();
+        }
       }
     },
     getTitle(act) {
       this.act = act;
 
-      if (act == 'new') {
-        this.dialog = '新增';
-      }else if (act == 'show') {
+      if (act == "new") {
+        this.dialog = "新增";
+      } else if (act == "show") {
         this.dialog = "查看";
-      }else {
+      } else {
         this.dialog = "编辑";
       }
     },
