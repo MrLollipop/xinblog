@@ -102,7 +102,7 @@
       <el-button
         type="primary"
         @click="dataFormSubmit()"
-        v-if="act === 'mod'"
+        v-if="act === 'mod' || act === 'new'"
         >确定</el-button
       >
     </span>
@@ -210,6 +210,7 @@ export default {
       } else {
         if (this.dataForm.title) {
           this.$refs["dataForm"].resetFields();
+          this.dataForm.id = undefined;
         }
       }
     },
@@ -229,27 +230,28 @@ export default {
     dataFormSubmit() {
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
+          var url =  this.act == "new" ? '/api/blog/save' : '/api/blog/update';
           this.$http({
-            url: this.$http.adornUrl(
-              `/sys/user/${!this.dataForm.id ? "save" : "update"}`
-            ),
+            url: this.$http.adornUrl(url),
             method: "post",
             data: this.$http.adornData({
-              userId: this.dataForm.id || undefined,
-              username: this.dataForm.userName,
-              password: this.dataForm.password,
-              salt: this.dataForm.salt,
-              email: this.dataForm.email,
-              mobile: this.dataForm.mobile,
+              id: this.dataForm.id || undefined,
+              title: this.dataForm.title,
+              content: this.dataForm.content,
               status: this.dataForm.status,
-              roleIdList: this.dataForm.roleIdList,
+              //createTime: this.dataForm.createTime,
+              //updateTime: this.dataForm.updateTime,
+              likeNum: this.dataForm.likeNum || undefined,
+              forwardNum: this.dataForm.forwardNum || undefined,
+              collectNum: this.dataForm.collectNum || undefined,
+              isTop: this.dataForm.isTop,
             }),
           }).then(({ data }) => {
-            if (data && data.code === 0) {
+            if (data && data.code === 10000) {
               this.$message({
                 message: "操作成功",
                 type: "success",
-                duration: 1500,
+                duration: 1200,
                 onClose: () => {
                   this.visible = false;
                   this.$emit("refreshDataList");
