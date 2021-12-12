@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/9/18 14:30:34                           */
+/* Created on:     2021/12/10 21:41:50                          */
 /*==============================================================*/
 
 
@@ -15,6 +15,7 @@ create table bms_blog
 (
    id                   bigint not null,
    title                varchar(30),
+   cover                varchar(500),
    content              varchar(1000),
    status               tinyint comment '0É¾³ý£¬1Õý³££¬2²Ý¸å',
    create_time          datetime,
