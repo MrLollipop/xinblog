@@ -54,4 +54,9 @@ public class BlogEntity implements Serializable {
     private Integer collectNum;
     private Boolean isTop;
 
+    /**
+     * 博客封面地址
+    */
+    private String cover;
+
 }
