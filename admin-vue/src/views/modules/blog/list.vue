@@ -34,7 +34,9 @@
       <el-button type="info" plain @click="toggleSelection()"
         >取消选择</el-button
       >
-      <el-button type="primary" @click="addOrUpdateHandle(0, 'new')">新建博客</el-button>
+      <el-button type="primary" @click="addOrUpdateHandle(0, 'new')"
+        >新建博客</el-button
+      >
       <el-button
         type="danger"
         @click="handleDelete()"
@@ -54,11 +56,7 @@
       </el-form-item>
 
       <el-form-item label="状态">
-        <el-select
-          clearable
-          v-model="search.status"
-          placeholder="选择状态"
-        >
+        <el-select clearable v-model="search.status" placeholder="选择状态">
           <el-option label="正常" value="1"></el-option>
           <el-option label="草稿" value="2"></el-option>
           <el-option label="删除" value="0"></el-option>
@@ -105,6 +103,16 @@
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="id" label="博客ID" width="180"> </el-table-column>
       <el-table-column prop="title" label="标题" width="180"> </el-table-column>
+      <el-table-column prop="cover" label="封面" width="180">
+        <template slot-scope="scope">
+          <!-- <el-image
+            :src="scope.row.cover"
+            style="width:130px; height:90px"
+            fit="scale-down"
+          ></el-image> -->
+          <img :src="scope.row.cover" style="width: 130px; height:80px">
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" width="90">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 0" size="small" type="danger"

@@ -18,6 +18,10 @@
           :disabled="act === 'show'"
         ></el-input>
       </el-form-item>
+      <el-form-item label="博客封面" prop="cover">
+        <single-upload v-model="dataForm.cover" >
+        </single-upload>
+      </el-form-item>
       <el-form-item label="博客内容" prop="content">
         <el-input
           v-model="dataForm.content"
@@ -110,8 +114,10 @@
 </template>
 
 <script>
+import singleUpload from '../../../components/upload/singleUpload.vue';
 // import { isEmail, isMobile } from "@/utils/validate";
 export default {
+  components: { singleUpload },
   data() {
     /** 
     var validatePassword = (rule, value, callback) => {
@@ -153,6 +159,7 @@ export default {
       dataForm: {
         id: 0,
         title: "",
+        cover: "",
         content: "",
         status: 1,
         createTime: "",
@@ -197,6 +204,7 @@ export default {
           if (data && data.code === 10000) {
             this.visible = true;
             this.dataForm.title = data.blog.title;
+            this.dataForm.cover = data.blog.cover;
             this.dataForm.content = data.blog.content;
             this.dataForm.status = data.blog.status;
             this.dataForm.createTime = data.blog.createTime;
@@ -237,6 +245,7 @@ export default {
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
               title: this.dataForm.title,
+              cover: this.dataForm.cover,
               content: this.dataForm.content,
               status: this.dataForm.status,
               //createTime: this.dataForm.createTime,
