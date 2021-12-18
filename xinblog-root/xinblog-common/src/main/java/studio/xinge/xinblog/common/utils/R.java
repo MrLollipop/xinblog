@@ -23,7 +23,7 @@ public class R extends HashMap<String, Object> {
     }
 
     public static R error() {
-        return error(ReturnCode.UNKNOW_ERROR);
+        return error(ReturnCode.SYSTEM_ERROR);
     }
 
     public static R error(ReturnCode returnCode) {

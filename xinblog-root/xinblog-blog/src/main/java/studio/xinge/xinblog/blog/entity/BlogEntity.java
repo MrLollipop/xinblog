@@ -10,6 +10,9 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author 欣哥工作室
@@ -31,6 +34,7 @@ public class BlogEntity implements Serializable {
     /**
      *
      */
+    @NotBlank(message = "博客标题不可为空")
     private String title;
     /**
      *
@@ -57,6 +61,7 @@ public class BlogEntity implements Serializable {
     /**
      * 博客封面地址
     */
+    @URL
     private String cover;
 
 }

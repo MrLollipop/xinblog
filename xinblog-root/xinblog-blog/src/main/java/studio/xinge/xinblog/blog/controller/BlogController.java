@@ -1,13 +1,9 @@
 package studio.xinge.xinblog.blog.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +13,8 @@ import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
+
+import javax.validation.Valid;
 
 
 /**
@@ -59,7 +57,8 @@ public class BlogController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody BlogEntity blog) {
+    public R save(@Valid @RequestBody BlogEntity blog) {
+
         Date date = new Date();
         blog.setCreateTime(date);
         blog.setUpdateTime(date);
