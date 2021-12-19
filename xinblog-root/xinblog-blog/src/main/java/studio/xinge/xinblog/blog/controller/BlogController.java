@@ -5,6 +5,7 @@ import java.util.*;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import studio.xinge.xinblog.blog.entity.BlogEntity;
@@ -13,6 +14,8 @@ import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
+import studio.xinge.xinblog.common.valid.groups.Add;
+import studio.xinge.xinblog.common.valid.groups.Update;
 
 import javax.validation.Valid;
 
@@ -57,7 +60,7 @@ public class BlogController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@Valid @RequestBody BlogEntity blog) {
+    public R save(@Validated(Add.class) @RequestBody BlogEntity blog) {
 
         Date date = new Date();
         blog.setCreateTime(date);
@@ -72,7 +75,7 @@ public class BlogController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody BlogEntity blog) {
+    public R update(@Validated(Update.class) @RequestBody BlogEntity blog) {
         Date date = new Date();
         blog.setUpdateTime(date);
         blogService.updateById(blog);

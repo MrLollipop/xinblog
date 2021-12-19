@@ -11,8 +11,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+import studio.xinge.xinblog.common.valid.groups.Add;
+import studio.xinge.xinblog.common.valid.groups.Delete;
+import studio.xinge.xinblog.common.valid.groups.Update;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 
 /**
  * @author 欣哥工作室
@@ -29,12 +33,14 @@ public class BlogEntity implements Serializable {
      */
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
+    @NotBlank(message = "需指定ID", groups = {Update.class})
+    @Null(message = "不能指定ID", groups = Add.class)
     private Long id;
 
     /**
      *
      */
-    @NotBlank(message = "博客标题不可为空")
+    @NotBlank(message = "博客标题不可为空", groups = Add.class)
     private String title;
     /**
      *
@@ -61,7 +67,7 @@ public class BlogEntity implements Serializable {
     /**
      * 博客封面地址
     */
-    @URL
+    @URL(groups = {Add.class, Update.class})
     private String cover;
 
 }
