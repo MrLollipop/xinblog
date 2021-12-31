@@ -1,4 +1,4 @@
-package studio.xinge.xinblog.blog.exception;
+package studio.xinge.xinblog.blog.advice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 @Slf4j
 @RestControllerAdvice(basePackages = "studio.xinge.xinblog.blog.controller")
-public class GlobalException {
+public class GlobalAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleMethodArgumentValidation(MethodArgumentNotValidException e) {
