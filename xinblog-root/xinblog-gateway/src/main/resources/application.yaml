@@ -1,0 +1,41 @@
+server:
+  port: 9001
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能，利用微服务名进行路由
+
+      routes:
+        - id: xinblog-thirdparty              #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: lb://xinblog-thirdparty        #匹配后提供服务的路由地址
+          predicates:
+            - Path=/api/thirdparty/**         # 断言，路径相匹配的进行路由
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/thirdparty/$\{segment}
+
+        - id: xinblog-blog              #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: lb://xinblog-blog        #匹配后提供服务的路由地址
+          predicates:
+            - Path=/api/blog/**         # 断言，路径相匹配的进行路由
+
+        - id: xinblog-admin              #路由的ID，没有固定规则但要求唯一，建议配合服务名
+          uri: lb://xinblog-admin        #匹配后提供服务的路由地址
+          predicates:
+            - Path=/**         # 断言，路径相匹配的进行路由
+
+    nacos:
+      discovery:
+        server-addr: 192.168.0.199:8849
+  application:
+    name: xinblog-gateway
+
+#设置feign客户端超时时间(OpenFeign默认支持ribbon)
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
+  ReadTimeout: 3000
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  ConnectTimeout: 3000
+  #一旦超时，显示错误页

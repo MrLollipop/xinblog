@@ -38,6 +38,10 @@
                     <groupId>com.alibaba</groupId>
                     <artifactId>druid-spring-boot-starter</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
