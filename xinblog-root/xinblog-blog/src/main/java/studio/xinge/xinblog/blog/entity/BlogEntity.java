@@ -16,6 +16,7 @@ import studio.xinge.xinblog.common.valid.groups.Delete;
 import studio.xinge.xinblog.common.valid.groups.Update;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 /**
@@ -24,7 +25,7 @@ import javax.validation.constraints.Null;
  * @date 2021-07-19 14:35:51
  */
 @Data
-@TableName("bms_blog")
+@TableName("t_blog")
 public class BlogEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +34,7 @@ public class BlogEntity implements Serializable {
      */
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-    @NotBlank(message = "需指定ID", groups = {Update.class})
+    @NotNull(message = "需指定ID", groups = {Update.class})
     @Null(message = "不能指定ID", groups = Add.class)
     private Long id;
 
