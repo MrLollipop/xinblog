@@ -1,17 +1,17 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2021/12/10 21:41:50                          */
+/* Created on:     2022/2/27 15:28:47                           */
 /*==============================================================*/
 
 
-drop table if exists bms_blog;
+drop table if exists t_blog;
 
-drop table if exists bms_blog_reply;
+drop table if exists t_blog_reply;
 
 /*==============================================================*/
-/* Table: bms_blog                                              */
+/* Table: t_blog                                                */
 /*==============================================================*/
-create table bms_blog
+create table t_blog
 (
    id                   bigint not null,
    title                varchar(30),
@@ -27,12 +27,12 @@ create table bms_blog
    primary key (id)
 );
 
-alter table bms_blog comment '博客表';
+alter table t_blog comment '博客表';
 
 /*==============================================================*/
-/* Table: bms_blog_reply                                        */
+/* Table: t_blog_reply                                          */
 /*==============================================================*/
-create table bms_blog_reply
+create table t_blog_reply
 (
    id                   bigint not null,
    blog_id              bigint,
@@ -46,5 +46,5 @@ create table bms_blog_reply
    primary key (id)
 );
 
-alter table bms_blog_reply comment '博客回复表';
+alter table t_blog_reply comment '博客回复表';
 
