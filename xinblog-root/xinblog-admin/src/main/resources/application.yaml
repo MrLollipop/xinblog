@@ -44,6 +44,19 @@ spring:
       discovery:
         server-addr: 192.168.0.199:8849
 
+    sentinel:
+      transport:
+        dashboard: 192.168.0.199:8858
+        port: 8719
+        clientIp: 192.168.0.193
+      filter:
+        url-patterns: /**
+
+  zipkin:
+    base-url: http://192.168.0.199:9411
+  sleuth:
+    sampler:
+      probability: 1
   #==================== DB ====================
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -94,6 +107,12 @@ spring:
 #      url: jdbc:postgresql://localhost:5432/renren_security
 #      username: renren
 #      password: 123456
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 
 #mybatis
