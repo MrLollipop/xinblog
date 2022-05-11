@@ -4,7 +4,6 @@ import cn.hutool.core.util.RandomUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.common.utils.Constant;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 @SpringBootTest()
-@ActiveProfiles("uat")
+//@ActiveProfiles("uat")
 class XinblogBlogApplicationTests {
 
     @Autowired
@@ -41,7 +40,6 @@ class XinblogBlogApplicationTests {
 
         blogService.save(blogEntity);
     }
-
 
 
     @Test

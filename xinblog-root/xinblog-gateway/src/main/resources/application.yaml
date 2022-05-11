@@ -28,7 +28,14 @@ spring:
 
     nacos:
       discovery:
-        server-addr: 192.168.0.199:8849
+        server-addr: 192.168.0.199:5001
+    sentinel:
+      transport:
+        dashboard: 192.168.0.199:8858
+        port: 8719
+        clientIp: 192.168.0.193
+      filter:
+        url-patterns: /**
   application:
     name: xinblog-gateway
 

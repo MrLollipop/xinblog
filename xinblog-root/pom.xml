@@ -18,7 +18,8 @@
         <module>xinblog-gateway</module>
         <module>xinblog-thirdparty</module>
         <module>xinblog-auth</module>
-        <!--    <module>renren-generator</module>-->
+        <module>xinblog-abc</module>
+        <module>xinge-generator</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -35,15 +36,11 @@
         <lombok.version>1.18.18</lombok.version>
         <mybatis.spring.boot.version>2.1.4</mybatis.spring.boot.version>
         <mybatis.plus.spring.boot.version>3.4.2</mybatis.plus.spring.boot.version>
-        <druid.version>1.1.17</druid.version>
+        <druid.version>1.1.21</druid.version>
         <mysql.version>8.0.25</mysql.version>
 
         <quartz.version>2.3.0</quartz.version>
         <commons.lang.version>2.6</commons.lang.version>
-        <commons.fileupload.version>1.2.2</commons.fileupload.version>
-        <commons.io.version>2.5</commons.io.version>
-        <commons.codec.version>1.10</commons.codec.version>
-        <commons.configuration.version>1.10</commons.configuration.version>
         <shiro.version>1.4.0</shiro.version>
         <jwt.version>0.7.0</jwt.version>
         <kaptcha.version>0.0.9</kaptcha.version>
@@ -53,8 +50,8 @@
         <swagger.version>2.7.0</swagger.version>
         <joda.time.version>2.9.9</joda.time.version>
         <gson.version>2.8.5</gson.version>
-        <fastjson.version>1.2.72</fastjson.version>
-        <hutool.version>5.5.9</hutool.version>
+        <hutool.version>5.7.22</hutool.version>
+        <commons-pool2.version>2.11.1</commons-pool2.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：锁定版本+子modlue不用写groupId和version  -->
@@ -92,11 +89,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <!--      <dependency>
-                    <groupId>org.mybatis.spring.boot</groupId>
-                    <artifactId>mybatis-spring-boot-starter</artifactId>
-                    <version>${mybatis.spring.boot.version}</version>
-                  </dependency>-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -113,29 +105,6 @@
                 <version>${mysql.version}</version>
             </dependency>
 
-            <!--      <dependency>-->
-            <!--        <groupId>junit</groupId>-->
-            <!--        <artifactId>junit</artifactId>-->
-            <!--        <version>${junit.version}</version>-->
-            <!--      </dependency>-->
-
-
-            <!--      <dependency>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                    <version>${log4j.version}</version>
-                  </dependency>-->
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-api</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -148,41 +117,15 @@
                 <version>${hutool.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons.lang.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons.fileupload.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons.codec.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-configuration</groupId>
-                <artifactId>commons-configuration</artifactId>
-                <version>${commons.configuration.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
             </dependency>
 
         </dependencies>
@@ -211,18 +154,6 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <configuration>
                     <locales>en,fr</locales>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
