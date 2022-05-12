@@ -26,7 +26,7 @@ import javax.validation.Valid;
  * @date 2021-07-19 14:43:52
  */
 @RestController
-@RequestMapping("api/blog")
+@RequestMapping("blog")
 @RefreshScope
 public class BlogController {
 
