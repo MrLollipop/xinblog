@@ -14,4 +14,5 @@
 **/mvnw
 **/mvnw.cmd
 **/target
-xinblog-thirdparty/src/main/resources/application.properties
+../db/*.pdb
+../db/*.pdm
