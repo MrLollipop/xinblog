@@ -23,10 +23,6 @@
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.alibaba.cloud</groupId>
-                    <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.baomidou</groupId>
                     <artifactId>mybatis-plus-boot-starter</artifactId>
                 </exclusion>
