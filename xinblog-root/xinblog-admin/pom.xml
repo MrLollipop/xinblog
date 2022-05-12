@@ -17,17 +17,17 @@
             <groupId>studio.xinge</groupId>
             <artifactId>xinblog-common</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <exclusions>
+<!--            <exclusions>
                 <exclusion>
                     <groupId>com.alibaba.cloud</groupId>
                     <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
                 </exclusion>
-<!--                    redis 引入排除lettuce-core, 引入jedis-->
-<!--                <exclusion>
+&lt;!&ndash;                    redis 引入排除lettuce-core, 引入jedis&ndash;&gt;
+&lt;!&ndash;                <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-data-redis</artifactId>
-                </exclusion>-->
-            </exclusions>
+                </exclusion>&ndash;&gt;
+            </exclusions>-->
         </dependency>
 
         <dependency>
