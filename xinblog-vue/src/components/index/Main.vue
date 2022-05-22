@@ -1,0 +1,68 @@
+// components新建的Demo.vue
+<template>
+  <div>
+    <el-row>
+      <el-col :span="6" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 2 : 0">
+        <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px;">
+
+          <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
+          <img src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg" class="image">
+          <div style="padding: 4px;">
+            <h1 style="height:10px;margin: 2px; padding: 2px;">{{'文章标题'+o}}</h1>
+            <div class="bottom clearfix">
+              <!-- <time class="time">{{ currentDate }}</time> -->
+              <el-button type="text" class="button">操作按钮</el-button>
+            </div>
+          </div>
+        </el-card>
+
+      </el-col>
+    </el-row>
+  </div>
+</template>
+ 
+<script>
+export default {
+  name: "Main",
+  data() {
+    return {
+      currentDate: new Date()
+    };
+  }
+};
+</script>
+ 
+<style>
+.time {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 3px;
+  line-height: 5px;
+}
+
+.button {
+  padding: 0;
+  float: right;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+</style>
+ 
+ 
+ 
