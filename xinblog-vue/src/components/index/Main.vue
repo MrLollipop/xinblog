@@ -1,23 +1,27 @@
-// components新建的Demo.vue
+<!-- // components新建的Demo.vue -->
 <template>
   <div>
-    <el-row>
-      <el-col :span="6" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 2 : 0">
-        <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px;">
-
-          <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
-          <img src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg" class="image">
-          <div style="padding: 4px;">
-            <h1 style="height:10px;margin: 2px; padding: 2px;">{{'文章标题'+o}}</h1>
-            <div class="bottom clearfix">
-              <!-- <time class="time">{{ currentDate }}</time> -->
-              <el-button type="text" class="button">操作按钮</el-button>
+    <div v-for="x in 9" :key="x">
+      <span>热门</span>
+      <el-row :gutter="60">
+        <!-- <el-col :span="6" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 2 : 0"> -->
+        <el-col :span="8" v-for="(o) in 3" :key="o">
+          <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px;">
+            <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
+            <img src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg" class="image">
+            <div style="padding: 4px;">
+              <h1 style="height:10px;margin: 2px; padding: 2px;">{{ '文章标题' + o }}</h1>
+              <div class="bottom clearfix">
+                <!-- <time class="time">{{ currentDate }}</time> -->
+                <el-button type="text" class="button">操作按钮</el-button>
+              </div>
             </div>
-          </div>
-        </el-card>
+          </el-card>
 
-      </el-col>
-    </el-row>
+        </el-col>
+      </el-row>
+      <el-divider></el-divider>
+    </div>
   </div>
 </template>
  
@@ -48,9 +52,20 @@ export default {
   float: right;
 }
 
+.banner {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #00a8e2;
+}
+
 .image {
   width: 100%;
   display: block;
+}
+
+.image:hover {
+  width: 105%;
+  /* height: 110%; */
 }
 
 .clearfix:before,
