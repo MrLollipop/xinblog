@@ -2,7 +2,7 @@
 <template>
   <div id="index">
     <el-container>
-      <el-header>
+      <el-header :style="opacityStyle">
         <h1 class="title">欣哥工作室</h1>
         <el-menu :default-active="activeIndex" class="el-menu" mode="horizontal">
           <!-- @select="handleSelect" -->
@@ -24,13 +24,13 @@
           </el-menu-item>
         </el-menu>
       </el-header>
-      <el-container>
-        <div class="banner">
-          <!-- <img src="@static/pic/banner.png" /> -->
-          <h1>欣哥工作室</h1>
-          <h2>为程序员创造价值</h2>
-        </div>
-      </el-container>
+      <!-- <el-container> -->
+      <div class="banner">
+        <!-- <img src="@static/pic/banner.png" /> -->
+        <h1>欣哥工作室</h1>
+        <h2>为程序员创造价值</h2>
+      </div>
+      <!-- </el-container> -->
       <el-container>
         <!-- <el-aside width="200px">Aside</el-aside> -->
         <el-main>
@@ -59,11 +59,27 @@ export default {
     return {
       mes: "这是第一个demo!!!",
       activeIndex: '1',
+      opacityStyle: {
+        opacity: 1
+      }
     };
+  },
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  deactivated() {  //因为是对window绑定的,所以除了该页面，其他页面的滚动也会内存泄露
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    handleScroll() {
+      const top = document.documentElement.scrollTop;
+      console.log(top);
+      let opacity = top / 10;
+      opacity = opacity > 1 ? 0.6 : 1;
+      this.opacityStyle = { opacity };
     }
   },
   components: {
@@ -75,8 +91,13 @@ export default {
 <style>
 .el-header {
   background-color: #00a8e2;
-  /* opacity:0.3; */
   height: 70px;
+  width: 98.5vw;
+  position: fixed;
+  left: 8px;
+  top: 0;
+  padding-right: 8px;
+  z-index: 10;
 }
 
 .title {
@@ -92,10 +113,10 @@ export default {
   background: none;
   width: fit-content;
   float: right;
-  /* margin: 0 auto; */
 }
 
-.el-menu.el-menu--horizontal {
+.el-menu.el-menu--horizontal,
+.el-menu--horizontal>.el-menu-item.is-active {
   border-bottom: none;
 }
 
@@ -111,14 +132,11 @@ export default {
 }
 
 .banner {
-  /* top: -20px; */
-  width: fit-content;
-  /* margin: 0 auto; */
+  width: 98.5vw;
   background-color: #00a8e2;
-  /* opacity:0.3; */
 }
 
-.banner h1 {
+.banner>h1 {
   font-size: 60px;
   font-weight: 900;
   color: white;
@@ -128,7 +146,7 @@ export default {
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) */
 }
 
-.banner h2 {
+.banner>h2 {
   font-size: 20px;
   /* font-weight: 900; */
   color: white;
@@ -141,7 +159,7 @@ export default {
   background-color: #F7FAFC;
   color: #333;
   text-align: center;
-  line-height: 30px;
+  line-height: 60px;
 }
 
 .el-aside {
@@ -162,7 +180,7 @@ export default {
   text-align: center;
 
   /* // 设置主体 main 高度 */
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 70px); */
 }
 
 .main {
@@ -170,22 +188,10 @@ export default {
   margin: 0 auto;
 }
 
-body {
+/* body {
   overflow-y: hidden;
-}
-
-/* body>.el-container {
-  margin-bottom: 40px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
 } */
+
 </style>
  
  

@@ -4,7 +4,6 @@
     <div v-for="x in 9" :key="x">
       <span>热门</span>
       <el-row :gutter="60">
-        <!-- <el-col :span="6" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 2 : 0"> -->
         <el-col :span="8" v-for="(o) in 3" :key="o">
           <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px;">
             <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
@@ -50,12 +49,6 @@ export default {
 .button {
   padding: 0;
   float: right;
-}
-
-.banner {
-  width: 100%;
-  margin: 0 auto;
-  background-color: #00a8e2;
 }
 
 .image {
