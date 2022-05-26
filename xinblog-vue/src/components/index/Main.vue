@@ -7,7 +7,7 @@
         <el-col :span="8" v-for="(o) in 3" :key="o">
           <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px;">
             <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
-            <img src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg" class="image">
+            <img src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg" class="cardImage">
             <div style="padding: 4px;">
               <h1 style="height:10px;margin: 2px; padding: 2px;">{{ '文章标题' + o }}</h1>
               <div class="bottom clearfix">
@@ -36,7 +36,7 @@ export default {
 </script>
  
 <style>
-.time {
+/* .time {
   font-size: 13px;
   color: #999;
 }
@@ -44,19 +44,19 @@ export default {
 .bottom {
   margin-top: 3px;
   line-height: 5px;
-}
+} */
 
-.button {
+/* .button {
   padding: 0;
   float: right;
-}
+} */
 
-.image {
+.cardImage {
   width: 100%;
   display: block;
 }
 
-.image:hover {
+.cardImage:hover {
   width: 105%;
   /* height: 110%; */
 }

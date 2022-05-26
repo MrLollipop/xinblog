@@ -6,7 +6,7 @@
         <h1 class="title">欣哥工作室</h1>
         <el-menu :default-active="activeIndex" class="el-menu" mode="horizontal">
           <!-- @select="handleSelect" -->
-          <el-menu-item index="1"><span class="menu-font">首页</span></el-menu-item>
+          <el-menu-item index="1"><span class="menu-font"><router-link to="/">首页</router-link></span></el-menu-item>
           <el-submenu index="2">
             <template slot="title"><span class="menu-font">大纲</span></template>
             <el-menu-item index="2-1">选项1</el-menu-item>
@@ -19,23 +19,20 @@
               <el-menu-item index="2-4-3">选项3</el-menu-item>
             </el-submenu>
           </el-submenu>
-          <el-menu-item index="3"><span class="menu-font">热门</span></el-menu-item>
+          <el-menu-item index="3"><span class="menu-font"><router-link to="/hot">热门</router-link></span></el-menu-item>
           <el-menu-item index="4"><span class="menu-font"><a href="http://xinge.studio" target="_blank">关于我</a></span>
           </el-menu-item>
         </el-menu>
       </el-header>
-      <!-- <el-container> -->
       <div class="banner">
-        <!-- <img src="@static/pic/banner.png" /> -->
-        <h1>欣哥工作室</h1>
+        <h1>{{bannerTitle}}</h1>
         <h2>为程序员创造价值</h2>
       </div>
-      <!-- </el-container> -->
       <el-container>
         <!-- <el-aside width="200px">Aside</el-aside> -->
         <el-main>
           <div class="main">
-            <index-main></index-main>
+            <router-view></router-view>
             <el-row>
               <h1>{{ mes }}</h1>
             </el-row>
@@ -51,12 +48,12 @@
 </template>
  
 <script>
-import Main from './index/Main.vue';
 
 export default {
   name: "Index",
   data() {
     return {
+      bannerTitle: "欣 哥 工 作 室",
       mes: "这是第一个demo!!!",
       activeIndex: '1',
       opacityStyle: {
@@ -81,9 +78,6 @@ export default {
       opacity = opacity > 1 ? 0.6 : 1;
       this.opacityStyle = { opacity };
     }
-  },
-  components: {
-    "index-main": Main
   },
 }
 </script>
