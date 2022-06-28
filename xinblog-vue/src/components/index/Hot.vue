@@ -15,8 +15,15 @@ export default {
   data() {
     return {
       currentDate: new Date(),
-      bannerTitle: "热 门 视 频",
+      // bannerTitle: "热 门 视 频",
     };
+  },
+  mounted(){
+    this.$emit('bannerTitle',
+    [
+      "热 门 视 频","这里是副标题"
+    ]
+    )
   }
 };
 </script>

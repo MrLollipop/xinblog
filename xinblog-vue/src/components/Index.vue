@@ -1,14 +1,24 @@
 // components新建的Demo.vue
 <template>
-  <div id="index">
+  <div id="index" class="index">
     <el-container>
       <el-header :style="opacityStyle">
         <h1 class="title">欣哥工作室</h1>
-        <el-menu :default-active="activeIndex" class="el-menu" mode="horizontal">
+        <el-menu
+          :default-active="activeIndex"
+          class="el-menu"
+          mode="horizontal"
+        >
           <!-- @select="handleSelect" -->
-          <el-menu-item index="1"><span class="menu-font"><router-link to="/">首页</router-link></span></el-menu-item>
+          <el-menu-item index="1"
+            ><span class="menu-font"
+              ><router-link to="/">首页</router-link></span
+            ></el-menu-item
+          >
           <el-submenu index="2">
-            <template slot="title"><span class="menu-font">大纲</span></template>
+            <template slot="title"
+              ><span class="menu-font">大纲</span></template
+            >
             <el-menu-item index="2-1">选项1</el-menu-item>
             <el-menu-item index="2-2">选项2</el-menu-item>
             <el-menu-item index="2-3">选项3</el-menu-item>
@@ -19,53 +29,68 @@
               <el-menu-item index="2-4-3">选项3</el-menu-item>
             </el-submenu>
           </el-submenu>
-          <el-menu-item index="3"><span class="menu-font"><router-link to="/hot">热门</router-link></span></el-menu-item>
-          <el-menu-item index="4"><span class="menu-font"><a href="http://xinge.studio" target="_blank">关于我</a></span>
+          <el-menu-item index="3"
+            ><span class="menu-font"
+              ><router-link to="/hot">热门</router-link></span
+            ></el-menu-item
+          >
+          <el-menu-item index="4"
+            ><span class="menu-font"
+              ><a href="http://xinge.studio" target="_blank">关于我</a></span
+            >
           </el-menu-item>
         </el-menu>
       </el-header>
       <div class="banner">
-        <h1>{{bannerTitle}}</h1>
-        <h2>为程序员创造价值</h2>
+        <h1>{{ bannerTitle }}</h1>
+        <h2>{{subBannerTitle}}</h2>
       </div>
       <el-container>
-        <!-- <el-aside width="200px">Aside</el-aside> -->
         <el-main>
           <div class="main">
-            <router-view></router-view>
+            <router-view @bannerTitle="updateBannerTitle"></router-view>
             <el-row>
               <h1>{{ mes }}</h1>
             </el-row>
           </div>
           <el-footer>
-            <p><a href="http://xinge.studio">欣哥工作室</a> © 2021 浙ICP备2021021057号
+            <p>
+              <a href="http://xinge.studio">欣哥工作室</a> © 2021
+              浙ICP备2021021057号
             </p>
           </el-footer>
         </el-main>
+        <!-- <el-aside width="60px">
+          <tag></tag>
+        </el-aside> -->
       </el-container>
     </el-container>
+    <back-top></back-top>
   </div>
 </template>
  
 <script>
-
+import BackTop from './BackTop.vue';
+import tag from "./index/Tag.vue";
 export default {
   name: "Index",
   data() {
     return {
       bannerTitle: "欣 哥 工 作 室",
+      subBannerTitle: "为程序员创造价值",
       mes: "这是第一个demo!!!",
-      activeIndex: '1',
+      activeIndex: "1",
       opacityStyle: {
-        opacity: 1
-      }
+        opacity: 1,
+      },
     };
   },
   created() {
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
   },
-  deactivated() {  //因为是对window绑定的,所以除了该页面，其他页面的滚动也会内存泄露
-    window.removeEventListener('scroll', this.handleScroll);
+  deactivated() {
+    //因为是对window绑定的,所以除了该页面，其他页面的滚动也会内存泄露
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -73,13 +98,21 @@ export default {
     },
     handleScroll() {
       const top = document.documentElement.scrollTop;
-      console.log(top);
+      // console.log(top);
       let opacity = top / 10;
       opacity = opacity > 1 ? 0.6 : 1;
       this.opacityStyle = { opacity };
+    },
+    updateBannerTitle(title){
+      this.bannerTitle = title[0];
+      this.subBannerTitle = title[1];
     }
   },
-}
+  components: {
+    tag,
+    BackTop,
+  },
+};
 </script>
  
 <style>
@@ -110,7 +143,7 @@ export default {
 }
 
 .el-menu.el-menu--horizontal,
-.el-menu--horizontal>.el-menu-item.is-active {
+.el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: none;
 }
 
@@ -130,7 +163,7 @@ export default {
   background-color: #00a8e2;
 }
 
-.banner>h1 {
+.banner > h1 {
   font-size: 60px;
   font-weight: 900;
   color: white;
@@ -140,7 +173,7 @@ export default {
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) */
 }
 
-.banner>h2 {
+.banner > h2 {
   font-size: 20px;
   /* font-weight: 900; */
   color: white;
@@ -148,9 +181,8 @@ export default {
   margin: 20px auto;
 }
 
-
 .el-footer {
-  background-color: #F7FAFC;
+  background-color: #f7fafc;
   color: #333;
   text-align: center;
   line-height: 60px;
@@ -164,7 +196,6 @@ export default {
 
   /* // 设置左侧 aside 高度 */
   height: calc(100vh - 70px);
-
 }
 
 .el-main {
@@ -182,10 +213,14 @@ export default {
   margin: 0 auto;
 }
 
+/* .index {
+  height: 100vh;
+  overflow-x: hidden;
+} */
+
 /* body {
   overflow-y: hidden;
 } */
-
 </style>
  
  

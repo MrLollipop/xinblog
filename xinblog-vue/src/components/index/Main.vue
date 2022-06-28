@@ -1,37 +1,54 @@
 <!-- // components新建的Demo.vue -->
 <template>
   <div>
+    <carousel></carousel>
     <div v-for="x in 9" :key="x">
       <span>热门</span>
       <el-row :gutter="60">
-        <el-col :span="8" v-for="(o) in 3" :key="o">
-          <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px;">
+        <el-col :span="8" v-for="o in 3" :key="o">
+          <router-link :to="{path:'detail', query:{blogId:'aaa'}}">
+          <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px">
             <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
-            <img src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg" class="cardImage">
-            <div style="padding: 4px;">
-              <h1 style="height:10px;margin: 2px; padding: 2px;">{{ '文章标题' + o }}</h1>
+            <img
+              src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg"
+              class="cardImage"
+            />
+            <div style="padding: 4px">
+              <h1 style="height: 10px; margin: 2px; padding: 2px">
+                {{ "文章标题" + o }}
+              </h1>
               <div class="bottom clearfix">
                 <!-- <time class="time">{{ currentDate }}</time> -->
                 <el-button type="text" class="button">操作按钮</el-button>
               </div>
             </div>
           </el-card>
-
+          </router-link>
         </el-col>
       </el-row>
       <el-divider></el-divider>
+      <tag></tag>
     </div>
   </div>
 </template>
  
 <script>
+import carousel from "./Carousel.vue";
+import tag from "./Tag.vue";
 export default {
   name: "Main",
   data() {
     return {
-      currentDate: new Date()
+      currentDate: new Date(),
     };
-  }
+  },
+  components: {
+    carousel,
+    tag,
+  },
+  mounted() {
+    this.$emit("bannerTitle", ["欣 哥 工 作 室", "为程序员创造价值"]);
+  },
 };
 </script>
  
@@ -68,7 +85,7 @@ export default {
 }
 
 .clearfix:after {
-  clear: both
+  clear: both;
 }
 </style>
  
