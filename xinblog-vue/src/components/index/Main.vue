@@ -1,40 +1,40 @@
 <!-- // components新建的Demo.vue -->
 <template>
   <div>
+    <!-- 置顶内容 -->
     <carousel></carousel>
-    <div v-for="x in 9" :key="x">
-      <span>热门</span>
-      <el-row :gutter="60">
-        <el-col :span="8" v-for="o in 3" :key="o">
-          <router-link :to="{path:'detail', query:{blogId:'aaa'}}">
-          <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px">
-            <!-- https://img95.699pic.com/photo/50059/6763.jpg_wh300.jpg!/fh/300/quality/90 -->
-            <img
-              src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg"
-              class="cardImage"
-            />
-            <div style="padding: 4px">
-              <h1 style="height: 10px; margin: 2px; padding: 2px">
-                {{ "文章标题" + o }}
-              </h1>
-              <div class="bottom clearfix">
-                <!-- <time class="time">{{ currentDate }}</time> -->
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
-          </router-link>
-        </el-col>
-      </el-row>
-      <el-divider></el-divider>
-      <tag></tag>
+
+    <!-- 最新发布 -->
+    <div class="blogClass">
+      <span><i class="el-icon-document"></i> 最新发布</span>
     </div>
+    <el-divider></el-divider>
+    <el-row :gutter="60">
+      <el-col :span="8" v-for="o in 3" :key="o">
+        <router-link :to="{ path: 'detail', query: { blogId: 'aaa' } }">
+          <blog-card></blog-card>
+        </router-link>
+      </el-col>
+    </el-row>
+
+    <!-- 热门 -->
+    <div class="blogClass">
+      <span><i class="el-icon-document"></i> 热门</span>
+    </div>
+    <el-divider></el-divider>
+    <el-row :gutter="60">
+      <el-col :span="8" v-for="o in 3" :key="o">
+        <router-link :to="{ path: 'detail', query: { blogId: 'aaa' } }">
+          <blog-card></blog-card>
+        </router-link>
+      </el-col>
+    </el-row>
   </div>
 </template>
  
 <script>
+import BlogCard from "./BlogCard.vue";
 import carousel from "./Carousel.vue";
-import tag from "./Tag.vue";
 export default {
   name: "Main",
   data() {
@@ -44,7 +44,7 @@ export default {
   },
   components: {
     carousel,
-    tag,
+    BlogCard,
   },
   mounted() {
     this.$emit("bannerTitle", ["欣 哥 工 作 室", "为程序员创造价值"]);
@@ -53,39 +53,14 @@ export default {
 </script>
  
 <style>
-/* .time {
-  font-size: 13px;
+.blogClass {
+  height: 10px;
+  margin-left: 0;
+  margin-top: 25px;
+  text-align: left;
+  font-size: 20px;
   color: #999;
-}
-
-.bottom {
-  margin-top: 3px;
-  line-height: 5px;
-} */
-
-/* .button {
-  padding: 0;
-  float: right;
-} */
-
-.cardImage {
-  width: 100%;
-  display: block;
-}
-
-.cardImage:hover {
-  width: 105%;
-  /* height: 110%; */
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
+  /* border-bottom: 1px solid #999; */
 }
 </style>
  

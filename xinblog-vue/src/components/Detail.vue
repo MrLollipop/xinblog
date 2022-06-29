@@ -2,6 +2,7 @@
   <div>
     <h1>{{ msg }}</h1>
     <markdown :content="content"></markdown>
+    <el-page-header @back="goBack" content="详情页面"> </el-page-header>
   </div>
 </template>
 
@@ -32,6 +33,9 @@ export default {
         this.content = data;
       });
     },
+    goBack() {
+        console.log('go back');
+    }
   },
 };
 </script>

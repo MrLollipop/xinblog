@@ -49,9 +49,6 @@
         <el-main>
           <div class="main">
             <router-view @bannerTitle="updateBannerTitle"></router-view>
-            <el-row>
-              <h1>{{ mes }}</h1>
-            </el-row>
           </div>
           <el-footer>
             <p>
@@ -71,7 +68,6 @@
  
 <script>
 import BackTop from './BackTop.vue';
-import tag from "./index/Tag.vue";
 export default {
   name: "Index",
   data() {
@@ -109,7 +105,6 @@ export default {
     }
   },
   components: {
-    tag,
     BackTop,
   },
 };
