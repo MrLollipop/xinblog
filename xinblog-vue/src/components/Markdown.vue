@@ -36,4 +36,8 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+.markdown-body{
+  text-align: left;
+}
+</style>
