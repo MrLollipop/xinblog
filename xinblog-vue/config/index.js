@@ -14,14 +14,22 @@ module.exports = {
 
     // 代理列表, 是否开启代理通过[./dev.env.js]配置
     proxyTable: devEnv.OPEN_PROXY === false ? {} : {
+      '/proxyOssApi': {
+        target: 'https://xinblog-a.oss-cn-hangzhou.aliyuncs.com',
+        secure: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/proxyOssApi': '/'
+        }
+      },
       '/proxyApi': {
-        target: 'https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/',
+        target: 'https://192.168.0.199:9001',
         secure: false,
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'
         }
-      }
+      },
     },
 
     // Various Dev Server settings

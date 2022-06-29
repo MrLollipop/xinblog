@@ -37,12 +37,23 @@ http.interceptors.request.use(config => {
 // })
 
 /**
- * 请求地址处理
+ * 请求地址处理,默认代理
  * @param {*} actionName action方法名称
  */
 http.adornUrl = (actionName) => {
   // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
   return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
+}
+
+/**
+ * 请求地址，自定义代理，代理地址需配置到config/index.js
+ * @param {*} actionName 
+ * @param {*} proxyUrl 
+ * @returns 
+ */
+http.adornUrlByProxy = (actionName, proxyUrl) => {
+  // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
+  return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? proxyUrl : window.SITE_CONFIG.baseUrl) + actionName
 }
 
 /**

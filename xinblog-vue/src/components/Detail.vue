@@ -23,12 +23,12 @@ export default {
   methods: {
     getBlog() {
       this.$http({
-        url: this.$http.adornUrl(
-          "5.Spring5-%E6%B3%A8%E8%A7%A3%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-1.%E7%BB%84%E4%BB%B6%E6%B3%A8%E5%86%8C.md"
+        url: this.$http.adornUrlByProxy(
+          "5.Spring5-%E6%B3%A8%E8%A7%A3%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91-1.%E7%BB%84%E4%BB%B6%E6%B3%A8%E5%86%8C.md",
+          "/proxyOssApi/"
         ),
         method: "get",
       }).then(({ data }) => {
-        console.log("ss");
         this.content = data;
       });
     },
