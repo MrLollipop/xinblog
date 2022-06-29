@@ -20,9 +20,6 @@ export default {
     this.msg = this.$route.query.blogId;
     this.getBlog();
   },
-  activated() {
-    this.getBlog();
-  },
   methods: {
     getBlog() {
       this.$http({
@@ -35,9 +32,6 @@ export default {
         this.content = data;
       });
     },
-  },
-  created() {
-    // this.content = "# 测试";
   },
 };
 </script>
