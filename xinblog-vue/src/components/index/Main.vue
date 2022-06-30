@@ -2,7 +2,9 @@
 <template>
   <div>
     <!-- 置顶内容 -->
-    <carousel></carousel>
+    <el-row type="flex" justify="center">
+      <el-col :sm="24" :lg="20"><carousel></carousel></el-col>
+    </el-row>
 
     <!-- 最新发布 -->
     <div class="blogClass">
