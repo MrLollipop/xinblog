@@ -5,14 +5,11 @@
         src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg"
         class="cardImage"
       />
-      <!-- <div class="title">
-        <h1 style="height: 10px; margin: 2px; padding: 2px">
-          {{ "文章标题" }}
-        </h1>
-      </div> -->
       <div class="title">
         <h1>{{ "文章标题" }}</h1>
         <tag></tag>
+        <span id="times"><i class="el-icon-reading"></i> {{ times }} 次</span>
+        <span id="updateTime"><i class="el-icon-date"></i> {{ date }}</span>
       </div>
     </el-card>
   </div>
@@ -21,6 +18,12 @@
 <script>
 import Tag from "./Tag.vue";
 export default {
+  data() {
+    return {
+      times: "2000",
+      date: "05-05",
+    };
+  },
   components: { Tag },
 };
 </script>
@@ -30,8 +33,8 @@ export default {
   border-radius: 15px;
   padding: 0;
 }
-.card:hover h1{
-    font-size: 17px;
+.card:hover h1 {
+  font-size: 17px;
 }
 .cardImage {
   width: 100%;
@@ -54,6 +57,22 @@ export default {
   height: 10px;
   margin-top: 2px;
   margin-bottom: 15px;
+  padding: 2px;
+}
+#times {
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 25px;
+  float: left;
+  padding: 2px;
+}
+#updateTime {
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-right: 25px;
+  float: right;
   padding: 2px;
 }
 </style>
