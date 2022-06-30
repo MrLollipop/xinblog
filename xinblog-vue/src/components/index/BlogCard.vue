@@ -6,10 +6,14 @@
         class="cardImage"
       />
       <div class="title">
-        <h1>{{ "文章标题" }}</h1>
+        <h1>{{ title }}</h1>
         <tag></tag>
-        <span id="times"><i class="el-icon-reading"></i> {{ times }} 次</span>
-        <span id="updateTime"><i class="el-icon-date"></i> {{ date }}</span>
+        <span id="times"
+          ><i class="el-icon-reading"></i> {{ times }} 次</span
+        >
+        <span id="updateTime"
+          ><i class="el-icon-date"></i> {{ updateTime }}</span
+        >
       </div>
     </el-card>
   </div>
@@ -20,11 +24,16 @@ import Tag from "./Tag.vue";
 export default {
   data() {
     return {
-      times: "2000",
-      date: "05-05",
+      title: this.blogEntity.title,
+      times: this.blogEntity.times,
+      updateTime: this.blogEntity.updateTime,
     };
   },
   components: { Tag },
+  props: ['blogEntity'],
+  // mounted() {
+  //   console.log(this.blogEntity); //父组件传递过来的数据
+  // },
 };
 </script>
 
@@ -41,11 +50,6 @@ export default {
   display: block;
 }
 .title {
-  /* background-color: rgb(183, 200, 255); */
-  /* background-color: #c7e2eb; */
-  /* height: 200px;
-  width: 100%;
-  /* padding: 4px; */
   width: 100%;
   margin-top: 0;
   margin-bottom: 8px;

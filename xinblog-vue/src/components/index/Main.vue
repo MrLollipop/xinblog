@@ -14,7 +14,7 @@
     <el-row :gutter="60">
       <el-col :span="8" v-for="o in 3" :key="o">
         <router-link :to="{ path: 'detail', query: { blogId: 'aaa' } }">
-          <blog-card></blog-card>
+          <blog-card :blogEntity=blogEntity></blog-card>
         </router-link>
       </el-col>
     </el-row>
@@ -27,7 +27,7 @@
     <el-row :gutter="60">
       <el-col :span="8" v-for="o in 3" :key="o">
         <router-link :to="{ path: 'detail', query: { blogId: 'aaa' } }">
-          <blog-card></blog-card>
+          <blog-card :blogEntity=blogEntity></blog-card>
         </router-link>
       </el-col>
     </el-row>
@@ -42,6 +42,11 @@ export default {
   data() {
     return {
       currentDate: new Date(),
+      blogEntity: {
+        title: "博客标题",
+        times: "5000",
+        updateTime: "06-30",
+      },
     };
   },
   components: {
