@@ -16,6 +16,7 @@ drop table if exists t_blog_reply;
 CREATE TABLE `t_blog` (
   `id` bigint(20) NOT NULL,
   `title` varchar(30) DEFAULT NULL,
+  `sub_title` varchar(100) DEFAULT NULL,
   `cover` varchar(500) DEFAULT NULL,
   `content` varchar(1000) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL COMMENT '0删除，1正常，2草稿',
@@ -25,10 +26,9 @@ CREATE TABLE `t_blog` (
   `forward_num` int(11) DEFAULT '0',
   `collect_num` int(11) DEFAULT '0',
   `top` tinyint(1) DEFAULT '0',
+  `view_num` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客表';
-
-alter table t_blog comment '博客表';
 
 /*==============================================================*/
 /* Table: t_blog_reply                                          */
