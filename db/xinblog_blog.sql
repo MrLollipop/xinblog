@@ -33,19 +33,19 @@ alter table t_blog comment '博客表';
 /*==============================================================*/
 /* Table: t_blog_reply                                          */
 /*==============================================================*/
-create table t_blog_reply
-(
-   id                   bigint not null,
-   blog_id              bigint,
-   to_reply_id          bigint,
-   replyer_id           bigint,
-   content              varchar(1000),
-   create_time          datetime,
-   agree_num            int default 0,
-   status               tinyint default 1 comment '0删除，1正常',
-   is_top               bool default false,
-   primary key (id)
-);
+-- xinblog_blog.t_blog_reply definition
 
-alter table t_blog_reply comment '博客回复表';
+CREATE TABLE `t_blog_reply` (
+  `id` bigint(20) NOT NULL,
+  `blog_id` bigint(20) DEFAULT NULL,
+  `to_reply_id` bigint(20) DEFAULT NULL,
+  `replyer_id` bigint(20) DEFAULT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `agree_num` int(11) DEFAULT '0',
+  `status` tinyint(4) DEFAULT '1' COMMENT '0删除，1正常',
+  `is_top` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客回复表';
+
 
