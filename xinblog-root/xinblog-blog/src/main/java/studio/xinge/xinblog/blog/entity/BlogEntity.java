@@ -65,6 +65,7 @@ public class BlogEntity implements Serializable {
     private Integer collectNum;
     private Boolean top;
     private Integer viewNum;
+    private String subTitle;
 
     /**
      * 博客封面地址
