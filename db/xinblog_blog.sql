@@ -11,21 +11,22 @@ drop table if exists t_blog_reply;
 /*==============================================================*/
 /* Table: t_blog                                                */
 /*==============================================================*/
-create table t_blog
-(
-   id                   bigint not null,
-   title                varchar(30),
-   cover                varchar(500),
-   content              varchar(1000),
-   status               tinyint comment '0删除，1正常，2草稿',
-   create_time          datetime,
-   update_time          datetime,
-   like_num             int default 0,
-   forward_num          int default 0,
-   collect_num          int default 0,
-   is_top               bool default false,
-   primary key (id)
-);
+-- xinblog_blog.t_blog definition
+
+CREATE TABLE `t_blog` (
+  `id` bigint(20) NOT NULL,
+  `title` varchar(30) DEFAULT NULL,
+  `cover` varchar(500) DEFAULT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL COMMENT '0删除，1正常，2草稿',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `like_num` int(11) DEFAULT '0',
+  `forward_num` int(11) DEFAULT '0',
+  `collect_num` int(11) DEFAULT '0',
+  `top` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客表';
 
 alter table t_blog comment '博客表';
 
