@@ -64,7 +64,7 @@
       </el-form-item>
 
       <el-form-item label="置顶">
-        <el-select v-model="search.isTop" placeholder="是否置顶">
+        <el-select v-model="search.top" placeholder="是否置顶">
           <el-option label="是" value="true"></el-option>
           <el-option label="否" value="false"></el-option>
         </el-select>
@@ -144,9 +144,9 @@
       </el-table-column>
       <el-table-column prop="collectNum" label="收藏数" width="70">
       </el-table-column>
-      <el-table-column prop="isTop" label="置顶" width="70">
+      <el-table-column prop="top" label="置顶" width="70">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.isTop" size="small" type="danger">是 </el-tag>
+          <el-tag v-if="scope.row.top" size="small" type="danger">是 </el-tag>
           <el-tag v-else size="small">否</el-tag>
         </template>
       </el-table-column>
@@ -216,7 +216,7 @@ export default {
         queryDate: "",
         startDate: "",
         endDate: "",
-        isTop: "",
+        top: "",
       },
       pickerOptions: {
         shortcuts: [
@@ -285,7 +285,7 @@ export default {
             null != this.search.queryDate ? this.search.queryDate[0] : "",
           endDate:
             null != this.search.queryDate ? this.search.queryDate[1] : "",
-          isTop: this.search.isTop,
+          top: this.search.top,
         }),
       }).then(({ data }) => {
         console.log(data);

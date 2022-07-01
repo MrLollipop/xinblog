@@ -94,8 +94,8 @@
           :disabled="act === 'show'"
         ></el-input>
       </el-form-item>
-      <el-form-item label="置顶" size="mini" prop="isTop">
-        <el-radio-group v-model="dataForm.isTop" :disabled="act === 'show'">
+      <el-form-item label="置顶" size="mini" prop="top">
+        <el-radio-group v-model="dataForm.top" :disabled="act === 'show'">
           <el-radio :label="false">否</el-radio>
           <el-radio :label="true">是</el-radio>
         </el-radio-group>
@@ -167,7 +167,7 @@ export default {
         likeNum: "",
         forwardNum: "",
         collectNum: "",
-        isTop: false,
+        top: false,
       },
       dataRule: {
         title: [
@@ -212,7 +212,7 @@ export default {
             this.dataForm.likeNum = data.blog.likeNum;
             this.dataForm.forwardNum = data.blog.forwardNum;
             this.dataForm.collectNum = data.blog.collectNum;
-            this.dataForm.isTop = data.blog.isTop;
+            this.dataForm.top = data.blog.top;
           }
         });
       } else {
@@ -253,7 +253,7 @@ export default {
               likeNum: this.dataForm.likeNum || undefined,
               forwardNum: this.dataForm.forwardNum || undefined,
               collectNum: this.dataForm.collectNum || undefined,
-              isTop: this.dataForm.isTop,
+              top: this.dataForm.top,
             }),
           }).then(({ data }) => {
             if (data && data.code === 10000) {
