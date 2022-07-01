@@ -138,12 +138,14 @@
         :formatter="formatDate"
       >
       </el-table-column>
-      <el-table-column prop="likeNum" label="点赞数" width="70">
+      <el-table-column prop="viewNum" label="访问量" width="70">
       </el-table-column>
       <el-table-column prop="forwardNum" label="转发数" width="70">
       </el-table-column>
-      <el-table-column prop="collectNum" label="收藏数" width="70">
+      <!-- <el-table-column prop="likeNum" label="点赞数" width="70">
       </el-table-column>
+      <el-table-column prop="collectNum" label="收藏数" width="70">
+      </el-table-column> -->
       <el-table-column prop="top" label="置顶" width="70">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.top" size="small" type="danger">是 </el-tag>

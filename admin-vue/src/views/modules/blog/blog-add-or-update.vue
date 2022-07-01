@@ -61,7 +61,7 @@
           :disabled="act === 'show'"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item
+      <!-- <el-form-item
         label="点赞数"
         prop="likeNum"
         v-if="act === 'show' || act === 'mod'"
@@ -71,19 +71,9 @@
           placeholder=""
           :disabled="act === 'show'"
         ></el-input>
-      </el-form-item>
-      <el-form-item
-        label="转发数"
-        prop="forwardNum"
-        v-if="act === 'show' || act === 'mod'"
-      >
-        <el-input
-          v-model="dataForm.forwardNum"
-          placeholder=""
-          :disabled="act === 'show'"
-        ></el-input>
-      </el-form-item>
-      <el-form-item
+      </el-form-item> -->
+
+      <!-- <el-form-item
         label="收藏数"
         prop="collectNum"
         v-if="act === 'show' || act === 'mod'"
@@ -93,13 +83,24 @@
           placeholder=""
           :disabled="act === 'show'"
         ></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="置顶" size="mini" prop="top">
         <el-radio-group v-model="dataForm.top" :disabled="act === 'show'">
           <el-radio :label="false">否</el-radio>
           <el-radio :label="true">是</el-radio>
         </el-radio-group>
       </el-form-item>
+      <!-- <el-form-item
+        label="转发数"
+        prop="forwardNum"
+        v-if="act === 'show' || act === 'mod'"
+      >
+        <el-input
+          v-model="dataForm.forwardNum"
+          placeholder=""
+          :disabled="act === 'show'"
+        ></el-input>
+      </el-form-item> -->
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
