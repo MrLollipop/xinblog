@@ -4,24 +4,26 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import org.apache.dubbo.config.annotation.Service;
 import studio.xinge.xinblog.blog.dao.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.common.api.ApiBlogService;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
+import studio.xinge.xinblog.common.utils.R;
 
-
-@Service("blogService")
-public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements BlogService {
+@Service
+public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements ApiBlogService, BlogService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -33,7 +35,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
         Integer status = Convert.toInt(params.get("status"));
         Object startDate = params.get("startDate");
         Object endDate = params.get("endDate");
-        String isTop = Convert.toStr(params.get("isTop"));
+        String top = Convert.toStr(params.get("top"));
 
         if (StrUtil.isNotBlank(title)) {
             wrapper.eq("title", title);
@@ -51,8 +53,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             wrapper.and(_wrapper -> _wrapper.ge("create_time", _startDate).le("create_time", _endDate).
                     or().ge("update_time", _startDate).le("update_time", _endDate));
         }
-        if (StrUtil.isNotBlank(isTop)) {
-            wrapper.eq("is_top", Convert.toBool(params.get("isTop")));
+        if (StrUtil.isNotBlank(top)) {
+            wrapper.eq("top", Convert.toBool(top));
         }
 
         wrapper.orderByDesc("id");

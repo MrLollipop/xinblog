@@ -63,7 +63,7 @@ public class BlogEntity implements Serializable {
     private Integer likeNum;
     private Integer forwardNum;
     private Integer collectNum;
-    private Boolean isTop;
+    private Boolean top;
 
     /**
      * 博客封面地址
