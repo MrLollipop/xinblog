@@ -14,7 +14,14 @@
       <el-form-item label="博客标题" prop="title">
         <el-input
           v-model="dataForm.title"
-          placeholder="输入标题"
+          placeholder="抓人眼球的标题（噱头、搞怪、疑问、恐慌）"
+          :disabled="act === 'show'"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="博客副标题" prop="subTitle">
+        <el-input
+          v-model="dataForm.subTitle"
+          placeholder="内容概述"
           :disabled="act === 'show'"
         ></el-input>
       </el-form-item>
@@ -160,6 +167,7 @@ export default {
       dataForm: {
         id: 0,
         title: "",
+        subTitle: "",
         cover: "",
         content: "",
         status: 1,
@@ -173,6 +181,9 @@ export default {
       dataRule: {
         title: [
           { required: true, message: "博客标题不能为空", trigger: "blur" },
+        ],
+        subTitle: [
+          { required: true, message: "博客副标题不能为空", trigger: "blur" },
         ],
         /*           password: [
             { validator: validatePassword, trigger: 'blur' }
@@ -205,6 +216,7 @@ export default {
           if (data && data.code === 10000) {
             this.visible = true;
             this.dataForm.title = data.blog.title;
+            this.dataForm.subTitle = data.blog.subTitle;
             this.dataForm.cover = data.blog.cover;
             this.dataForm.content = data.blog.content;
             this.dataForm.status = data.blog.status;
@@ -246,6 +258,7 @@ export default {
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
               title: this.dataForm.title,
+              subTitle: this.dataForm.subTitle,
               cover: this.dataForm.cover,
               content: this.dataForm.content,
               status: this.dataForm.status,

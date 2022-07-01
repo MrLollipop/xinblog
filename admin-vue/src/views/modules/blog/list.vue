@@ -103,6 +103,7 @@
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="id" label="博客ID" width="180"> </el-table-column>
       <el-table-column prop="title" label="标题" width="180"> </el-table-column>
+      <el-table-column prop="subTitle" label="副标题" width="180"> </el-table-column>
       <el-table-column prop="cover" label="封面" width="180">
         <template slot-scope="scope">
           <!-- <el-image
