@@ -145,5 +145,6 @@ public class Constant {
     public static final String TOKEN_KEY = "user_token_";
 //    用户角色前缀
     public static final String ROlE_PREFIX = "ROLE_";
-
+//   Blog前缀
+    public static final String BLOG_KEY = "blog_key";
 }

@@ -5,6 +5,7 @@ import java.util.*;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,9 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private HashOperations hashOperations;
+
     /**
      * 列表
      */
@@ -50,7 +54,7 @@ public class BlogController {
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
 
-		BlogEntity blog = blogService.getById(id);
+        BlogEntity blog = blogService.getById(id);
 
         return R.ok().put("blog", blog);
 
@@ -66,6 +70,8 @@ public class BlogController {
         blog.setCreateTime(date);
         blog.setUpdateTime(date);
         blogService.save(blog);
+
+        hashOperations.put(Constant.BLOG_KEY, blog.getId(), blog);
 
         return R.ok();
 
@@ -84,13 +90,12 @@ public class BlogController {
     }
 
     /**
-     *
+     * @param ids
+     * @return R
      * @Author xinge
      * @Description 伪删除，修改status为1
      * @Date 2021/9/20
-    * @param ids
-    * @return R
-    */
+     */
     @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         Boolean result = false;
@@ -102,7 +107,7 @@ public class BlogController {
                 entity.setUpdateTime(new Date());
                 blogEntities.add(entity);
             }
-             result = blogService.updateBatchById(blogEntities, 1000);
+            result = blogService.updateBatchById(blogEntities, 1000);
         }
 
         if (result) {
@@ -113,13 +118,12 @@ public class BlogController {
     }
 
     /**
-     *
+     * @param ids
+     * @return R
      * @Author xinge
      * @Description 数据库物理删除
      * @Date 2021/9/21
-    * @param ids
-    * @return R
-    */
+     */
     @RequestMapping("/deletefromdb")
     public R deleteFromDB(@RequestBody Long[] ids) {
         blogService.removeByIds(Arrays.asList(ids));

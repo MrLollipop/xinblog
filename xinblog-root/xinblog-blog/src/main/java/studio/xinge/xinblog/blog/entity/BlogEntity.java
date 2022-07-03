@@ -30,7 +30,7 @@ public class BlogEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     *Long类型导致前端js精度丢失，Json序列化为字符串输出
+     * Long类型导致前端js精度丢失，Json序列化为字符串输出
      */
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
@@ -69,8 +69,16 @@ public class BlogEntity implements Serializable {
 
     /**
      * 博客封面地址
-    */
+     */
     @URL(groups = {Add.class, Update.class})
     private String cover;
+
+    /**
+     * @Author xinge
+     * @Description markdownAddr在oss保存地址
+     * @Date 2022/7/1
+     */
+    private String markdownAddr;
+
 
 }
