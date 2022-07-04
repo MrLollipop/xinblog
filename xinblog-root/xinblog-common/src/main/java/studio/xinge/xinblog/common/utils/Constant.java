@@ -143,8 +143,13 @@ public class Constant {
      */
 //    redis中用户token的前缀
     public static final String TOKEN_KEY = "user_token_";
-//    用户角色前缀
+    //    用户角色前缀
     public static final String ROlE_PREFIX = "ROLE_";
-//   Blog前缀
-    public static final String BLOG_KEY = "blog_key";
+    //   Blog前缀
+    public static final String BLOG_KEY = "blog_key_";
+    //  BLog redis 写锁
+    public static final String BLOG_LOCK = "blog_lock_";
+    //  查询不存在的Blog
+    public static final String BLOG_NOT_EXIST = "Blog_Not_Exist";
+
 }

@@ -1,24 +1,30 @@
 package studio.xinge.xinblog.blog.controller;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RReadWriteLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
 import studio.xinge.xinblog.common.valid.groups.Add;
 import studio.xinge.xinblog.common.valid.groups.Update;
-
-import javax.validation.Valid;
 
 
 /**
@@ -29,13 +35,23 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("blog")
 @RefreshScope
+@Slf4j
 public class BlogController {
 
     @Autowired
     private BlogService blogService;
 
     @Autowired
-    private HashOperations hashOperations;
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private MyHashOperations myHashOperations;
+
+    @Autowired
+    private RedissonClient redissonClient;
+
+    @Value("${blog.cache.ttl.hours}")
+    private int blogCacheTTLHours;
 
     /**
      * 列表
@@ -61,6 +77,85 @@ public class BlogController {
     }
 
     /**
+     * 详情页浏览
+     * 每次浏览，缓存中浏览数+1
+     *
+     * @param id
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/4
+     */
+    @RequestMapping("/view/{id}")
+    public R view(@PathVariable("id") String id) throws InterruptedException {
+        String key = Constant.BLOG_KEY + id;
+        String lockName = Constant.BLOG_LOCK + id;
+        Object entity = myHashOperations.get(key, id);
+        if (null != entity) {
+//            不存在博客的处理
+            if (entity.getClass().equals(String.class)) {
+                if (entity.toString().equals(Constant.BLOG_NOT_EXIST)) {
+                    return R.error(ReturnCode.BLOG_NOT_EXIST);
+                }
+            }
+            RReadWriteLock lock = redissonClient.getReadWriteLock(lockName);
+            RLock writeLock = lock.writeLock();
+            boolean tryLock = writeLock.tryLock(1200, 1000, TimeUnit.MILLISECONDS);
+            try {
+                if (tryLock) {
+                    updateViewNum(key, id, (BlogEntity) entity);
+                }
+            } catch (Exception e) {
+                log.error("update view_num error", e);
+            } finally {
+                if (tryLock) {
+                    writeLock.unlock();
+                }
+                return R.ok().put("blog", entity);
+            }
+        }
+//      缓存不存在，查DB，更新缓存
+        RReadWriteLock lock = redissonClient.getReadWriteLock(lockName);
+        RLock writeLock = lock.writeLock();
+        boolean tryLock = writeLock.tryLock(1200, 1000, TimeUnit.MILLISECONDS);
+        BlogEntity blog = null;
+        try {
+            if (tryLock) {
+//                高并发下，再次判断缓存是否存在
+                BlogEntity entityCheck = (BlogEntity) myHashOperations.get(key, id.toString());
+                if (null != entityCheck) {
+                    updateViewNum(key, id, entityCheck);
+                    return R.ok().put("blog", entity);
+                }
+                blog = blogService.getById(id);
+                if (null != blog) {
+                    updateViewNum(key, id, blog);
+                } else {
+//                    对不存在的值做处理
+                    myHashOperations.setHash(key, id, Constant.BLOG_NOT_EXIST, blogCacheTTLHours, TimeUnit.HOURS);
+                    return R.error(ReturnCode.BLOG_NOT_EXIST);
+                }
+            }
+        } catch (Exception e) {
+            log.error("query DB error", e);
+            e.printStackTrace();
+        } finally {
+            if (tryLock) {
+                writeLock.unlock();
+            }
+        }
+
+        return R.ok().put("blog", blog);
+    }
+
+    private void updateViewNum(String key, String hashkey, BlogEntity entity) {
+        Integer viewNum = entity.getViewNum();
+        viewNum++;
+        entity.setViewNum(viewNum);
+        myHashOperations.setHash(key, hashkey, entity, blogCacheTTLHours, TimeUnit.HOURS);
+    }
+
+    /**
      * 保存
      */
     @RequestMapping("/save")
@@ -71,7 +166,7 @@ public class BlogController {
         blog.setUpdateTime(date);
         blogService.save(blog);
 
-        hashOperations.put(Constant.BLOG_KEY, blog.getId(), blog);
+        myHashOperations.setHash(Constant.BLOG_KEY + blog.getId(), blog.getId().toString(), blog, blogCacheTTLHours, TimeUnit.HOURS);
 
         return R.ok();
 
