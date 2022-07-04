@@ -243,4 +243,21 @@ public class BlogController {
         }
         return R.error(ReturnCode.BATCHINSERT_ERROR);
     }
+
+    /**
+     * 获取首页数据
+     * 一次DB查询所有（state正常），整理3类数据
+     * 1.置顶，top字段筛选
+     * 2.最新，update_time逆序排序
+     * 3.热门，view_num逆序排序
+     *
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/4
+     */
+    @RequestMapping("/indexData")
+    public R indexData() {
+        return null;
+    }
 }
