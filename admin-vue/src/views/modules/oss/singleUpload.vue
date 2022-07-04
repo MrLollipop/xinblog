@@ -13,7 +13,7 @@
       <el-button size="small" type="primary">点击上传</el-button>
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" :close="closeHandle">
       <img width="100%" :src="fileList[0].url" alt="">
     </el-dialog>
   </div>
@@ -59,7 +59,7 @@
           signature: '',
           key: '',
           ossaccessKeyId: '',
-          dir: '',
+          dir: 'blog-clover/',
           host: '',
           // callback:'',
         },
@@ -77,17 +77,17 @@
         this.dialogVisible = true;
       },
       beforeUpload(file) {
-        let _self = this;
         return new Promise((resolve, reject) => {
-          policy().then(response => {
-            console.log("响应的数据",response);
-            _self.dataObj.policy = response.data.policy;
-            _self.dataObj.signature = response.data.signature;
-            _self.dataObj.ossaccessKeyId = response.data.accessid;
-            _self.dataObj.key = response.data.dir +getUUID()+'_${filename}';
-            _self.dataObj.dir = response.data.dir;
-            _self.dataObj.host = response.data.host;
-            console.log("响应的数据222。。。",_self.dataObj);
+          policy(this.dataObj.dir).then(response => {
+            // console.log("响应的数据",response);
+            this.dataObj.policy = response.data.policy;
+            this.dataObj.signature = response.data.signature;
+            this.dataObj.ossaccessKeyId = response.data.accessid;
+            // this.dataObj.key = response.data.dir +getUUID()+'_${filename}';
+            this.dataObj.key = this.dataObj.dir + getUUID() + '_${filename}';
+            // this.dataObj.dir = response.data.dir;
+            this.dataObj.host = response.data.host;
+            console.log("响应的数据",this.dataObj);
             resolve(true)
           }).catch(err => {
             reject(false)
@@ -100,6 +100,11 @@
         this.fileList.pop();
         this.fileList.push({name: file.name, url: this.dataObj.host + '/' + this.dataObj.key.replace("${filename}",file.name) });
         this.emitInput(this.fileList[0].url);
+      },
+      // 弹窗关闭时
+      closeHandle () {
+        this.fileList = []
+        this.$emit('refreshDataList')
       }
     }
   }
