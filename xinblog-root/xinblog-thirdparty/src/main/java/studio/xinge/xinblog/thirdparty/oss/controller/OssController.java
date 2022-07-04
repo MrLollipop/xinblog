@@ -69,11 +69,12 @@ public class OssController {
     }
 
     @RequestMapping("policy")
-    public R policy(){
-        String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
+    public R policy(String dir){
+        // host的格式为 bucketname.endpoint http://xinblog-a.oss-cn-hangzhou.aliyuncs.com
+        String host = "https://" + bucket + "." + endpoint;
         // callbackUrl为上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
 //        String callbackUrl = "http://88.88.88.88:8888";
-        String dir = "blog-cover/"; // 用户上传文件时指定的前缀。
+//        String dir = "blog-cover/"; // 用户上传文件时指定的前缀。
 
         Map<String, String> respMap = new LinkedHashMap<String, String>();
         try {
