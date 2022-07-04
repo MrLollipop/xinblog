@@ -29,6 +29,9 @@
         <single-upload v-model="dataForm.cover" >
         </single-upload>
       </el-form-item>
+      <el-form-item label="Markdown" prop="markdownAddr">
+        <oss-upload-md v-model="dataForm.markdownAddr"></oss-upload-md>
+      </el-form-item>
       <el-form-item label="博客内容" prop="content">
         <el-input
           v-model="dataForm.content"
@@ -122,10 +125,11 @@
 </template>
 
 <script>
-import singleUpload from '../../../components/upload/singleUpload.vue';
+import singleUpload from '../oss/singleUpload.vue';
+import OssUploadMd from '../oss/oss-upload-md.vue';
 // import { isEmail, isMobile } from "@/utils/validate";
 export default {
-  components: { singleUpload },
+  components: { singleUpload, OssUploadMd, },
   data() {
     /** 
     var validatePassword = (rule, value, callback) => {
@@ -169,6 +173,7 @@ export default {
         title: "",
         subTitle: "",
         cover: "",
+        markdownAddr: "",
         content: "",
         status: 1,
         createTime: "",
@@ -218,6 +223,7 @@ export default {
             this.dataForm.title = data.blog.title;
             this.dataForm.subTitle = data.blog.subTitle;
             this.dataForm.cover = data.blog.cover;
+            this.dataForm.markdownAddr = data.blog.markdownAddr;
             this.dataForm.content = data.blog.content;
             this.dataForm.status = data.blog.status;
             this.dataForm.createTime = data.blog.createTime;
@@ -260,6 +266,7 @@ export default {
               title: this.dataForm.title,
               subTitle: this.dataForm.subTitle,
               cover: this.dataForm.cover,
+              markdownAddr: this.dataForm.markdownAddr,
               content: this.dataForm.content,
               status: this.dataForm.status,
               //createTime: this.dataForm.createTime,
