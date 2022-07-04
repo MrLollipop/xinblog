@@ -9,7 +9,7 @@
       :rules="dataRule"
       ref="dataForm"
       @keyup.enter.native="dataFormSubmit()"
-      label-width="80px"
+      label-width="100px"
     >
       <el-form-item label="博客标题" prop="title">
         <el-input
@@ -30,7 +30,7 @@
         </single-upload>
       </el-form-item>
       <el-form-item label="Markdown" prop="markdownAddr">
-        <oss-upload-md v-model="dataForm.markdownAddr"></oss-upload-md>
+        <single-upload-md v-model="dataForm.markdownAddr"></single-upload-md>
       </el-form-item>
       <el-form-item label="博客内容" prop="content">
         <el-input
@@ -127,9 +127,10 @@
 <script>
 import singleUpload from '../oss/singleUpload.vue';
 import OssUploadMd from '../oss/oss-upload-md.vue';
+import SingleUploadMd from '../oss/singleUpload-md.vue';
 // import { isEmail, isMobile } from "@/utils/validate";
 export default {
-  components: { singleUpload, OssUploadMd, },
+  components: { singleUpload, OssUploadMd, SingleUploadMd, },
   data() {
     /** 
     var validatePassword = (rule, value, callback) => {
