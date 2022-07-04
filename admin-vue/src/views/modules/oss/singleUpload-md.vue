@@ -1,8 +1,8 @@
 <template> 
   <div>
     <el-upload
-      action="http://xinblog-a.oss-cn-hangzhou.aliyuncs.com"
-      :data="dataObj"
+      :action="this.dataOSS.host"
+      :data="dataOSS"
       :multiple="false" :show-file-list="showFileList"
       :file-list="fileList"
       :before-upload="beforeUpload"
@@ -54,7 +54,7 @@
     },
     data() {
       return {
-        dataObj: {
+        dataOSS: {
           policy: '',
           signature: '',
           key: '',
@@ -84,13 +84,13 @@
         }
 
         return new Promise((resolve, reject) => {
-          policy(this.dataObj.dir).then(response => {
-            this.dataObj.policy = response.data.policy;
-            this.dataObj.signature = response.data.signature;
-            this.dataObj.ossaccessKeyId = response.data.accessid;
-            this.dataObj.key = this.dataObj.dir + getUUID() + '_${filename}';
-            this.dataObj.host = response.data.host;
-            console.log("响应的数据",this.dataObj);
+          policy(this.dataOSS.dir).then(response => {
+            this.dataOSS.policy = response.data.policy;
+            this.dataOSS.signature = response.data.signature;
+            this.dataOSS.ossaccessKeyId = response.data.accessid;
+            this.dataOSS.key = this.dataOSS.dir + getUUID() + '_${filename}';
+            this.dataOSS.host = response.data.host;
+            console.log("响应的数据",this.dataOSS);
             resolve(true)
           }).catch(err => {
             reject(false)
@@ -101,7 +101,7 @@
         console.log("上传成功...")
         this.showFileList = true;
         this.fileList.pop();
-        this.fileList.push({name: file.name, url: this.dataObj.host + '/' + this.dataObj.key.replace("${filename}",file.name) });
+        this.fileList.push({name: file.name, url: this.dataOSS.host + '/' + this.dataOSS.key.replace("${filename}",file.name) });
         this.emitInput(this.fileList[0].url);
       },
       // 弹窗关闭时
