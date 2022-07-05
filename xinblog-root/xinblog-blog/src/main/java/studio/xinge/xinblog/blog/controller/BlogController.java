@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import studio.xinge.xinblog.blog.config.BlogThreadPool;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.blog.service.IndexService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
@@ -43,7 +44,7 @@ public class BlogController {
     private BlogService blogService;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private IndexService indexService;
 
     @Autowired
     private MyHashOperations myHashOperations;
@@ -61,7 +62,7 @@ public class BlogController {
     private int updateThreshold;
 
     /**
-     * 列表
+     * 分页查询
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
@@ -283,7 +284,32 @@ public class BlogController {
      * @Date 2022/7/4
      */
     @RequestMapping("/indexData")
-    public R indexData() {
-        return null;
+    public R indexData(int from, int to) {
+        List topList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "topList", "topList");
+        if (null == topList) {
+//          缓存不存在时,手动触发
+            indexService.getData();
+            topList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "topList", "topList");
+        }
+        List<BlogEntity> newestList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "newestList", "newestList");
+        List<BlogEntity> hotList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "hotList", "hotList");
+
+        HashMap<String, Object> indexData = new HashMap<>();
+        indexData.put("topList", getSubList(topList, from, to));
+        indexData.put("newestList", getSubList(newestList, from, to));
+        indexData.put("hotList", getSubList(hotList, from, to));
+        return R.ok().put("indexData", indexData);
+    }
+
+    private List<BlogEntity> getSubList(List list, int from, int to) {
+        if (from > list.size() || to > list.size() || from > to) {
+            from = 0;
+            if (list.size() < 3) {
+                to = list.size();
+            } else {
+                to = 3;
+            }
+        }
+        return list.subList(from, to);
     }
 }
