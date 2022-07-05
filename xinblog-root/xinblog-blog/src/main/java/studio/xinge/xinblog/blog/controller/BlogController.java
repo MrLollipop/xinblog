@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import studio.xinge.xinblog.blog.config.BlogThreadPool;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
@@ -50,8 +51,14 @@ public class BlogController {
     @Autowired
     private RedissonClient redissonClient;
 
+    @Autowired
+    private BlogThreadPool pool;
+
     @Value("${blog.cache.ttl.hours}")
     private int blogCacheTTLHours;
+
+    @Value("${cache.update.threshold}")
+    private int updateThreshold;
 
     /**
      * 列表
@@ -131,7 +138,7 @@ public class BlogController {
                 if (null != blog) {
                     updateViewNum(key, id, blog);
                 } else {
-//                    对不存在的值做处理
+//                    第一次查询，对不存在的值做处理
                     myHashOperations.setHash(key, id, Constant.BLOG_NOT_EXIST, blogCacheTTLHours, TimeUnit.HOURS);
                     return R.error(ReturnCode.BLOG_NOT_EXIST);
                 }
@@ -148,11 +155,30 @@ public class BlogController {
         return R.ok().put("blog", blog);
     }
 
+    /**
+     * 更新访问量
+     * 1.cache实时更新
+     * 2.DB，积累到阈值，异步线程池中去更新
+     *
+     * @param key
+     * @param hashkey
+     * @param entity
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/5
+     */
     private void updateViewNum(String key, String hashkey, BlogEntity entity) {
         Integer viewNum = entity.getViewNum();
         viewNum++;
         entity.setViewNum(viewNum);
         myHashOperations.setHash(key, hashkey, entity, blogCacheTTLHours, TimeUnit.HOURS);
+//        积累到阈值，提交异步任务更新
+        Integer finalViewNum = viewNum;
+        if (finalViewNum % updateThreshold == 0) {
+            pool.getPool().submit(() -> {
+                blogService.updateById(entity);
+            });
+        }
     }
 
     /**
