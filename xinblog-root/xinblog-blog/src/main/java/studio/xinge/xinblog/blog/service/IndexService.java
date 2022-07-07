@@ -43,19 +43,13 @@ public class IndexService {
         List<BlogEntity> normalList = blogService.list(new QueryWrapper<BlogEntity>().eq("status", Constant.BlogStatus.NORMAL.getValue()));
 
 //             * 1.置顶，top字段筛选、id逆序排序
-        List<BlogEntity> topList = normalList.stream().filter((blog) -> {
-            return blog.getTop();
-        }).sorted(Comparator.comparingLong(BlogEntity::getId).reversed()).collect(Collectors.toList());
+        List<BlogEntity> topList = normalList.stream().filter((blog) -> blog.getTop()).sorted(Comparator.comparingLong(BlogEntity::getId).reversed()).collect(Collectors.toList());
 
 //             * 2.最新，非置顶、update_time逆序排序
-        List<BlogEntity> newestList = normalList.stream().filter((blog) -> {
-            return !blog.getTop();
-        }).sorted(Comparator.comparing(BlogEntity::getUpdateTime).reversed()).collect(Collectors.toList());
+        List<BlogEntity> newestList = normalList.stream().filter((blog) -> !blog.getTop()).sorted(Comparator.comparing(BlogEntity::getUpdateTime).reversed()).collect(Collectors.toList());
 
 //             * 3.热门，非置顶、view_num逆序排序
-        List<BlogEntity> hotList = normalList.stream().filter((blog) -> {
-            return !blog.getTop();
-        }).sorted(Comparator.comparingInt(BlogEntity::getViewNum).reversed()).collect(Collectors.toList());
+        List<BlogEntity> hotList = normalList.stream().filter((blog) -> !blog.getTop()).sorted(Comparator.comparingInt(BlogEntity::getViewNum).reversed()).collect(Collectors.toList());
 
         myHashOperations.setHash(Constant.BLOG_INDEX_CACHE + "topList", "topList", topList, 30, TimeUnit.MINUTES);
         myHashOperations.setHash(Constant.BLOG_INDEX_CACHE + "newestList", "newestList", newestList, 30, TimeUnit.MINUTES);
