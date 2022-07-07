@@ -43,10 +43,7 @@ public class BlogEntity implements Serializable {
      */
     @NotBlank(message = "博客标题不可为空", groups = Add.class)
     private String title;
-    /**
-     *
-     */
-    private String content;
+
     /**
      *
      */

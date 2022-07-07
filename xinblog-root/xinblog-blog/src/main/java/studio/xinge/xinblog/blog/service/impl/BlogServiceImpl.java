@@ -31,7 +31,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
         QueryWrapper<BlogEntity> wrapper = new QueryWrapper<>();
 
         String title = Convert.toStr(params.get("title"));
-        String content = Convert.toStr(params.get("content"));
         Integer status = Convert.toInt(params.get("status"));
         Object startDate = params.get("startDate");
         Object endDate = params.get("endDate");
@@ -39,9 +38,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
 
         if (StrUtil.isNotBlank(title)) {
             wrapper.eq("title", title);
-        }
-        if (StrUtil.isNotBlank(content)) {
-            wrapper.like("content", content);
         }
         if (null != status) {
             wrapper.eq("status", status);
