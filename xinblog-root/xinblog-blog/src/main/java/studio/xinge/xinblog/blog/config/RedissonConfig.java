@@ -33,7 +33,7 @@ public class RedissonConfig {
         SingleServerConfig singleServer = config.useSingleServer();
         singleServer.setAddress(singleConfig.getAddress());
         singleServer.setDatabase(singleConfig.getDatabase());
-//            singleServer.setPassword("123456");
+        singleServer.setPassword(singleConfig.getPassword());
         singleServer.setConnectionMinimumIdleSize(singleConfig.getConnectionMinimumIdleSize());
         singleServer.setConnectionPoolSize(singleConfig.getConnectionPoolSize());
         singleServer.setIdleConnectionTimeout(singleConfig.getIdleConnectionTimeout());
