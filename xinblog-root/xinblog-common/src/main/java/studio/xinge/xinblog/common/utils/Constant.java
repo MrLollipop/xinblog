@@ -106,6 +106,31 @@ public class Constant {
         }
     }
 
+    public enum BlogStatus {
+        /**
+         * 正常
+         */
+        NORMAL(1),
+        /**
+         * 草稿
+         */
+        DRAFT(2),
+        /**
+         * 删除
+         */
+        PAUSE(0);
+
+        private int value;
+
+        BlogStatus(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     /**
      * 云服务商
      */
@@ -151,5 +176,7 @@ public class Constant {
     public static final String BLOG_LOCK = "blog_lock_";
     //  查询不存在的Blog
     public static final String BLOG_NOT_EXIST = "Blog_Not_Exist";
+    //    首页缓存
+    public static final String BLOG_INDEX_CACHE = "blog_index_cache_";
 
 }
