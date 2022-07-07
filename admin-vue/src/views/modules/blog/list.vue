@@ -51,10 +51,6 @@
         <el-input v-model="search.title" placeholder="搜索标题"></el-input>
       </el-form-item>
 
-      <el-form-item label="内容">
-        <el-input v-model="search.content" placeholder="搜索内容"></el-input>
-      </el-form-item>
-
       <el-form-item label="状态">
         <el-select clearable v-model="search.status" placeholder="选择状态">
           <el-option label="正常" value="1"></el-option>
@@ -214,7 +210,6 @@ export default {
       addOrUpdateVisible: false,
       search: {
         title: "",
-        content: "",
         status: "1",
         queryDate: "",
         startDate: "",
@@ -282,7 +277,6 @@ export default {
           page: this.pageIndex,
           limit: this.pageSize,
           title: this.search.title,
-          content: this.search.content,
           status: this.search.status,
           startDate:
             null != this.search.queryDate ? this.search.queryDate[0] : "",
