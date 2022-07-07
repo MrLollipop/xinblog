@@ -32,7 +32,7 @@ public class IndexCacheUpdateTask {
     @Autowired
     private IndexService indexService;
 
-    @Scheduled(cron = "0 */10 * * * ? ")
+    @Scheduled(cron = "0 0/10 * * * ? ")
     public void trigger() throws InterruptedException {
         RLock lock = redissonClient.getLock("indexCacheUpdateTask");
         boolean tryLock = lock.tryLock(2, 1000, TimeUnit.MILLISECONDS);
