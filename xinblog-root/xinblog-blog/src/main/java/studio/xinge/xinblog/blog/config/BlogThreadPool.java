@@ -2,6 +2,8 @@ package studio.xinge.xinblog.blog.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.*;
@@ -12,7 +14,7 @@ import java.util.concurrent.*;
  * @Date 2022/7/5
  * @Description
  */
-@Component
+@Configuration
 public class BlogThreadPool {
 
     private int cpuNum = Runtime.getRuntime().availableProcessors();
@@ -20,12 +22,8 @@ public class BlogThreadPool {
     @Value("${pool.queue.size}")
     private int queueSize;
 
-    private ExecutorService executorService;
-
-    public ExecutorService getPool() {
-        if (null == executorService) {
-            executorService = new ThreadPoolExecutor(cpuNum, cpuNum * 2, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(queueSize), new ThreadPoolExecutor.CallerRunsPolicy());
-        }
-        return executorService;
+    @Bean
+    public ExecutorService blogThreadPool() {
+        return new ThreadPoolExecutor(cpuNum, cpuNum * 2, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(queueSize), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 }

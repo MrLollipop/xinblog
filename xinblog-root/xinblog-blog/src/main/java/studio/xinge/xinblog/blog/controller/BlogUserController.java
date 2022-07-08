@@ -10,7 +10,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import studio.xinge.xinblog.blog.config.BlogThreadPool;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.IndexService;
@@ -21,6 +20,7 @@ import studio.xinge.xinblog.common.utils.ReturnCode;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -52,7 +52,7 @@ public class BlogUserController {
     private IndexService indexService;
 
     @Autowired
-    private BlogThreadPool pool;
+    private ExecutorService blogThreadPool;
 
     @Value("${blog.cache.ttl.hours}")
     private int blogCacheTTLHours;
@@ -155,7 +155,7 @@ public class BlogUserController {
 //        积累到阈值，提交异步任务更新
         Integer finalViewNum = viewNum;
         if (finalViewNum % updateThreshold == 0) {
-            pool.getPool().submit(() -> {
+            blogThreadPool.submit(() -> {
                 blogService.updateById(entity);
             });
         }
