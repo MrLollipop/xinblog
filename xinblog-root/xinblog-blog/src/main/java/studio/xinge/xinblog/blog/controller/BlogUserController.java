@@ -198,7 +198,7 @@ public class BlogUserController {
     }
 
     private List<BlogEntity> getSubList(List list, int from, int to) {
-        if (from > list.size() - 1 || to > list.size() - 1 || from > to) {
+        if (from > list.size() - 1 || to > list.size() || from >= to) {
             from = 0;
             if (list.size() < 3) {
                 to = list.size();
