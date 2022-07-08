@@ -94,7 +94,7 @@ public class BlogUserController {
                 return cache2;
             }
 //                状态正常筛选
-            blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("status", Constant.BlogStatus.NORMAL.getValue()).eq("id", id));
+            blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", id).eq("status", Constant.BlogStatus.NORMAL.getValue()));
             if (null != blog) {
                 updateViewNum(key, id, blog);
             } else {
