@@ -32,13 +32,6 @@
       <el-form-item label="Markdown" prop="markdownAddr">
         <single-upload-md v-model="dataForm.markdownAddr"></single-upload-md>
       </el-form-item>
-      <el-form-item label="博客内容" prop="content">
-        <el-input
-          v-model="dataForm.content"
-          placeholder="输入内容"
-          :disabled="act === 'show'"
-        ></el-input>
-      </el-form-item>
       <el-form-item label="状态" size="mini" prop="status">
         <el-radio-group v-model="dataForm.status" :disabled="act === 'show'">
           <el-radio :label="0">禁用</el-radio>
@@ -175,7 +168,6 @@ export default {
         subTitle: "",
         cover: "",
         markdownAddr: "",
-        content: "",
         status: 1,
         createTime: "",
         updateTime: "",
@@ -225,7 +217,6 @@ export default {
             this.dataForm.subTitle = data.blog.subTitle;
             this.dataForm.cover = data.blog.cover;
             this.dataForm.markdownAddr = data.blog.markdownAddr;
-            this.dataForm.content = data.blog.content;
             this.dataForm.status = data.blog.status;
             this.dataForm.createTime = data.blog.createTime;
             this.dataForm.updateTime = data.blog.updateTime;
@@ -268,7 +259,6 @@ export default {
               subTitle: this.dataForm.subTitle,
               cover: this.dataForm.cover,
               markdownAddr: this.dataForm.markdownAddr,
-              content: this.dataForm.content,
               status: this.dataForm.status,
               //createTime: this.dataForm.createTime,
               //updateTime: this.dataForm.updateTime,
