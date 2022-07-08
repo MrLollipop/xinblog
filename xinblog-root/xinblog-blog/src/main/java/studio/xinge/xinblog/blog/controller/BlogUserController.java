@@ -78,7 +78,10 @@ public class BlogUserController {
     public R view(@PathVariable("id") String id) throws InterruptedException {
         String key = Constant.BLOG_KEY + id;
         String lockName = Constant.BLOG_LOCK + id;
-        checkCacheExist(key, id);
+        R cache = checkCacheExist(key, id);
+        if (null != cache) {
+            return cache;
+        }
 //      缓存不存在，查DB，更新缓存；
 //      分布式锁，没锁线程自旋等待其他线程释放；
         RLock lock = redissonClient.getLock(lockName);
@@ -86,8 +89,11 @@ public class BlogUserController {
         try {
             lock.lock(1000, TimeUnit.MILLISECONDS);
 //                高并发下，再次判断缓存是否存在
-            checkCacheExist(key, id);
-//                todo 状态正常筛选
+            R cache2 = checkCacheExist(key, id);
+            if (null != cache2) {
+                return cache2;
+            }
+//                状态正常筛选
             blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("status", Constant.BlogStatus.NORMAL.getValue()).eq("id", id));
             if (null != blog) {
                 updateViewNum(key, id, blog);
@@ -148,7 +154,7 @@ public class BlogUserController {
      * @Date 2022/7/5
      */
     private void updateViewNum(String key, String hashkey, BlogEntity entity) {
-        Integer viewNum = entity.getViewNum();
+        Integer viewNum = entity.getViewNum() == null ? 0 : entity.getViewNum();
         viewNum++;
         entity.setViewNum(viewNum);
         myHashOperations.setHash(key, hashkey, entity, blogCacheTTLHours, TimeUnit.HOURS);

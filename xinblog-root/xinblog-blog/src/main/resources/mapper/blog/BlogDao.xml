@@ -7,7 +7,6 @@
     <resultMap type="studio.xinge.xinblog.blog.entity.BlogEntity" id="blogMap">
         <result property="id" column="id"/>
         <result property="title" column="title"/>
-        <result property="content" column="content"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
