@@ -87,7 +87,7 @@ public class BlogUserController {
         RLock lock = redissonClient.getLock(lockName);
         BlogEntity blog = null;
         try {
-            lock.lock(1000, TimeUnit.MILLISECONDS);
+            lock.lock(200, TimeUnit.MILLISECONDS);
 //                高并发下，再次判断缓存是否存在
             R cache2 = checkCacheExist(key, id);
             if (null != cache2) {
