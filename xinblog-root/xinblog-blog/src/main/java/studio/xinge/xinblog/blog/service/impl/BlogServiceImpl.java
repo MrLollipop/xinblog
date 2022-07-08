@@ -13,7 +13,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import org.apache.dubbo.config.annotation.Service;
+//import org.apache.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 import studio.xinge.xinblog.blog.dao.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
