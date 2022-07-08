@@ -52,7 +52,7 @@ public class BlogUserController {
     private IndexService indexService;
 
     @Autowired
-    private ExecutorService blogThreadPool;
+    private ExecutorService threadPool;
 
     @Value("${blog.cache.ttl.hours}")
     private int blogCacheTTLHours;
@@ -155,7 +155,7 @@ public class BlogUserController {
 //        积累到阈值，提交异步任务更新
         Integer finalViewNum = viewNum;
         if (finalViewNum % updateThreshold == 0) {
-            blogThreadPool.submit(() -> {
+            threadPool.submit(() -> {
                 blogService.updateById(entity);
             });
         }

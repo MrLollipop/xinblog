@@ -23,7 +23,7 @@ public class BlogThreadPool {
     private int queueSize;
 
     @Bean
-    public ExecutorService blogThreadPool() {
+    public ExecutorService threadPool() {
         return new ThreadPoolExecutor(cpuNum, cpuNum * 2, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(queueSize), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 }
