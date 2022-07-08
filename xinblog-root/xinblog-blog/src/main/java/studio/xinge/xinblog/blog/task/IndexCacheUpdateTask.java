@@ -43,6 +43,7 @@ public class IndexCacheUpdateTask {
         } finally {
             if (tryLock) {
                 lock.unlock();
+                log.info("[{}]服务释放锁", port);
             } else {
                 log.info("[{}]服务不做这次任务", port);
             }
