@@ -20,6 +20,7 @@
         <module>xinblog-auth</module>
         <module>xinblog-abc</module>
         <module>xinge-generator</module>
+        <module>xinblog-common-api</module>
     </modules>
     <packaging>pom</packaging>
 
