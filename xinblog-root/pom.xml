@@ -18,7 +18,6 @@
         <module>xinblog-gateway</module>
         <module>xinblog-thirdparty</module>
         <module>xinblog-auth</module>
-        <module>xinblog-abc</module>
         <module>xinge-generator</module>
         <module>xinblog-common-api</module>
     </modules>
