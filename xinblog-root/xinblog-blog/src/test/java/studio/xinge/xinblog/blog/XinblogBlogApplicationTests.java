@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.blog.service.IndexService;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 
@@ -20,6 +21,9 @@ class XinblogBlogApplicationTests {
     @Autowired
     BlogService blogService;
 
+    @Autowired
+    IndexService indexService;
+
     @Test
     void contextLoads() {
     }
@@ -28,7 +32,6 @@ class XinblogBlogApplicationTests {
     void save(){
         BlogEntity blogEntity = new BlogEntity();
         blogEntity.setTitle("第n篇博客");
-        blogEntity.setContent("内容内容XXXXdsddfasdf");
         blogEntity.setStatus(new int[]{0,1,2}[RandomUtil.randomInt(0,3)]);
         Date date = new Date();
         blogEntity.setCreateTime(date);
@@ -36,7 +39,7 @@ class XinblogBlogApplicationTests {
         blogEntity.setLikeNum(RandomUtil.randomInt(1,200));
         blogEntity.setForwardNum(RandomUtil.randomInt(1,200));
         blogEntity.setCollectNum(RandomUtil.randomInt(1,200));
-        blogEntity.setIsTop(false);
+        blogEntity.setTop(false);
 
         blogService.save(blogEntity);
     }
@@ -50,7 +53,6 @@ class XinblogBlogApplicationTests {
         for (int i = 0; i < 1000; i++) {
             BlogEntity blogEntity = new BlogEntity();
             blogEntity.setTitle(String.format("第%d篇博客", i));
-            blogEntity.setContent(String.format("这里记录%d篇博客", i));
             blogEntity.setStatus(new int[]{0,1,2}[RandomUtil.randomInt(0,3)]);
             Date date = new Date();
             blogEntity.setCreateTime(date);
@@ -58,7 +60,7 @@ class XinblogBlogApplicationTests {
             blogEntity.setLikeNum(RandomUtil.randomInt(1,200));
             blogEntity.setForwardNum(RandomUtil.randomInt(1,200));
             blogEntity.setCollectNum(RandomUtil.randomInt(1,200));
-            blogEntity.setIsTop(false);
+            blogEntity.setTop(false);
             list.add(blogEntity);
         }
 
@@ -76,5 +78,10 @@ class XinblogBlogApplicationTests {
 
         PageUtils pageUtils = blogService.queryPage(conditions);
         System.out.println(pageUtils.getList());
+    }
+
+    @Test
+    void indexData() {
+        indexService.getData();
     }
 }

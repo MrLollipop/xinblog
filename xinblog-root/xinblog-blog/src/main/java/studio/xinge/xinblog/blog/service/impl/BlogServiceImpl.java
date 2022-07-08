@@ -23,7 +23,7 @@ import studio.xinge.xinblog.common.utils.Query;
 import studio.xinge.xinblog.common.utils.R;
 
 @Service
-public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements ApiBlogService, BlogService {
+public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements BlogService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
