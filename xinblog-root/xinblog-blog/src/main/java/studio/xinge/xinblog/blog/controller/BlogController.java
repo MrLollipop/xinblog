@@ -116,8 +116,8 @@ public class BlogController {
                 entity.setStatus(Constant.BlogStatus.DELETE.getValue());
                 entity.setUpdateTime(new Date());
                 blogEntities.add(entity);
+                myHashOperations.delete(Constant.BLOG_KEY + entity.getId(), entity.getId().toString());
             }
-            myHashOperations.delete(Constant.BLOG_KEY + entity.getId(), entity.getId().toString());
         }
         result = blogService.updateBatchById(blogEntities, 1000);
 
