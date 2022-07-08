@@ -17,7 +17,6 @@ import org.apache.dubbo.config.annotation.Service;
 import studio.xinge.xinblog.blog.dao.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
-import studio.xinge.xinblog.common.api.ApiBlogService;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
 import studio.xinge.xinblog.common.utils.R;
