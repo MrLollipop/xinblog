@@ -29,7 +29,9 @@ public class RedissonConfig {
     public RedissonClient redissonClient() {
         Config config = new Config();
         config.setTransportMode(TransportMode.NIO);
+//        默认值: 当前处理核数量 * 2
 //        config.setThreads(0);
+//        默认值: 当前处理核数量 * 2
 //        config.setNettyThreads(0);
         config.setCodec(new JsonJacksonCodec());
 
@@ -44,12 +46,14 @@ public class RedissonConfig {
         singleServer.setTimeout(singleConfig.getTimeout());
         singleServer.setRetryAttempts(singleConfig.getRetryAttempts());
         singleServer.setRetryInterval(singleConfig.getRetryInterval());
+        singleServer.setPingConnectionInterval(singleConfig.getPingConnectionInterval());
 
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
     }
 
 }
+
 @Component
 @ConfigurationProperties("single")
 @Data
@@ -72,6 +76,8 @@ class SingleConfig {
     private int retryAttempts;
     //    命令重试间隔 毫秒
     private int retryInterval;
+    //    心跳间隔
+    private int pingConnectionInterval;
 
 }
 
