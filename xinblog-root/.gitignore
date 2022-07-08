@@ -14,5 +14,5 @@
 **/mvnw
 **/mvnw.cmd
 **/target
-../db/*.pdb
-../db/*.pdm
+**/*.pdb
+db/*.pdm
