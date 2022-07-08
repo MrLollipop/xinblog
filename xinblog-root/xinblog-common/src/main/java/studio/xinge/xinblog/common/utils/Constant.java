@@ -40,13 +40,6 @@ public class Constant {
     public static final String ASC = "asc";
 
     /**
-     * @Author xinge
-     * @Description 删除状态
-     * @Date 2021/9/21
-     */
-    public static final Integer DELETED_STATUS = 0;
-
-    /**
      * 菜单类型
      *
      * @author chenshun
@@ -118,7 +111,7 @@ public class Constant {
         /**
          * 删除
          */
-        PAUSE(0);
+        DELETE(0);
 
         private int value;
 
