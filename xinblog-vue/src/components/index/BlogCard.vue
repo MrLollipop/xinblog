@@ -16,12 +16,14 @@
 
 <script>
 import Tag from "./Tag.vue";
+import { formatDate } from '@/utils';
+
 export default {
   data() {
     return {
       title: this.blogEntity.title,
       viewNum: this.blogEntity.viewNum,
-      updateTime: this.blogEntity.updateTime,
+      updateTime: formatDate(this.blogEntity.updateTime),
       cover: this.blogEntity.cover,
     };
   },

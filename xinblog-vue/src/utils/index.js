@@ -5,7 +5,7 @@ import router from '@/router'
 /**
  * 获取uuid
  */
-export function getUUID () {
+export function getUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16)
   })
@@ -15,7 +15,7 @@ export function getUUID () {
  * 是否有权限
  * @param {*} key
  */
-export function isAuth (key) {
+export function isAuth(key) {
   return JSON.parse(sessionStorage.getItem('permissions') || '[]').indexOf(key) !== -1 || false
 }
 
@@ -25,7 +25,7 @@ export function isAuth (key) {
  * @param {*} id
  * @param {*} pid
  */
-export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
+export function treeDataTranslate(data, id = 'id', pid = 'parentId') {
   var res = []
   var temp = {}
   for (var i = 0; i < data.length; i++) {
@@ -56,3 +56,29 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
 //   store.commit('resetStore')
 //   router.options.isAddDynamicMenuRoutes = false
 // }
+
+/**
+ * 时间格式化工具
+ * @param {Date toString 字符串} timeStr 
+ * @returns 
+ */
+export function formatDate(timeStr) {
+  // 获取单元格数据
+  if (timeStr == null) {
+    return null;
+  }
+  let dt = new Date(timeStr);
+  return (
+    dt.getFullYear() +
+    "-" +
+    (dt.getMonth() + 1) +
+    "-" +
+    dt.getDate() +
+    " " +
+    dt.getHours() +
+    ":" +
+    dt.getMinutes() +
+    ":" +
+    dt.getSeconds()
+  );
+}
