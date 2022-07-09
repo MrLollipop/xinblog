@@ -101,8 +101,10 @@
         console.log("上传成功...")
         this.showFileList = true;
         this.fileList.pop();
-        this.fileList.push({name: file.name, url: this.dataOSS.host + '/' + this.dataOSS.key.replace("${filename}",file.name) });
-        this.emitInput(this.fileList[0].url);
+        let filePath = this.dataOSS.key.replace("${filename}",file.name);
+        this.fileList.push({name: file.name, url: this.dataOSS.host + '/' + filePath });
+        // this.emitInput(this.fileList[0].url);
+        this.emitInput(filePath);
       },
       // 弹窗关闭时
       closeHandle () {

@@ -42,10 +42,12 @@ export default {
       });
     },
     getMarkdown() {
-      console.log(this.markdownAddr.substr(47, this.markdownAddr.length));
+      // console.log(this.markdownAddr.substr(47, this.markdownAddr.length));
+      console.log(this.markdownAddr);
       this.$http({
         url: this.$http.adornUrlByProxy(
-          this.markdownAddr.substr(47, this.markdownAddr.length),
+          // this.markdownAddr.substr(47, this.markdownAddr.length),
+          this.markdownAddr,
           "/proxyOssApi/"
         ),
         method: "get",
