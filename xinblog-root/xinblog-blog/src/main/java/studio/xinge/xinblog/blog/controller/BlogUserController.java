@@ -14,6 +14,7 @@ import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.IndexService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
+import studio.xinge.xinblog.blog.vo.BlogListVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
@@ -197,16 +198,59 @@ public class BlogUserController {
         return R.ok().put("indexData", indexData);
     }
 
-    private List<BlogEntity> getSubList(List list, int from, int to) {
+    /**
+     * 截取每页显示的list
+     * 1.每页展示3个
+     * 2.超出下标，返回最末3个
+     *
+     * @param list
+     * @param from
+     * @param to
+     * @return BlogListVO
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/9
+     */
+    private BlogListVO getSubList(List list, int from, int to) {
         if (from > list.size() - 1 || to > list.size() || from >= to) {
-            from = 0;
-            if (list.size() < 3) {
-                to = list.size();
-            } else {
-                to = 3;
-            }
+            from = (list.size() - 3) < 0 ? 0 : list.size() - 3;
+            to = list.size();
         }
-        return list.subList(from, to);
+        return new BlogListVO(list.subList(from, to), from);
+    }
+
+    /**
+     * 最新列表
+     *
+     * @param from
+     * @param to
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/9
+     */
+    @RequestMapping("/newestList")
+    public R newestList(int from, int to) {
+        List<BlogEntity> newestList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "newestList", "newestList");
+
+        return R.ok().put("newestList", getSubList(newestList, from, to));
+    }
+
+    /**
+     * 热门列表
+     *
+     * @param from
+     * @param to
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/9
+     */
+    @RequestMapping("/hotList")
+    public R hotList(int from, int to) {
+        List<BlogEntity> hotList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "hotList", "hotList");
+
+        return R.ok().put("hotList", getSubList(hotList, from, to));
     }
 
 }
