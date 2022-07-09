@@ -60,7 +60,7 @@
           signature: '',
           key: '',
           ossaccessKeyId: '',
-          dir: 'blog-clover/',
+          dir: 'blog-cover/',
           host: '',
           // callback:'',
         },
