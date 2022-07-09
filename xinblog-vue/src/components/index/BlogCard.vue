@@ -1,16 +1,11 @@
 <template>
   <div>
     <el-card :body-style="{ padding: '0px' }" class="card" shadow="hover">
-      <img
-        src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg"
-        class="cardImage"
-      />
+      <img :src="cover" class="cardImage" />
       <div class="title">
         <h1>{{ title }}</h1>
         <tag></tag>
-        <span id="times"
-          ><i class="el-icon-reading"></i> {{ times }} 次</span
-        >
+        <span id="times"><i class="el-icon-reading"></i> {{ viewNum }} 次</span>
         <span id="updateTime"
           ><i class="el-icon-date"></i> {{ updateTime }}</span
         >
@@ -25,12 +20,13 @@ export default {
   data() {
     return {
       title: this.blogEntity.title,
-      times: this.blogEntity.times,
+      viewNum: this.blogEntity.viewNum,
       updateTime: this.blogEntity.updateTime,
+      cover: this.blogEntity.cover,
     };
   },
   components: { Tag },
-  props: ['blogEntity'],
+  props: ["blogEntity"],
   // mounted() {
   //   console.log(this.blogEntity); //父组件传递过来的数据
   // },

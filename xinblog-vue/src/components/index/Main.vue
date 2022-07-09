@@ -3,7 +3,7 @@
   <div>
     <!-- 置顶内容 -->
     <el-row type="flex" justify="center">
-      <el-col :sm="24" :lg="20"><carousel></carousel></el-col>
+      <el-col :sm="24" :lg="20"><carousel :topList=topList></carousel></el-col>
     </el-row>
 
     <!-- 最新发布 -->
@@ -12,9 +12,9 @@
     </div>
     <el-divider></el-divider>
     <el-row :gutter="60">
-      <el-col :span="8" v-for="o in 3" :key="o">
-        <router-link :to="{ path: 'detail', query: { blogId: 'aaa' } }">
-          <blog-card :blogEntity=blogEntity></blog-card>
+      <el-col :span="8" v-for="item in newestList" :key="item.id">
+        <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
+          <blog-card :blogEntity=item></blog-card>
         </router-link>
       </el-col>
     </el-row>
@@ -25,9 +25,9 @@
     </div>
     <el-divider></el-divider>
     <el-row :gutter="60">
-      <el-col :span="8" v-for="o in 3" :key="o">
-        <router-link :to="{ path: 'detail', query: { blogId: 'aaa' } }">
-          <blog-card :blogEntity=blogEntity></blog-card>
+      <el-col :span="8" v-for="item in hotList" :key="item.id">
+        <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
+          <blog-card :blogEntity=item></blog-card>
         </router-link>
       </el-col>
     </el-row>
@@ -47,6 +47,9 @@ export default {
         times: "5000",
         updateTime: "06-30",
       },
+      topList: [],
+      newestList: [],
+      hotList: [],
     };
   },
   components: {
@@ -55,6 +58,32 @@ export default {
   },
   mounted() {
     this.$emit("bannerTitle", ["欣 哥 工 作 室", "为程序员创造价值"]);
+    this.getIndexData();
+  },
+  methods: {
+    // 获取首页数据列表
+    getIndexData() {
+      // this.dataListLoading = true;
+      this.$http({
+        url: this.$http.adornUrl("api/blogUser/indexData"),
+        method: "get",
+        params: this.$http.adornParams({
+          from: 0,
+          to: 3,
+        }),
+      }).then(({ data }) => {
+        console.log(data);
+        if (data.code === 10000) {
+          this.topList = data.indexData.topList;
+          this.newestList = data.indexData.newestList;
+          this.hotList = data.indexData.hotList;
+        } else {
+          // this.dataList = [];
+
+        }
+        // this.dataListLoading = false;
+      });
+    },
   },
 };
 </script>

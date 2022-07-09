@@ -1,13 +1,10 @@
 <template>
   <div class="block">
     <el-carousel height="350px" type="card" :interval="4000">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <router-link to="detail">
+      <el-carousel-item v-for="item in topList" :key="item.id">
+        <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
           <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px">
-            <img
-              src="https://www.keaidian.com/uploads/allimg/190424/24110307_8.jpg"
-              class="carouselImage"
-            />
+            <img :src="item.cover" class="carouselImage" />
           </el-card>
         </router-link>
       </el-carousel-item>
@@ -16,7 +13,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  // data() {
+  //   return {
+
+  //   };
+  // },
+  props: ["topList"],
+};
 </script>
 
 

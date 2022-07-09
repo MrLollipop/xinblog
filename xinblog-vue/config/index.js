@@ -23,7 +23,7 @@ module.exports = {
         }
       },
       '/proxyApi': {
-        target: 'https://192.168.0.199:9001',
+        target: 'http://localhost:9001',
         secure: false,
         changeOrigin: true,
         pathRewrite: {
