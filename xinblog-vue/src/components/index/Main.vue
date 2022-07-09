@@ -9,6 +9,7 @@
     <!-- 最新发布 -->
     <div class="blogClass">
       <span><i class="el-icon-document"></i> 最新发布</span>
+      <el-button plain size="small" style="float:right" @click="getNewestList()">换一批</el-button>
     </div>
     <el-divider></el-divider>
     <el-row :gutter="60">
@@ -22,6 +23,7 @@
     <!-- 热门 -->
     <div class="blogClass">
       <span><i class="el-icon-document"></i> 热门</span>
+      <el-button plain size="small" style="float:right" @click="getHotList()">换一批</el-button>
     </div>
     <el-divider></el-divider>
     <el-row :gutter="60">
@@ -50,6 +52,8 @@ export default {
       topList: [],
       newestList: [],
       hotList: [],
+      newestListFrom: 0,
+      hotListFrom: 0,
     };
   },
   components: {
@@ -74,9 +78,61 @@ export default {
       }).then(({ data }) => {
         console.log(data);
         if (data.code === 10000) {
-          this.topList = data.indexData.topList;
-          this.newestList = data.indexData.newestList;
-          this.hotList = data.indexData.hotList;
+          this.topList = data.indexData.topList.list;
+          this.newestList = data.indexData.newestList.list;
+          this.hotList = data.indexData.hotList.list;
+        } else {
+          // this.dataList = [];
+
+        }
+        // this.dataListLoading = false;
+      });
+    },
+    // 获取最新博客列表
+    getNewestList(){
+      let from = this.newestListFrom + 3;
+      this.$http({
+        url: this.$http.adornUrl("api/blogUser/newestList"),
+        method: "get",
+        params: this.$http.adornParams({
+          'from': from,
+          'to': from + 3,
+        }),
+      }).then(({ data }) => {
+        console.log(data);
+        if (data.code === 10000) {
+          this.newestList = data.newestList.list;
+          if (data.newestList.from < from) {
+            this.newestListFrom = -3;
+          } else {
+            this.newestListFrom = data.newestList.from;
+          }
+        } else {
+          // this.dataList = [];
+
+        }
+        // this.dataListLoading = false;
+      });
+    },
+    // 获取最新博客列表
+    getHotList(){
+      let from = this.hotListFrom + 3;
+      this.$http({
+        url: this.$http.adornUrl("api/blogUser/hotList"),
+        method: "get",
+        params: this.$http.adornParams({
+          'from': from,
+          'to': from + 3,
+        }),
+      }).then(({ data }) => {
+        console.log(data);
+        if (data.code === 10000) {
+          this.hotList = data.hotList.list;
+          if (data.hotList.from < from) {
+            this.hotListFrom = -3;
+          } else {
+            this.hotListFrom = data.hotList.from;
+          }
         } else {
           // this.dataList = [];
 
