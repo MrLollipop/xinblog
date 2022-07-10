@@ -7,7 +7,8 @@
         <el-row type="flex" class="row" justify="space-around">
             <el-col :span="12"><span style="float:left">浏览量：{{ viewNum }}</span></el-col>
             <el-col :span="12"><span style="float:right">最后更新时间：{{ updateTime }}</span></el-col>
-        </el-row>    
+        </el-row>
+        <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <img class="headPic" :src="cover"/>
         <markdown :content="content"></markdown>
         <el-page-header class="back" @back="goBack" content="主页" />
@@ -31,6 +32,8 @@ export default {
       viewNum: "",
       cover: "",
       content: "",
+      noDataMsg: "",
+      noDataShow: false,
     };
   },
   mounted() {
@@ -55,7 +58,11 @@ export default {
           this.$emit("bannerTitle", [this.title, this.subTitle]);
 
           this.getMarkdown();
+        } else if (data.code == 11004) {
+          this.noDataMsg = data.msg;
+          this.noDataShow = true;
         } else {
+
         }
       });
     },
