@@ -28,6 +28,7 @@ CREATE TABLE `t_blog` (
   `view_num` int(11) DEFAULT '0',
   `markdown_addr` varchar(500) DEFAULT NULL COMMENT 'markdownµØÖ·',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `t_blog_UN` (`id`,`status`),
   KEY `t_blog_status_IDX` (`status`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='²©¿Í±í';
 
