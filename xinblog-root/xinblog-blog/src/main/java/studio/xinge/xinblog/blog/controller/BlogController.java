@@ -82,7 +82,7 @@ public class BlogController {
         blog.setCreateTime(date);
         blog.setUpdateTime(date);
 
-        if (blog.getTop() && !checkTopLimit()) {
+        if (blog.getTop() && !blogService.checkTopLimit()) {
             return R.error(ReturnCode.TOP_BOLG_LIMIT);
         }
 
@@ -101,7 +101,13 @@ public class BlogController {
         Date date = new Date();
         blog.setUpdateTime(date);
 
-        if (blog.getTop() && !checkTopLimit()) {
+        /*
+        如果原来不是置顶，现在修改为置顶，需要经过此判断
+        如果原来已经置顶，不要判断
+        */
+        BlogEntity oldBlog = blogService.getById(blog.getId());
+        Boolean top = oldBlog.getTop();
+        if (!top && blog.getTop() && !blogService.checkTopLimit()) {
             return R.error(ReturnCode.TOP_BOLG_LIMIT);
         }
 
