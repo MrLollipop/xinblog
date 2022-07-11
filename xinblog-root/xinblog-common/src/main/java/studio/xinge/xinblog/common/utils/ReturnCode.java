@@ -37,7 +37,8 @@ public enum ReturnCode {
     BATCHINSERT_ERROR(11001, "批量插入错误"),
     UPDATE_FAIL(11002, "批量更新失败"),
     DELETE_FAIL(11003, "批量删除失败"),
-    BLOG_NOT_EXIST(11004, "此博客不存在")
+    BLOG_NOT_EXIST(11004, "此博客不存在"),
+    TOP_BOLG_LIMIT(11005, "置顶博客数已达上限")
     ;
 
     private int code;

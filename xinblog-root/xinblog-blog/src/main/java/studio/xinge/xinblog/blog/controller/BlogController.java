@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +46,9 @@ public class BlogController {
     @Value("${blog.cache.ttl.hours}")
     private int blogCacheTTLHours;
 
+    @Value("${top.blog.limit}")
+    private int topBlogLimit;
+
     /**
      * 分页查询
      */
@@ -77,11 +81,33 @@ public class BlogController {
         Date date = new Date();
         blog.setCreateTime(date);
         blog.setUpdateTime(date);
+
+        if (blog.getTop() && !checkTopLimit()) {
+            return R.error(ReturnCode.TOP_BOLG_LIMIT);
+        }
+
         blogService.save(blog);
 
         myHashOperations.setHash(Constant.BLOG_KEY + blog.getId(), blog.getId().toString(), blog, blogCacheTTLHours, TimeUnit.HOURS);
 
         return R.ok();
+    }
+
+    /**
+     * 检查置顶博客是否已达上线
+     * 1.状态正常且为置顶的，数目不超过 topBlogLimit
+     *
+     * @return boolean
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/11
+     */
+    private boolean checkTopLimit() {
+        int count = blogService.count(new QueryWrapper<BlogEntity>().eq("status", Constant.BlogStatus.NORMAL.getValue()).eq("top", true));
+        if (count >= topBlogLimit) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -91,6 +117,11 @@ public class BlogController {
     public R update(@Validated(Update.class) @RequestBody BlogEntity blog) {
         Date date = new Date();
         blog.setUpdateTime(date);
+
+        if (blog.getTop() && !checkTopLimit()) {
+            return R.error(ReturnCode.TOP_BOLG_LIMIT);
+        }
+
         blogService.updateById(blog);
 
 //        删除缓存，被动触发更新
