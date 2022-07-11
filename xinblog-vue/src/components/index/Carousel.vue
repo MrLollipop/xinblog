@@ -30,8 +30,9 @@ export default {
   margin: 0;
 }
 .carouselImage {
-  height: 350px;
-  /* width: 444px; */
+  /* height: 336px; */
+  /* width: 597px; */
+  width: 100%;
   display: block;
 }
 .el-carousel__item h3 {
