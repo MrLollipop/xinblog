@@ -8,9 +8,6 @@ drop table if exists t_blog;
 
 drop table if exists t_blog_reply;
 
-/*==============================================================*/
-/* Table: t_blog                                                */
-/*==============================================================*/
 -- xinblog_blog.t_blog definition
 
 CREATE TABLE `t_blog` (
@@ -29,7 +26,8 @@ CREATE TABLE `t_blog` (
   `markdown_addr` varchar(500) DEFAULT NULL COMMENT 'markdownµØÖ·',
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_blog_UN` (`id`,`status`),
-  KEY `t_blog_status_IDX` (`status`) USING BTREE
+  KEY `t_blog_status_IDX` (`status`) USING BTREE,
+  KEY `t_blog_status_IDX2` (`status`,`top`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='²©¿Í±í';
 
 /*==============================================================*/
