@@ -94,23 +94,6 @@ public class BlogController {
     }
 
     /**
-     * 检查置顶博客是否已达上线
-     * 1.状态正常且为置顶的，数目不超过 topBlogLimit
-     *
-     * @return boolean
-     * @Author xinge
-     * @Description
-     * @Date 2022/7/11
-     */
-    private boolean checkTopLimit() {
-        int count = blogService.count(new QueryWrapper<BlogEntity>().eq("status", Constant.BlogStatus.NORMAL.getValue()).eq("top", true));
-        if (count >= topBlogLimit) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * 修改
      */
     @RequestMapping("/update")

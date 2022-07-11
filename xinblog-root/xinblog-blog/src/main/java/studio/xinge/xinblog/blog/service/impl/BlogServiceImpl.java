@@ -14,16 +14,21 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 //import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import studio.xinge.xinblog.blog.dao.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
 import studio.xinge.xinblog.common.utils.R;
 
 @Service
 public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements BlogService {
+
+    @Value("${top.blog.limit}")
+    private int topBlogLimit;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -62,6 +67,25 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
 
 
         return new PageUtils(page);
+    }
+
+    /**
+     * 检查置顶博客是否已达上线
+     * 1.状态正常且为置顶的，数目不超过 topBlogLimit
+     * 2.到达上限返回false，未到达返回true
+     *
+     * @return boolean
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/11
+     */
+    @Override
+    public boolean checkTopLimit() {
+        int count = this.count(new QueryWrapper<BlogEntity>().eq("status", Constant.BlogStatus.NORMAL.getValue()).eq("top", true));
+        if (count >= topBlogLimit) {
+            return false;
+        }
+        return true;
     }
 
 }
