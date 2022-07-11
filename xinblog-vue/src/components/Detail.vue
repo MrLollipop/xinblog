@@ -62,7 +62,7 @@ export default {
           this.noDataMsg = data.msg;
           this.noDataShow = true;
         } else {
-
+          this.$message.error(data.msg);
         }
       });
     },

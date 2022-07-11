@@ -78,12 +78,11 @@ export default {
       }).then(({ data }) => {
         console.log(data);
         if (data.code === 10000) {
-          this.topList = data.indexData.topList.list;
+          this.topList = data.indexData.topList;
           this.newestList = data.indexData.newestList.list;
           this.hotList = data.indexData.hotList.list;
         } else {
-          // this.dataList = [];
-
+          this.$message.error(data.msg);
         }
         // this.dataListLoading = false;
       });
