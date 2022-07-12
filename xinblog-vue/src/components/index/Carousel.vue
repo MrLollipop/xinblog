@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <el-carousel height="350px" type="card" :interval="4000">
+    <el-carousel :height="bannerHeight + 'px'" type="card" :interval="4000">
       <el-carousel-item v-for="item in topList" :key="item.id">
         <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
           <el-card :body-style="{ padding: '0px' }" style="border-radius: 15px">
@@ -14,12 +14,27 @@
 
 <script>
 export default {
-  // data() {
-  //   return {
-
-  //   };
-  // },
+  data() {
+    return {
+      bannerHeight: 350, //图片父容器的高度
+      screenWidth: 0, //屏幕的宽度
+    };
+  },
   props: ["topList"],
+  mounted() {
+    this.screenWidth = window.innerWidth;
+    this.setSize();
+    window.onresize = () => {
+      this.screenWidth = window.innerWidth;
+      this.setSize();
+    };
+  },
+  methods: {
+		setSize:function () {
+		   	// 通过屏幕宽度(图片宽度)计算高度
+			this.bannerHeight = 400 / 1920 * this.screenWidth;
+		},
+  },
 };
 </script>
 
