@@ -192,7 +192,8 @@ public class BlogUserController {
         List<BlogEntity> hotList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "hotList", "hotList");
 
         HashMap<String, Object> indexData = new HashMap<>();
-        indexData.put("topList", getSubList(topList, from, to));
+//        置顶博客数目已有阈值保护，故全部返回
+        indexData.put("topList", topList);
         indexData.put("newestList", getSubList(newestList, from, to));
         indexData.put("hotList", getSubList(hotList, from, to));
         return R.ok().put("indexData", indexData);
