@@ -69,7 +69,7 @@ export default {
     getIndexData() {
       // this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("api/blogUser/indexData"),
+        url: this.$http.adornUrl("api/blog/user/indexData"),
         method: "get",
         params: this.$http.adornParams({
           from: 0,
@@ -91,7 +91,7 @@ export default {
     getNewestList(){
       let from = this.newestListFrom + 3;
       this.$http({
-        url: this.$http.adornUrl("api/blogUser/newestList"),
+        url: this.$http.adornUrl("api/blog/user/newestList"),
         method: "get",
         params: this.$http.adornParams({
           'from': from,
@@ -113,11 +113,11 @@ export default {
         // this.dataListLoading = false;
       });
     },
-    // 获取最新博客列表
+    // 获取热门博客列表
     getHotList(){
       let from = this.hotListFrom + 3;
       this.$http({
-        url: this.$http.adornUrl("api/blogUser/hotList"),
+        url: this.$http.adornUrl("api/blog/user/hotList"),
         method: "get",
         params: this.$http.adornParams({
           'from': from,

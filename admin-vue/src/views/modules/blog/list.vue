@@ -271,7 +271,7 @@ export default {
     getBlogList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/api/blog/list"),
+        url: this.$http.adornUrl("/api/blog/blog/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -371,7 +371,7 @@ export default {
       )
         .then(() => {
           this.$http({
-            url: this.$http.adornUrl("/api/blog/delete"),
+            url: this.$http.adornUrl("/api/blog/blog/delete"),
             method: "post",
             data: this.$http.adornData(blogIds, false),
           }).then(({ data }) => {

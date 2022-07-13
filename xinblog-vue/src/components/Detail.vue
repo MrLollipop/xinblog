@@ -43,7 +43,7 @@ export default {
   methods: {
     getBlog() {
       this.$http({
-        url: this.$http.adornUrl("api/blogUser/view/" + this.blogId),
+        url: this.$http.adornUrl("api/blog/user/view/" + this.blogId),
         method: "get",
       }).then(({ data }) => {
         console.log(data);

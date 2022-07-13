@@ -208,7 +208,7 @@ export default {
       if (act != "new") {
         this.dataForm.id = id || 0;
         this.$http({
-          url: this.$http.adornUrl(`/api/blog/info/${this.dataForm.id}`),
+          url: this.$http.adornUrl(`/api/blog/blog/info/${this.dataForm.id}`),
           method: "get",
         }).then(({ data }) => {
           if (data && data.code === 10000) {
@@ -249,7 +249,7 @@ export default {
     dataFormSubmit() {
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
-          var url =  this.act == "new" ? '/api/blog/save' : '/api/blog/update';
+          var url =  this.act == "new" ? '/api/blog/blog/save' : '/api/blog/blog/update';
           this.$http({
             url: this.$http.adornUrl(url),
             method: "post",
