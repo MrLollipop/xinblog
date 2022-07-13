@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * @Description
  */
 @RestController
-@RequestMapping("blogUser")
+@RequestMapping("blog/user")
 @RefreshScope
 @Slf4j
 public class BlogUserController {

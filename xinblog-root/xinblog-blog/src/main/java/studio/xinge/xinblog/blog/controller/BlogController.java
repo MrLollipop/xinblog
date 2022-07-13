@@ -32,7 +32,7 @@ import studio.xinge.xinblog.common.valid.groups.Update;
  * @date 2021-07-19 14:43:52
  */
 @RestController
-@RequestMapping("blog")
+@RequestMapping("blog/blog")
 @RefreshScope
 @Slf4j
 public class BlogController {
