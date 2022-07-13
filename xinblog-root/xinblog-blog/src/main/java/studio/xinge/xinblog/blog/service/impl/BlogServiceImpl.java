@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,13 +15,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 //import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import studio.xinge.xinblog.blog.dao.BlogDao;
+import studio.xinge.xinblog.blog.mapper.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
-import studio.xinge.xinblog.common.utils.R;
 
 @Service
 public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements BlogService {

@@ -1,4 +1,4 @@
-package studio.xinge.xinblog.blog.dao;
+package studio.xinge.xinblog.blog.mapper;
 
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@MapperScan("studio.xinge.xinblog.blog.dao")
+@MapperScan("studio.xinge.xinblog.blog.mapper")
 @EnableDiscoveryClient
 @EnableScheduling
 //@EnableDubbo
