@@ -1,10 +1,11 @@
-package studio.xinge.xinblog.blog.entity;
+package studio.xinge.xinblog.blog.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -15,13 +16,11 @@ import lombok.EqualsAndHashCode;
  * @since 2022-07-13
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class TTag implements Serializable {
+public class TagVO implements Serializable {
 
-    private static final long serialVersionUID = 4580210103292061859L;
+    private static final long serialVersionUID = 3024497504561174534L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Long key;
 
     private String label;
 
