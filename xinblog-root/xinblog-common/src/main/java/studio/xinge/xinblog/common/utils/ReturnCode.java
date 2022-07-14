@@ -34,11 +34,12 @@ public enum ReturnCode {
     INVALID_TOKEN(14012, "用户TOKEN无效，请登录获取"),
     EXPIRED_TOKEN(14013, "用户TOKEN已过期，请重新登录获取"),
 
+    SAME_TAG_ERROR(11006, "标签已存在"),
     BATCHINSERT_ERROR(11001, "批量插入错误"),
     UPDATE_FAIL(11002, "批量更新失败"),
     DELETE_FAIL(11003, "批量删除失败"),
     BLOG_NOT_EXIST(11004, "此博客不存在"),
-    TOP_BOLG_LIMIT(11005, "置顶博客数已达上限")
+    TOP_BOLG_LIMIT(11005, "置顶博客数已达上限"),
     ;
 
     private int code;
