@@ -1,5 +1,5 @@
 <template>
-  <div class="mod-user">
+  <div class="list-user">
     <!--     <el-form
       :inline="true"
       :model="dataForm"

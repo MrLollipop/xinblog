@@ -119,11 +119,10 @@
 
 <script>
 import singleUpload from '../oss/singleUpload.vue';
-import OssUploadMd from '../oss/oss-upload-md.vue';
 import SingleUploadMd from '../oss/singleUpload-md.vue';
 // import { isEmail, isMobile } from "@/utils/validate";
 export default {
-  components: { singleUpload, OssUploadMd, SingleUploadMd, },
+  components: { singleUpload, SingleUploadMd, },
   data() {
     /** 
     var validatePassword = (rule, value, callback) => {
