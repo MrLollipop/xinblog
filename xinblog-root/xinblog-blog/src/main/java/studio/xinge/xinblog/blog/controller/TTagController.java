@@ -15,13 +15,14 @@ import studio.xinge.xinblog.common.utils.Query;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author xinge
@@ -42,6 +43,21 @@ public class TTagController {
         PageUtils page = tagService.listByPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    @RequestMapping("/list/all")
+    public R listAll() {
+        List<TTag> list = tagService.list();
+        ArrayList<TagVO> tagVOList = new ArrayList<>();
+        if (null != list && !list.isEmpty()) {
+            for (TTag tag : list) {
+                TagVO tagVO = new TagVO();
+                BeanUtil.copyProperties(tag, tagVO);
+                tagVO.setKey(tag.getId());
+                tagVOList.add(tagVO);
+            }
+        }
+        return R.ok().put("tags", tagVOList);
     }
 
     @RequestMapping("/info/{id}")
