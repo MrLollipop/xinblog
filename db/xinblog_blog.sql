@@ -48,4 +48,13 @@ CREATE TABLE `t_blog_reply` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='²©¿Í»Ø¸´±í';
 
+-- xinblog_blog.t_tag definition
+
+CREATE TABLE `t_tag` (
+  `key` bigint(20) NOT NULL AUTO_INCREMENT,
+  `label` varchar(100) NOT NULL,
+  `disabled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`key`),
+  UNIQUE KEY `t_tag_UN` (`label`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
