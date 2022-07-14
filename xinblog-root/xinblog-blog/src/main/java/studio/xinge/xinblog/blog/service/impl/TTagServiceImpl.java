@@ -1,5 +1,6 @@
 package studio.xinge.xinblog.blog.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.entity.TTag;
@@ -30,12 +31,23 @@ public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TT
         return new PageUtils(page);
     }
 
+    /**
+     * 判断是否已存在tag
+     * 1.其他label是否有相同的，且不是其本身
+     *      有相同返回true
+     * @param tag
+     * @return boolean
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/14
+     */
     public boolean existedTag(TTag tag) {
-        String labelTrim = tag.getLabel().trim();
+        String labelTrim = tag.getLabel().replaceAll("\\s*","");
+        Long tagId = tag.getId();
         List<TTag> tags = this.list();
         if (null != tags && !tags.isEmpty()) {
             for (TTag t : tags) {
-                if (t.getLabel().trim().equalsIgnoreCase(labelTrim)) {
+                if (t.getLabel().replaceAll("\\s*","").equalsIgnoreCase(labelTrim) && !t.getId().equals(tagId)) {
                     return true;
                 }
             }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author xinge
@@ -19,5 +19,15 @@ public interface TTagService extends IService<TTag> {
 
     PageUtils listByPage(Map<String, Object> params);
 
+    /**
+     * 判断是否已存在tag
+     * 1.其他label是否有相同的，且不是其本身
+     *      有相同返回true
+     * @param tag
+     * @return boolean
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/14
+     */
     boolean existedTag(TTag tag);
 }
