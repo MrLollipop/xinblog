@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="studio.xinge.xinblog.blog.entity.TTag">
-        <id column="key" property="key" />
+        <id column="id" property="id" />
         <result column="label" property="label" />
         <result column="disabled" property="disabled" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        key, label, disabled
+        id, label, disabled
     </sql>
 
 </mapper>
