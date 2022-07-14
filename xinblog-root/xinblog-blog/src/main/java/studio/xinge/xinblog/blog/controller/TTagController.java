@@ -5,10 +5,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import studio.xinge.xinblog.blog.entity.TTag;
 import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.vo.TagVO;
@@ -17,6 +15,7 @@ import studio.xinge.xinblog.common.utils.Query;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +44,14 @@ public class TTagController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") String id) {
+        TTag tag = tagService.getById(id);
+        return R.ok().put("tag", tag);
+    }
+
     @RequestMapping("/create")
-    public R create(TagVO tagVO) {
+    public R create(@RequestBody TagVO tagVO) {
         TTag tag = new TTag();
         BeanUtil.copyProperties(tagVO, tag);
 
@@ -58,10 +63,8 @@ public class TTagController {
         return R.ok();
     }
 
-
-
     @RequestMapping("/update")
-    public R update(TagVO tagVO) {
+    public R update(@RequestBody TagVO tagVO) {
         TTag tag = new TTag();
         BeanUtil.copyProperties(tagVO, tag);
         tag.setId(tagVO.getKey());
@@ -76,12 +79,8 @@ public class TTagController {
     }
 
     @RequestMapping("/delete")
-    public R delete(TagVO tagVO) {
-        TTag tag = new TTag();
-        BeanUtil.copyProperties(tagVO, tag);
-        tag.setId(tagVO.getKey());
-
-        boolean delete = tagService.removeById(tag);
+    public R delete(@RequestBody Long[] ids) {
+        boolean delete = tagService.removeByIds(Arrays.asList(ids));
         if (!delete) {
             return R.error();
         }
