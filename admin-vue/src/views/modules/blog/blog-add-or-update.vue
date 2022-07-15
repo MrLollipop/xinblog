@@ -26,8 +26,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="博客封面" prop="cover">
-        <single-upload v-model="dataForm.cover" >
-        </single-upload>
+        <single-upload v-model="dataForm.cover"> </single-upload>
       </el-form-item>
       <el-form-item label="Markdown" prop="markdownAddr">
         <single-upload-md v-model="dataForm.markdownAddr"></single-upload-md>
@@ -93,6 +92,9 @@
           <el-radio :label="true">是</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="标签" prop="tags" >
+        <choose-tag ref="tagData" :tags="dataForm.tags" @tags="getTags"></choose-tag>
+      </el-form-item>
       <!-- <el-form-item
         label="转发数"
         prop="forwardNum"
@@ -118,11 +120,12 @@
 </template>
 
 <script>
-import singleUpload from '../oss/singleUpload.vue';
-import SingleUploadMd from '../oss/singleUpload-md.vue';
+import singleUpload from "../oss/singleUpload.vue";
+import SingleUploadMd from "../oss/singleUpload-md.vue";
+import ChooseTag from "../tag/choose-tag.vue";
 // import { isEmail, isMobile } from "@/utils/validate";
 export default {
-  components: { singleUpload, SingleUploadMd, },
+  components: { singleUpload, SingleUploadMd, ChooseTag },
   data() {
     /** 
     var validatePassword = (rule, value, callback) => {
@@ -174,6 +177,7 @@ export default {
         forwardNum: "",
         collectNum: "",
         top: false,
+        tags: [],
       },
       dataRule: {
         title: [
@@ -223,6 +227,7 @@ export default {
             this.dataForm.forwardNum = data.blog.forwardNum;
             this.dataForm.collectNum = data.blog.collectNum;
             this.dataForm.top = data.blog.top;
+            this.dataForm.tags = data.blog.tags;
           }
         });
       } else {
@@ -248,7 +253,8 @@ export default {
     dataFormSubmit() {
       this.$refs["dataForm"].validate((valid) => {
         if (valid) {
-          var url =  this.act == "new" ? '/api/blog/blog/save' : '/api/blog/blog/update';
+          var url =
+            this.act == "new" ? "/api/blog/blog/save" : "/api/blog/blog/update";
           this.$http({
             url: this.$http.adornUrl(url),
             method: "post",
@@ -265,6 +271,7 @@ export default {
               forwardNum: this.dataForm.forwardNum || undefined,
               collectNum: this.dataForm.collectNum || undefined,
               top: this.dataForm.top,
+              tags: this.dataForm.tags,
             }),
           }).then(({ data }) => {
             if (data && data.code === 10000) {
@@ -283,6 +290,11 @@ export default {
           });
         }
       });
+    },
+
+    //选择的标签
+    getTags(val) {
+      this.dataForm.tags = val;
     },
   },
 };
