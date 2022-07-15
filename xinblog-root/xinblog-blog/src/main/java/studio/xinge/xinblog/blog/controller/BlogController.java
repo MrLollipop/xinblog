@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
+import studio.xinge.xinblog.blog.vo.BlogEntityVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
@@ -68,27 +71,32 @@ public class BlogController {
     public R info(@PathVariable("id") Long id) {
 
         BlogEntity blog = blogService.getById(id);
+        BlogEntityVO vo = blogService.changeEntityToVO(blog);
 
-        return R.ok().put("blog", blog);
+        return R.ok().put("blog", vo);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@Validated(Add.class) @RequestBody BlogEntity blog) {
+    public R save(@Validated(Add.class) @RequestBody BlogEntityVO blogVO) {
 
         Date date = new Date();
-        blog.setCreateTime(date);
-        blog.setUpdateTime(date);
+        blogVO.setCreateTime(date);
+        blogVO.setUpdateTime(date);
 
-        if (blog.getTop() && !blogService.checkTopLimit()) {
+        BlogEntity entity = new BlogEntity();
+        BeanUtil.copyProperties(blogVO, entity, "tags");
+        entity.setTags(Arrays.toString(blogVO.getTags()));
+
+        if (entity.getTop() && !blogService.checkTopLimit()) {
             return R.error(ReturnCode.TOP_BOLG_LIMIT);
         }
 
-        blogService.save(blog);
+        blogService.save(entity);
 
-        myHashOperations.setHash(Constant.BLOG_KEY + blog.getId(), blog.getId().toString(), blog, blogCacheTTLHours, TimeUnit.HOURS);
+        myHashOperations.setHash(Constant.BLOG_KEY + entity.getId(), entity.getId().toString(), entity, blogCacheTTLHours, TimeUnit.HOURS);
 
         return R.ok();
     }
@@ -97,24 +105,27 @@ public class BlogController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@Validated(Update.class) @RequestBody BlogEntity blog) {
+    public R update(@Validated(Update.class) @RequestBody BlogEntityVO blogVO) {
         Date date = new Date();
-        blog.setUpdateTime(date);
+        blogVO.setUpdateTime(date);
+
+        BlogEntity entity = new BlogEntity();
+        BeanUtil.copyProperties(blogVO, entity, "tags");
+        entity.setTags(Arrays.toString(blogVO.getTags()));
 
         /*
         如果原来不是置顶，现在修改为置顶，需要经过此判断
         如果原来已经置顶，不要判断
         */
-        BlogEntity oldBlog = blogService.getById(blog.getId());
-        Boolean top = oldBlog.getTop();
-        if (!top && blog.getTop() && !blogService.checkTopLimit()) {
+        BlogEntity oldBlog = blogService.getById(blogVO.getId());
+        if (!oldBlog.getTop() && entity.getTop() && !blogService.checkTopLimit()) {
             return R.error(ReturnCode.TOP_BOLG_LIMIT);
         }
 
-        blogService.updateById(blog);
+        blogService.updateById(entity);
 
 //        删除缓存，被动触发更新
-        myHashOperations.delete(Constant.BLOG_KEY + blog.getId(), blog.getId().toString());
+        myHashOperations.delete(Constant.BLOG_KEY + blogVO.getId(), blogVO.getId().toString());
 
         return R.ok();
     }

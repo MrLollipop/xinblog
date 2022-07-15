@@ -1,10 +1,12 @@
 package studio.xinge.xinblog.blog.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 import studio.xinge.xinblog.blog.mapper.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.blog.vo.BlogEntityVO;
+import studio.xinge.xinblog.blog.vo.BlogListVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
@@ -84,6 +88,31 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             return false;
         }
         return true;
+    }
+
+    /**
+     * 实体类BlogEntity转为VO
+     *
+     * @param blog
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/15
+     */
+    @Override
+    public BlogEntityVO changeEntityToVO(BlogEntity blog) {
+        BlogEntityVO vo = new BlogEntityVO();
+        BeanUtil.copyProperties(blog, vo, "tags");
+        int[] tagArray = {};
+//        格式[5, 6]
+        String tags = blog.getTags();
+        if (StrUtil.isNotBlank(tags)) {
+            tags = tags.substring(1, tags.length() - 1);
+            tagArray = StrUtil.splitToInt(tags, ',');
+        }
+
+        vo.setTags(tagArray);
+
+        return vo;
     }
 
 }
