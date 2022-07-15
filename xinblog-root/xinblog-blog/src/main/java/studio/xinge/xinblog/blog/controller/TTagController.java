@@ -45,18 +45,17 @@ public class TTagController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/15
+     */
     @RequestMapping("/list/all")
     public R listAll() {
         List<TTag> list = tagService.list();
         ArrayList<TagVO> tagVOList = new ArrayList<>();
-        if (null != list && !list.isEmpty()) {
-            for (TTag tag : list) {
-                TagVO tagVO = new TagVO();
-                BeanUtil.copyProperties(tag, tagVO);
-                tagVO.setKey(tag.getId());
-                tagVOList.add(tagVO);
-            }
-        }
+        tagService.changToVo(list, tagVOList);
         return R.ok().put("tags", tagVOList);
     }
 
