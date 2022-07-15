@@ -6,9 +6,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -67,7 +65,19 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
                 wrapper
         );
 
-
+        /**
+         *  分页数据的entity转vo
+         */
+        List<BlogEntity> records = page.getRecords();
+        ArrayList<BlogEntityVO> blogVOList = new ArrayList<>();
+        if (null != records && !records.isEmpty()) {
+            records.stream().forEach(item -> {
+                blogVOList.add(changeEntityToVO(item));
+            });
+            PageUtils pageUtils = new PageUtils(page);
+            pageUtils.setList(blogVOList);
+            return pageUtils;
+        }
         return new PageUtils(page);
     }
 
