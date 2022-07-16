@@ -4,19 +4,24 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.beans.factory.annotation.Autowired;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.entity.TTag;
 import studio.xinge.xinblog.blog.mapper.TTagMapper;
 import studio.xinge.xinblog.blog.service.TTagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.TagVO;
+import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -28,6 +33,48 @@ import java.util.Map;
  */
 @Service
 public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TTagService {
+
+    @Autowired
+    private MyHashOperations myHashOperations;
+
+    /**
+     * 将所有Tag保存到缓存中，方便用id索引查找
+     *
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/15
+     */
+    @Override
+    public void saveTagCache() {
+        List<TTag> tags = this.list();
+        HashMap<String, String> tagMap = new HashMap<>();
+        if (null != tags && !tags.isEmpty()) {
+            tags.stream().forEach(t -> {
+                tagMap.put(t.getId().toString(), t.getLabel());
+            });
+        }
+        myHashOperations.setHash(Constant.TAG_KEY, Constant.TAG_KEY, tagMap, 30, TimeUnit.MINUTES);
+    }
+
+    /**
+     * 用key值取出缓存中Tag标签名
+     *
+     * @param key
+     * @return String
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/15
+     */
+    @Override
+    public String getTagName(String key) {
+        HashMap tagMap = (HashMap) myHashOperations.get(Constant.TAG_KEY, Constant.TAG_KEY);
+        if (null == tagMap) {
+            saveTagCache();
+            tagMap = (HashMap) myHashOperations.get(Constant.TAG_KEY, Constant.TAG_KEY);
+        }
+
+        return (String) tagMap.get(key);
+    }
 
     @Override
     public PageUtils listByPage(Map<String, Object> params) {

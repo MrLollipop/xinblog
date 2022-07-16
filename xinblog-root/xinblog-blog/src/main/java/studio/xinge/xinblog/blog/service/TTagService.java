@@ -24,6 +24,7 @@ public interface TTagService extends IService<TTag> {
 
     /**
      * 将List TTag对象转换为List TagVO对象
+     *
      * @param records
      * @param tagVOList
      * @Author xinge
@@ -44,4 +45,24 @@ public interface TTagService extends IService<TTag> {
      * @Date 2022/7/14
      */
     boolean existedTag(TTag tag);
+
+    /**
+     * 将所有Tag保存到缓存中，方便用id索引查找
+     *
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/15
+     */
+    void saveTagCache();
+
+    /**
+     * 用key值取出缓存中Tag标签名
+     *
+     * @param key
+     * @return String
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/15
+     */
+    String getTagName(String key);
 }
