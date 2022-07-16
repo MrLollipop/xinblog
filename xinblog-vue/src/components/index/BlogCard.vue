@@ -4,7 +4,7 @@
       <img :src="cover" class="cardImage" />
       <div class="title">
         <h1>{{ title }}</h1>
-        <tag></tag>
+        <tag :tags="tags" :tagVOList="tagVOList"></tag>
         <span id="times"><i class="el-icon-reading"></i> {{ viewNum }} 次</span>
         <span id="updateTime"
           ><i class="el-icon-date"></i> {{ updateTime }}</span
@@ -25,6 +25,8 @@ export default {
       viewNum: this.blogEntity.viewNum,
       updateTime: formatDate(this.blogEntity.updateTime),
       cover: this.blogEntity.cover,
+      tags: this.blogEntity.tags,
+      tagVOList:this.blogEntity.tagVOList,
     };
   },
   components: { Tag },
