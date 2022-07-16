@@ -50,16 +50,17 @@ public class TagCacheUpdateTask {
         } finally {
             if (tryLock) {
                 lock.unlock();
-                log.info("[{}]TagCache服务释放锁", port);
+                log.info("[{}]释放锁tagCacheUpdateTask", port);
             } else {
-                log.info("[{}]TagCache服务释放锁", port);
+                log.info("[{}]本次不做tagCacheUpdateTask", port);
             }
         }
     }
 
     private void doTask() {
-        log.info("[{}]服务开始任务", port);
+        log.info("[{}]开始tagCacheUpdateTask", port);
         tagService.saveTagCache();
-        log.info("[{}]TagCache服务释放锁", port);
+        tagService.blogGroupByTag();
+        log.info("[{}]结束tagCacheUpdateTask", port);
     }
 }

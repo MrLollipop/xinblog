@@ -43,16 +43,16 @@ public class IndexCacheUpdateTask {
         } finally {
             if (tryLock) {
                 lock.unlock();
-                log.info("[{}]服务释放锁", port);
+                log.info("[{}]释放锁indexCacheUpdateTask", port);
             } else {
-                log.info("[{}]服务不做这次任务", port);
+                log.info("[{}]本次不做indexCacheUpdateTask", port);
             }
         }
     }
 
     private void doTask() {
-        log.info("[{}]服务开始任务", port);
+        log.info("[{}]开始indexCacheUpdateTask", port);
         indexService.getData();
-        log.info("[{}]服务完成任务", port);
+        log.info("[{}]完成indexCacheUpdateTask", port);
     }
 }
