@@ -30,10 +30,10 @@ export default {
     };
   },
   methods: {
-		setSize:function () {
-		   	// 通过屏幕宽度(图片宽度)计算高度
-			this.bannerHeight = 400 / 1920 * this.screenWidth;
-		},
+    setSize: function () {
+      // 通过屏幕宽度(图片宽度)计算高度
+      this.bannerHeight = (400 / 1920) * this.screenWidth;
+    },
   },
 };
 </script>
