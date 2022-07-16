@@ -171,5 +171,7 @@ public class Constant {
     public static final String BLOG_NOT_EXIST = "Blog_Not_Exist";
     //    首页缓存
     public static final String BLOG_INDEX_CACHE = "blog_index_cache_";
+    //      Tag前缀
+    public static final String TAG_KEY = "tag_key_";
 
 }
