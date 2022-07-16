@@ -14,6 +14,7 @@ import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.IndexService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
+import studio.xinge.xinblog.blog.vo.BlogEntityVO;
 import studio.xinge.xinblog.blog.vo.BlogListVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.R;
@@ -97,7 +98,7 @@ public class BlogUserController {
 //                状态正常筛选
             blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", id).eq("status", Constant.BlogStatus.NORMAL.getValue()));
             if (null != blog) {
-                updateViewNum(key, id, blog);
+                updateViewNum(key, id, blogService.changeEntityToVO(blog));
             } else {
 //                    第一次查询，对不存在的值做处理
                 myHashOperations.setHash(key, id, Constant.BLOG_NOT_EXIST, blogCacheTTLHours, TimeUnit.HOURS);
@@ -109,7 +110,7 @@ public class BlogUserController {
             lock.unlock();
         }
 
-        return R.ok().put("blog", blog);
+        return R.ok().put("blog", blogService.changeEntityToVO(blog));
     }
 
     /**
@@ -130,13 +131,13 @@ public class BlogUserController {
         Object entity = myHashOperations.get(key, id);
         if (null != entity) {
 //            不存在博客的处理
-            if (entity.getClass().equals(String.class)) {
-                if (entity.toString().equals(Constant.BLOG_NOT_EXIST)) {
-                    return R.error(ReturnCode.BLOG_NOT_EXIST);
-                }
+            if (entity.getClass().equals(String.class) && entity.toString().equals(Constant.BLOG_NOT_EXIST)) {
+                return R.error(ReturnCode.BLOG_NOT_EXIST);
             }
-            updateViewNum(key, id, (BlogEntity) entity);
-            return R.ok().put("blog", entity);
+//          取出是vo
+            BlogEntityVO blogVO = (BlogEntityVO) entity;
+            updateViewNum(key, id, blogVO);
+            return R.ok().put("blog", blogVO);
         }
         return null;
     }
@@ -144,26 +145,26 @@ public class BlogUserController {
 
     /**
      * 更新访问量
-     * 1.cache实时更新
+     * 1.cache实时更新，同时转vo
      * 2.DB，积累到阈值，异步线程池中去更新
      *
      * @param key
-     * @param hashkey
-     * @param entity
+     * @param hashKey
+     * @param blogVO
      * @Author xinge
      * @Description
      * @Date 2022/7/5
      */
-    private void updateViewNum(String key, String hashkey, BlogEntity entity) {
-        Integer viewNum = entity.getViewNum() == null ? 0 : entity.getViewNum();
+    private void updateViewNum(String key, String hashKey, BlogEntityVO blogVO) {
+        Integer viewNum = blogVO.getViewNum() == null ? 0 : blogVO.getViewNum();
         viewNum++;
-        entity.setViewNum(viewNum);
-        myHashOperations.setHash(key, hashkey, entity, blogCacheTTLHours, TimeUnit.HOURS);
+        blogVO.setViewNum(viewNum);
+        myHashOperations.setHash(key, hashKey, blogVO, blogCacheTTLHours, TimeUnit.HOURS);
 //        积累到阈值，提交异步任务更新
         Integer finalViewNum = viewNum;
         if (finalViewNum % updateThreshold == 0) {
             threadPool.submit(() -> {
-                blogService.updateById(entity);
+                blogService.updateViewNumById(blogVO.getId(), blogVO.getViewNum());
             });
         }
     }

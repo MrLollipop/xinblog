@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 欣哥工作室
@@ -75,5 +76,7 @@ public class BlogEntityVO implements Serializable {
 
 //    标签key数组
     private int[] tags;
+//    标签名字List
+    private List<String> tagLabelList;
 
 }

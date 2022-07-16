@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import studio.xinge.xinblog.blog.entity.TTag;
 import studio.xinge.xinblog.blog.service.TTagService;
+import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.TagVO;
-import studio.xinge.xinblog.common.utils.PageUtils;
-import studio.xinge.xinblog.common.utils.Query;
-import studio.xinge.xinblog.common.utils.R;
-import studio.xinge.xinblog.common.utils.ReturnCode;
+import studio.xinge.xinblog.common.utils.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +70,7 @@ public class TTagController {
 
         if (tagService.existedTag(tag)) return R.error(ReturnCode.SAME_TAG_ERROR);
         boolean save = tagService.save(tag);
+
         if (!save) {
             return R.error();
         }

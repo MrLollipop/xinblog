@@ -1,5 +1,6 @@
 package studio.xinge.xinblog.blog.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,5 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface BlogDao extends BaseMapper<BlogEntity> {
+
+    Boolean updateViewNumById(@Param("id") Long id, @Param("viewNum") int viewNum);
 	
 }

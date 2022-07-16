@@ -8,18 +8,20 @@ import cn.hutool.core.util.StrUtil;
 
 import java.util.*;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 //import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import studio.xinge.xinblog.blog.mapper.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
-import studio.xinge.xinblog.blog.vo.BlogListVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
@@ -29,6 +31,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
 
     @Value("${top.blog.limit}")
     private int topBlogLimit;
+
+    @Autowired
+    private TTagService tagService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -112,17 +117,54 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
     public BlogEntityVO changeEntityToVO(BlogEntity blog) {
         BlogEntityVO vo = new BlogEntityVO();
         BeanUtil.copyProperties(blog, vo, "tags");
-        int[] tagArray = {};
+        int[] tagKeyArray = {};
+        ArrayList<String> tagLableList = new ArrayList<>();
 //        格式[5, 6]
         String tags = blog.getTags();
         if (StrUtil.isNotBlank(tags)) {
             tags = tags.substring(1, tags.length() - 1);
-            tagArray = StrUtil.splitToInt(tags, ',');
+            tagKeyArray = StrUtil.splitToInt(tags, ',');
+            for (int i : tagKeyArray) {
+                tagLableList.add(tagService.getTagName(String.valueOf(i)));
+            }
         }
 
-        vo.setTags(tagArray);
+        vo.setTags(tagKeyArray);
+        vo.setTagLabelList(tagLableList);
 
         return vo;
+    }
+
+    /**
+     * 将VO类转为Entity
+     *
+     * @param vo
+     * @return BlogEntity
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    @Override
+    public BlogEntity changeVOToEntity(BlogEntityVO vo) {
+        BlogEntity entity = new BlogEntity();
+        BeanUtil.copyProperties(vo, entity, "tags", "tagLabelList");
+        entity.setTags(Arrays.toString(vo.getTags()));
+        return entity;
+    }
+
+    /**
+     * 根据id更新访问量
+     *
+     * @param id
+     * @param viewNum
+     * @return Boolean
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    @Override
+    public Boolean updateViewNumById(Long id, Integer viewNum) {
+        return this.getBaseMapper().updateViewNumById(id, viewNum);
     }
 
 }

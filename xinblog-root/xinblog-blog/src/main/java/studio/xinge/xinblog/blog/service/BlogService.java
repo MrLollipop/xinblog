@@ -30,11 +30,35 @@ public interface BlogService extends IService<BlogEntity> {
 
     /**
      * 实体类BlogEntity转为VO
+     *
      * @param blog
      * @Author xinge
      * @Description
      * @Date 2022/7/15
      */
     BlogEntityVO changeEntityToVO(BlogEntity blog);
+
+    /**
+     * 将VO类转为Entity
+     *
+     * @param vo
+     * @return BlogEntity
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    BlogEntity changeVOToEntity(BlogEntityVO vo);
+
+    /**
+     * 根据id更新访问量
+     *
+     * @param id
+     * @param viewNum
+     * @return Boolean
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    Boolean updateViewNumById(Long id, Integer viewNum);
 }
 

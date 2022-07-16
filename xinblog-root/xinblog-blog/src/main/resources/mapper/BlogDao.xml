@@ -12,5 +12,9 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <update id="updateViewNumById" >
+        update t_blog set view_num = #{viewNum} where id = #{id}
+    </update>
+
 
 </mapper>

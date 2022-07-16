@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
+import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
 import studio.xinge.xinblog.common.utils.Constant;
@@ -46,11 +47,12 @@ public class BlogController {
     @Autowired
     private MyHashOperations myHashOperations;
 
+    @Autowired
+    private TTagService tagService;
+
     @Value("${blog.cache.ttl.hours}")
     private int blogCacheTTLHours;
 
-    @Value("${top.blog.limit}")
-    private int topBlogLimit;
 
     /**
      * 分页查询
@@ -71,9 +73,8 @@ public class BlogController {
     public R info(@PathVariable("id") Long id) {
 
         BlogEntity blog = blogService.getById(id);
-        BlogEntityVO vo = blogService.changeEntityToVO(blog);
 
-        return R.ok().put("blog", vo);
+        return R.ok().put("blog", blogService.changeEntityToVO(blog));
     }
 
     /**
@@ -86,17 +87,23 @@ public class BlogController {
         blogVO.setCreateTime(date);
         blogVO.setUpdateTime(date);
 
-        BlogEntity entity = new BlogEntity();
-        BeanUtil.copyProperties(blogVO, entity, "tags");
-        entity.setTags(Arrays.toString(blogVO.getTags()));
+        BlogEntity entity = blogService.changeVOToEntity(blogVO);
 
         if (entity.getTop() && !blogService.checkTopLimit()) {
             return R.error(ReturnCode.TOP_BOLG_LIMIT);
         }
-
         blogService.save(entity);
 
-        myHashOperations.setHash(Constant.BLOG_KEY + entity.getId(), entity.getId().toString(), entity, blogCacheTTLHours, TimeUnit.HOURS);
+        int[] tags = blogVO.getTags();
+        ArrayList<String> labelList = new ArrayList<>();
+        if (tags.length > 0) {
+            Arrays.stream(tags).forEach(t -> {
+                labelList.add(tagService.getTagName(StrUtil.toString(t)));
+            });
+        }
+        blogVO.setId(entity.getId());
+        blogVO.setTagLabelList(labelList);
+        myHashOperations.setHash(Constant.BLOG_KEY + blogVO.getId(), blogVO.getId().toString(), blogVO, blogCacheTTLHours, TimeUnit.HOURS);
 
         return R.ok();
     }
