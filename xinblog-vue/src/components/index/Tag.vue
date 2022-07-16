@@ -12,6 +12,6 @@ export default {
       return colors[Math.floor(Math.random() * colors.length)];
     },
   },
-  props:['tags','tagVOList'],
+  props:['tagVOList'],
 };
 </script>

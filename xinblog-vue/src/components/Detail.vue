@@ -10,6 +10,7 @@
         </el-row>
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <img class="headPic" :src="cover"/>
+        <tag :tagVOList="tagVOList"></tag>
         <markdown :content="content"></markdown>
         <el-page-header class="back" @back="goBack" content="主页" />
       </div>
@@ -20,10 +21,11 @@
 <script>
 import Markdown from "./Markdown.vue";
 import { formatDate } from "@/utils";
+import Tag from './index/Tag.vue';
 
 export default {
-  components: { Markdown },
-  data() {
+  components: { Markdown, Tag },
+    data() {
     return {
       title: "文章加载中...",
       subTitle: "",
@@ -34,6 +36,7 @@ export default {
       content: "",
       noDataMsg: "",
       noDataShow: false,
+      tagVOList: [],
     };
   },
   mounted() {
@@ -54,6 +57,7 @@ export default {
           this.updateTime = formatDate(data.blog.updateTime);
           this.cover = data.blog.cover;
           this.viewNum = data.blog.viewNum;
+          this.tagVOList = data.blog.tagVOList;
 
           this.$emit("bannerTitle", [this.title, this.subTitle]);
 
