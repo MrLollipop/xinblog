@@ -22,6 +22,7 @@ import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
+import studio.xinge.xinblog.blog.vo.TagVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.Query;
@@ -118,19 +119,19 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
         BlogEntityVO vo = new BlogEntityVO();
         BeanUtil.copyProperties(blog, vo, "tags");
         int[] tagKeyArray = {};
-        ArrayList<String> tagLableList = new ArrayList<>();
+        ArrayList<TagVO> tagVOList = new ArrayList<>();
 //        格式[5, 6]
         String tags = blog.getTags();
         if (StrUtil.isNotBlank(tags)) {
             tags = tags.substring(1, tags.length() - 1);
             tagKeyArray = StrUtil.splitToInt(tags, ',');
             for (int i : tagKeyArray) {
-                tagLableList.add(tagService.getTagName(String.valueOf(i)));
+                tagVOList.add(new TagVO(Long.valueOf(i), tagService.getTagName(String.valueOf(i))));
             }
         }
 
         vo.setTags(tagKeyArray);
-        vo.setTagLabelList(tagLableList);
+        vo.setTagVOList(tagVOList);
 
         return vo;
     }

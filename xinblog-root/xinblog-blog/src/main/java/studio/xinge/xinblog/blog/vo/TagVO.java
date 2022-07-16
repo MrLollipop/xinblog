@@ -26,5 +26,12 @@ public class TagVO implements Serializable {
 
     private Boolean disabled;
 
+    public TagVO() {
+    }
 
+    public TagVO(Long key, String label) {
+        this.key = key;
+        this.label = label;
+        this.disabled = false;
+    }
 }

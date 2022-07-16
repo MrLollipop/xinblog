@@ -19,6 +19,7 @@ import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
+import studio.xinge.xinblog.blog.vo.TagVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.PageUtils;
 import studio.xinge.xinblog.common.utils.R;
@@ -95,14 +96,14 @@ public class BlogController {
         blogService.save(entity);
 
         int[] tags = blogVO.getTags();
-        ArrayList<String> labelList = new ArrayList<>();
+        ArrayList<TagVO> tagVOList = new ArrayList<>();
         if (tags.length > 0) {
             Arrays.stream(tags).forEach(t -> {
-                labelList.add(tagService.getTagName(StrUtil.toString(t)));
+                tagVOList.add(new TagVO(Long.valueOf(t), tagService.getTagName(String.valueOf(t))));
             });
         }
         blogVO.setId(entity.getId());
-        blogVO.setTagLabelList(labelList);
+        blogVO.setTagVOList(tagVOList);
         myHashOperations.setHash(Constant.BLOG_KEY + blogVO.getId(), blogVO.getId().toString(), blogVO, blogCacheTTLHours, TimeUnit.HOURS);
 
         return R.ok();

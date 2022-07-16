@@ -74,9 +74,9 @@ public class BlogEntityVO implements Serializable {
      */
     private String markdownAddr;
 
-//    标签key数组
+//    标签key数组 用于管理台接收
     private int[] tags;
-//    标签名字List
-    private List<String> tagLabelList;
+//    标签VO ist 页面展示用
+    private List<TagVO> tagVOList;
 
 }
