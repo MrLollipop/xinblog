@@ -99,7 +99,7 @@ public class BlogController {
         ArrayList<TagVO> tagVOList = new ArrayList<>();
         if (tags.length > 0) {
             Arrays.stream(tags).forEach(t -> {
-                tagVOList.add(new TagVO(Long.valueOf(t), tagService.getTagName(String.valueOf(t))));
+                tagVOList.add(new TagVO(Long.valueOf(t), tagService.getTagName(Long.valueOf(t))));
             });
         }
         blogVO.setId(entity.getId());

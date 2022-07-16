@@ -64,5 +64,16 @@ public interface TTagService extends IService<TTag> {
      * @Description
      * @Date 2022/7/15
      */
-    String getTagName(String key);
+    String getTagName(Long key);
+
+    /**
+     * 将Blog按Tag分组统计
+     * 1.每个Tag下Blog数量
+     * 2.每个Tag下Blog清单
+     *
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    void blogGroupByTag();
 }

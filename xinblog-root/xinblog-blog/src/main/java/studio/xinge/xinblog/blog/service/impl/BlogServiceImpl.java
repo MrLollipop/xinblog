@@ -126,7 +126,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             tags = tags.substring(1, tags.length() - 1);
             tagKeyArray = StrUtil.splitToInt(tags, ',');
             for (int i : tagKeyArray) {
-                tagVOList.add(new TagVO(Long.valueOf(i), tagService.getTagName(String.valueOf(i))));
+                tagVOList.add(new TagVO(Long.valueOf(i), tagService.getTagName(Long.valueOf(i))));
             }
         }
 

@@ -2,10 +2,8 @@ package studio.xinge.xinblog.blog.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
-import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.entity.TTag;
 import studio.xinge.xinblog.blog.mapper.TTagMapper;
 import studio.xinge.xinblog.blog.service.TTagService;
@@ -47,10 +45,10 @@ public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TT
     @Override
     public void saveTagCache() {
         List<TTag> tags = this.list();
-        HashMap<String, String> tagMap = new HashMap<>();
+        HashMap<Long, String> tagMap = new HashMap<>();
         if (null != tags && !tags.isEmpty()) {
             tags.stream().forEach(t -> {
-                tagMap.put(t.getId().toString(), t.getLabel());
+                tagMap.put(t.getId(), t.getLabel());
             });
         }
         myHashOperations.setHash(Constant.TAG_KEY, Constant.TAG_KEY, tagMap, 30, TimeUnit.MINUTES);
@@ -66,7 +64,7 @@ public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TT
      * @Date 2022/7/15
      */
     @Override
-    public String getTagName(String key) {
+    public String getTagName(Long key) {
         HashMap tagMap = (HashMap) myHashOperations.get(Constant.TAG_KEY, Constant.TAG_KEY);
         if (null == tagMap) {
             saveTagCache();
