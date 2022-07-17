@@ -19,6 +19,7 @@ public enum ReturnCode {
     SYSTEM_BUSY(10003, "系统繁忙，请稍后再试！"),
     OPERATE_TOO_QUICK(10004, "操作太频繁，请稍后再试！"),
     SERVICE_NOT_WORK(10005, "服务不可用，请稍后再试！"),
+    RESULT_IS_EMPTY(10006, "查看结果为空"),
 
     USER_UNLOGIN(14001, "未登录用户，无法操作"),
     USER_LOGIN_FAIL(14002, "用户登录失败"),
@@ -35,11 +36,11 @@ public enum ReturnCode {
     EXPIRED_TOKEN(14013, "用户TOKEN已过期，请重新登录获取"),
 
     SAME_TAG_ERROR(11006, "标签已存在"),
-    BATCHINSERT_ERROR(11001, "批量插入错误"),
+    BATCH_INSERT_ERROR(11001, "批量插入错误"),
     UPDATE_FAIL(11002, "批量更新失败"),
     DELETE_FAIL(11003, "批量删除失败"),
     BLOG_NOT_EXIST(11004, "此博客不存在"),
-    TOP_BOLG_LIMIT(11005, "置顶博客数已达上限"),
+    TOP_BLOG_LIMIT(11005, "置顶博客数已达上限"),
     ;
 
     private int code;

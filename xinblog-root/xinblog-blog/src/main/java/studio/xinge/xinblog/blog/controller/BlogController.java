@@ -89,7 +89,7 @@ public class BlogController {
         BlogEntity entity = blogService.changeVOToEntity(blogVO);
 
         if (entity.getTop() && !blogService.checkTopLimit()) {
-            return R.error(ReturnCode.TOP_BOLG_LIMIT);
+            return R.error(ReturnCode.TOP_BLOG_LIMIT);
         }
         blogService.save(entity);
 
@@ -125,7 +125,7 @@ public class BlogController {
         */
         BlogEntity oldBlog = blogService.getById(blogVO.getId());
         if (!oldBlog.getTop() && entity.getTop() && !blogService.checkTopLimit()) {
-            return R.error(ReturnCode.TOP_BOLG_LIMIT);
+            return R.error(ReturnCode.TOP_BLOG_LIMIT);
         }
 
         blogService.updateById(entity);
@@ -197,6 +197,6 @@ public class BlogController {
         if (flag) {
             return R.ok();
         }
-        return R.error(ReturnCode.BATCHINSERT_ERROR);
+        return R.error(ReturnCode.BATCH_INSERT_ERROR);
     }
 }

@@ -280,7 +280,7 @@ public class BlogUserController {
 //        从tag->blogs缓存中取出对应blogs集合
         HashSet<Long> blogs = tagService.getBlogsByTag(key);
         if (null == blogs || blogs.isEmpty()) {
-            return R.ok().put("blogs", null);
+            return R.error(ReturnCode.RESULT_IS_EMPTY);
         }
         LinkedList<BlogEntityVO> blogList = new LinkedList<>();
         blogs.stream().forEach(blogId -> {
