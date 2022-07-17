@@ -19,6 +19,7 @@ import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
 import studio.xinge.xinblog.blog.vo.BlogListVO;
+import studio.xinge.xinblog.blog.vo.TagVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
@@ -301,6 +302,7 @@ public class BlogUserController {
 
     /**
      * 获取缓存中所有Tag
+     * 遍历转vo
      *
      * @return R
      * @Author xinge
@@ -309,11 +311,15 @@ public class BlogUserController {
      */
     @RequestMapping("tags")
     public R getTags() {
-        HashMap tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
+        HashMap<Long, String> tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
         if (null == tagsCache) {
             tagService.saveTagCache();
             tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
         }
-        return R.ok().put("tags", tagsCache);
+        LinkedList<TagVO> vos = new LinkedList<>();
+        tagsCache.entrySet().stream().forEach(entry->{
+            vos.add(new TagVO(entry.getKey(), entry.getValue()));
+        });
+        return R.ok().put("tags", vos);
     }
 }
