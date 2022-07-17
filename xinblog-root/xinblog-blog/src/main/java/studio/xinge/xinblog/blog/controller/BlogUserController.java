@@ -1,5 +1,6 @@
 package studio.xinge.xinblog.blog.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -9,10 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.IndexService;
+import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
 import studio.xinge.xinblog.blog.vo.BlogListVO;
@@ -21,6 +24,8 @@ import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -54,6 +59,9 @@ public class BlogUserController {
     private IndexService indexService;
 
     @Autowired
+    private TTagService tagService;
+
+    @Autowired
     private ExecutorService threadPool;
 
     @Value("${blog.cache.ttl.hours}")
@@ -78,7 +86,7 @@ public class BlogUserController {
      */
     @RequestMapping("/view/{id}")
     public R view(@PathVariable("id") String id) throws InterruptedException {
-        String key = Constant.BLOG_KEY + id;
+        String key = Constant.BLOG + id;
         String lockName = Constant.BLOG_LOCK + id;
         R cache = checkCacheExist(key, id);
         if (null != cache) {

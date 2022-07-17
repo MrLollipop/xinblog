@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -104,7 +102,7 @@ public class BlogController {
         }
         blogVO.setId(entity.getId());
         blogVO.setTagVOList(tagVOList);
-        myHashOperations.setHash(Constant.BLOG_KEY + blogVO.getId(), blogVO.getId().toString(), blogVO, blogCacheTTLHours, TimeUnit.HOURS);
+        myHashOperations.setHash(Constant.BLOG + blogVO.getId(), blogVO.getId().toString(), blogVO, blogCacheTTLHours, TimeUnit.HOURS);
 
         return R.ok();
     }
@@ -133,7 +131,7 @@ public class BlogController {
         blogService.updateById(entity);
 
 //        删除缓存，被动触发更新
-        myHashOperations.delete(Constant.BLOG_KEY + blogVO.getId(), blogVO.getId().toString());
+        myHashOperations.delete(Constant.BLOG + blogVO.getId(), blogVO.getId().toString());
 
         return R.ok();
     }
@@ -155,7 +153,7 @@ public class BlogController {
                 entity.setStatus(Constant.BlogStatus.DELETE.getValue());
                 entity.setUpdateTime(new Date());
                 blogEntities.add(entity);
-                myHashOperations.delete(Constant.BLOG_KEY + entity.getId(), entity.getId().toString());
+                myHashOperations.delete(Constant.BLOG + entity.getId(), entity.getId().toString());
             }
         }
         result = blogService.updateBatchById(blogEntities, 1000);
@@ -178,7 +176,7 @@ public class BlogController {
     public R deleteFromDB(@RequestBody Long[] ids) {
         blogService.removeByIds(Arrays.asList(ids));
         Arrays.stream(ids).forEach(id -> {
-            myHashOperations.delete(Constant.BLOG_KEY + id, id.toString());
+            myHashOperations.delete(Constant.BLOG + id, id.toString());
         });
 
         return R.ok();

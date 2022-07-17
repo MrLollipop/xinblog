@@ -159,19 +159,25 @@ public class Constant {
      * @Description
      * @Date 2022/5/3
      */
-//    redis中用户token的前缀
+    //      redis中用户token的前缀
     public static final String TOKEN_KEY = "user_token_";
-    //    用户角色前缀
+    //      用户角色前缀
     public static final String ROlE_PREFIX = "ROLE_";
-    //   Blog前缀
-    public static final String BLOG_KEY = "blog_key_";
-    //  BLog redis 写锁
+
+
+    //      Blog前缀
+    public static final String BLOG = "blog_";
+    //      Blog redis 分布式锁
     public static final String BLOG_LOCK = "blog_lock_";
-    //  查询不存在的Blog
+    //      查询不存在的Blog
     public static final String BLOG_NOT_EXIST = "Blog_Not_Exist";
-    //    首页缓存
+    //      首页缓存
     public static final String BLOG_INDEX_CACHE = "blog_index_cache_";
-    //      Tag前缀
-    public static final String TAG_KEY = "tag_key_";
+    //      blog -> tags
+    public static final String BLOG_TAGS = "blog_tags";
+    //      Tag前缀 所有的tag
+    public static final String TAGS = "tags";
+    //      Tag-BLOGS前缀 所有的tag关联blogIds
+    public static final String TAG_BLOGS = "tag_blogs";
 
 }
