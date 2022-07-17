@@ -4,24 +4,23 @@
     <el-row type="flex" justify="center" :gutter="40">
       <div class="topic">
         <tag :tagVOList="tagVOList"></tag>
-        <el-row :gutter="60">
-          <el-col :span="8" v-for="item in blogs" :key="item.id">
-            <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
-              <blog-card :blogEntity="item"></blog-card>
-            </router-link>
-          </el-col>
-          <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
+        <el-row class="row" :gutter="60" v-for="item in blogs" :key="item.id">
+          <router-link :to="{ path: '/detail', query: { blogId: item.id } }">
+            <blog-card-2 :blogEntity="item"></blog-card-2>
+          </router-link>
         </el-row>
+        <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
       </div>
     </el-row>
   </div>
 </template>
  
 <script>
-import BlogCard from "./index/BlogCard.vue";
+import BlogCard2 from "./BlogCard2.vue";
 import Tag from "./index/Tag.vue";
+
 export default {
-  components: { Tag, BlogCard },
+  components: { Tag, BlogCard2 },
   name: "Hot",
   data() {
     return {
@@ -87,6 +86,10 @@ export default {
 <style>
 .topic {
   width: 50vw;
+}
+.row {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 </style>
  
