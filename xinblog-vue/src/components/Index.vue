@@ -17,7 +17,7 @@
           >
           <el-menu-item index="3"
             ><span class="menu-font"
-              ><router-link to="/hot">专题</router-link></span
+              ><router-link to="/topic">专题</router-link></span
             ></el-menu-item
           >
           <el-menu-item index="4"
