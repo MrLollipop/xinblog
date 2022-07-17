@@ -91,9 +91,9 @@ public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TT
                 keyBlogsCache.put(entry.getKey(), null);
             });
         }
-/**        取出 放入博客id-标签id字符串 缓存
+/**        取出 博客id-标签id字符串 缓存
  *              标签id字符串转为标签id数组
- *              放入博客id
+ *              遍历字符串，放入 标签id->博客id
  **/
         HashMap<Long, String> blogTagCache = (HashMap) myHashOperations.get(Constant.BLOG_TAGS, Constant.BLOG_TAGS);
         blogTagCache.entrySet().stream().forEach(entry -> {
