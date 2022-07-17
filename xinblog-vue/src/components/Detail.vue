@@ -2,7 +2,7 @@
   <div>
     <el-row type="flex" justify="center" :gutter="40">
       <div class="markdown">
-        <el-page-header class="back" @back="goBack" content="主页" />
+        <el-page-header class="back" @back="goBack" content="" />
         <!-- <h1 style="font-size:30px">{{ title }}</h1> -->
         <el-row type="flex" class="row" justify="space-around">
             <el-col :span="12"><span style="float:left">浏览量：{{ viewNum }}</span></el-col>
@@ -12,7 +12,7 @@
         <img class="headPic" :src="cover"/>
         <tag :tagVOList="tagVOList"></tag>
         <markdown :content="content"></markdown>
-        <el-page-header class="back" @back="goBack" content="主页" />
+        <el-page-header class="back" @back="goBack" content="" />
       </div>
     </el-row>
   </div>
