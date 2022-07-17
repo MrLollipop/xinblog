@@ -39,7 +39,7 @@ public class TagCacheUpdateTask {
     @Autowired
     private TTagService tagService;
 
-    @Scheduled(cron = "0 0/10 * * * ? ")
+    @Scheduled(cron = "5 0/10 * * * ? ")
     public void trigger() throws InterruptedException {
         RLock lock = redissonClient.getLock("tagCacheUpdateTask");
         boolean tryLock = lock.tryLock(2, 1000, TimeUnit.MILLISECONDS);

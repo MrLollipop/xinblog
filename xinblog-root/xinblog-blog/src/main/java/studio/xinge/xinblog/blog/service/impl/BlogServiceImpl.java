@@ -120,17 +120,15 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
         BeanUtil.copyProperties(blog, vo, "tags");
         int[] tagKeyArray = {};
         ArrayList<TagVO> tagVOList = new ArrayList<>();
-//        格式[5, 6]
-        String tags = blog.getTags();
-        if (StrUtil.isNotBlank(tags)) {
-            tags = tags.substring(1, tags.length() - 1);
-            tagKeyArray = StrUtil.splitToInt(tags, ',');
-            for (int i : tagKeyArray) {
+//        字符串[5, 6]转为int数组
+        int[] tagIds = tagService.changeTagIdStrToArray(blog.getTags());
+        if (tagIds.length > 0) {
+            for (int i : tagIds) {
                 tagVOList.add(new TagVO(Long.valueOf(i), tagService.getTagName(Long.valueOf(i))));
             }
         }
 
-        vo.setTags(tagKeyArray);
+        vo.setTags(tagIds);
         vo.setTagVOList(tagVOList);
 
         return vo;

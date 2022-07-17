@@ -21,6 +21,7 @@ import java.util.Map;
 /**
  * <p>
  * 前端控制器
+ * 均为管理台接口
  * </p>
  *
  * @author xinge

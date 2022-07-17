@@ -263,4 +263,54 @@ public class BlogUserController {
         return R.ok().put("hotList", getSubList(hotList, from, to));
     }
 
+    /**
+     * 获取指定标签下的博客
+     * 1. 从缓存中提取指定标签的所有BlogID
+     * 2. 从博客缓存中取指定博客
+     *
+     * @param key 标签id
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    @RequestMapping("/blogs/tag")
+    public R getBlogsByTag(@RequestParam long key) {
+        HashSet<Long> blogs = tagService.getBlogsByTag(key);
+        if (null == blogs || blogs.isEmpty()) {
+            return R.ok().put("blogs", null);
+        }
+        LinkedList<BlogEntityVO> blogList = new LinkedList<>();
+        blogs.stream().forEach(blogId -> {
+            BlogEntityVO vo = (BlogEntityVO) myHashOperations.get(Constant.BLOG + blogId, String.valueOf(blogId));
+            if (null == vo) {
+                BlogEntity blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
+                if (null != blog) {
+                    vo = blogService.changeEntityToVO(blog);
+                    myHashOperations.setHash(Constant.BLOG+blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
+                }
+            }
+            blogList.add(vo);
+        });
+
+        return R.ok().put("blogs", blogList);
+    }
+
+    /**
+     * 获取缓存中所有Tag
+     *
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    @RequestMapping("tags")
+    public R getTags() {
+        HashMap tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
+        if (null == tagsCache) {
+            tagService.saveTagCache();
+            tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
+        }
+        return R.ok().put("tags", tagsCache);
+    }
 }

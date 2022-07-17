@@ -1,12 +1,12 @@
 package studio.xinge.xinblog.blog.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import studio.xinge.xinblog.blog.entity.TTag;
 import com.baomidou.mybatisplus.extension.service.IService;
 import studio.xinge.xinblog.blog.vo.TagVO;
 import studio.xinge.xinblog.common.utils.PageUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -76,4 +76,27 @@ public interface TTagService extends IService<TTag> {
      * @Date 2022/7/16
      */
     void blogGroupByTag();
+
+    /**
+     * 将Tagid字符串，转为数组
+     * idStr字符串[5, 6]转为int数组
+     *
+     * @param idStr
+     * @return int[]
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/16
+     */
+    int[] changeTagIdStrToArray(String idStr);
+
+    /**
+     * 根据Tag取出缓存中所有的BlogId
+     *
+     * @param key
+     * @return HashSet<Long>
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/17
+     */
+    HashSet<Long> getBlogsByTag(long key);
 }
