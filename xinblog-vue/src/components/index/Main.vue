@@ -63,6 +63,10 @@ export default {
   mounted() {
     this.$emit("bannerTitle", ["欣 哥 工 作 室", "为程序员创造价值"]);
     this.getIndexData();
+    this.timer = setInterval(this.getNewestList, 8000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   methods: {
     // 获取首页数据列表
