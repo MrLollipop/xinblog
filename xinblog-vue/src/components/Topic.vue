@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       tagKey: this.$route.params.key,
-      label: "专题清单",
+      label: this.$route.params.label,
       tagVOList: [],
       blogs: [],
       noDataMsg: "",
@@ -47,7 +47,7 @@ export default {
     },
   },
   mounted() {
-    this.$emit("bannerTitle", ["欣 哥 工 作 室", "专题清单"]);
+    this.$emit("bannerTitle", ["欣 哥 工 作 室", this.label]);
     this.getTagList();
     this.getBlogsList();
   },
