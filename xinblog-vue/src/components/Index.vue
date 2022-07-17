@@ -202,6 +202,17 @@ export default {
 /* body {
   overflow-y: hidden;
 } */
+
+/*设置router-link点击前的样式 */
+a{
+  text-decoration: none;
+  /* color: #000; */
+}
+/*设置router-link点击后的样式 */
+.router-link-active {
+  text-decoration: none;
+    /* color: red; */
+}
 </style>
  
  

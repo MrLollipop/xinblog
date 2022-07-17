@@ -28,11 +28,16 @@ export default new Router({
         },
         {
           path: 'detail',
-          name: 'Detail',
+          name: 'detail',
           component: Detail,
         },
         {
-          path: 'topic/:key',
+          path: 'detail/:blogId',
+          name: 'detail2',
+          component: Detail,
+        },
+        {
+          path: 'topic/:key/:label',
           name: 'topic',
           component: Topic,
         },

@@ -4,12 +4,14 @@
     <el-row type="flex" justify="center" :gutter="40">
       <div class="topic">
         <tag :tagVOList="tagVOList"></tag>
+        <el-page-header class="back" @back="goBack" content="" />
         <el-row class="row" :gutter="60" v-for="item in blogs" :key="item.id">
-          <router-link :to="{ path: '/detail', query: { blogId: item.id } }">
+          <!-- <router-link :to="{ path: '/detail', query: { blogId: item.id } }"> -->
             <blog-card-2 :blogEntity="item"></blog-card-2>
-          </router-link>
+          <!-- </router-link> -->
         </el-row>
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
+        <el-page-header class="back" @back="goBack" content="" />
       </div>
     </el-row>
   </div>
@@ -25,6 +27,7 @@ export default {
   data() {
     return {
       tagKey: this.$route.params.key,
+      label: "专题清单",
       tagVOList: [],
       blogs: [],
       noDataMsg: "",
@@ -34,11 +37,13 @@ export default {
   watch: {
     // 监听路由变化 $route.path == this.$route.path
     "$route.path": function (newVal, oldVal) {
-      console.log(newVal);
+      // console.log(newVal);
       this.blogs = [];
       this.noDataShow = false;
       this.tagKey = this.$route.params.key;
+      this.label = this.$route.params.label;
       this.getBlogsList();
+      this.$emit("bannerTitle", ["欣 哥 工 作 室", this.label]);
     },
   },
   mounted() {
@@ -78,6 +83,10 @@ export default {
         } else {
         }
       });
+    },
+    goBack() {
+      // console.log("go back");
+      history.go(-1);
     },
   },
 };

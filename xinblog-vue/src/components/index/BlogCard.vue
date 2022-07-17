@@ -1,14 +1,16 @@
 <template>
   <div>
     <el-card :body-style="{ padding: '0px' }" class="card" shadow="hover">
-      <img :src="cover" class="cardImage" />
+      <router-link :to="{ path: 'detail', query: { blogId: id } }">
+        <img :src="cover" class="cardImage" />
+      </router-link>
       <div class="title">
-        <h1>{{ title }}</h1>
+        <router-link :to="{ path: 'detail', query: { blogId: id } }">
+          <h1 style="  text-decoration: none;">{{ title }}</h1>
+        </router-link>
         <tag  :tagVOList="tagVOList"></tag>
         <span id="times"><i class="el-icon-reading"></i> {{ viewNum }} 次</span>
-        <span id="updateTime"
-          ><i class="el-icon-date"></i> {{ updateTime }}</span
-        >
+        <span id="updateTime"><i class="el-icon-date"></i> {{ updateTime }}</span>
       </div>
     </el-card>
   </div>
@@ -21,6 +23,7 @@ import { formatDate } from '@/utils';
 export default {
   data() {
     return {
+      id: this.blogEntity.id,
       title: this.blogEntity.title,
       viewNum: this.blogEntity.viewNum,
       updateTime: formatDate(this.blogEntity.updateTime),
@@ -33,6 +36,11 @@ export default {
   // mounted() {
   //   console.log(this.blogEntity); //父组件传递过来的数据
   // },
+  methods: {
+    toUrl(id) {
+      this.$router.push({ name: 'detail2', query: {blogId:id} });
+    },
+  }
 };
 </script>
 

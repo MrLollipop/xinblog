@@ -2,13 +2,17 @@
   <div>
     <el-row type="flex" justify="center" :gutter="40">
       <el-col :span="8">
-        <el-card :body-style="{ padding: '0px' }" class="card" shadow="hover">
-          <img :src="cover" class="cardImage" />
-        </el-card>
+        <router-link :to="{ path: '/detail', query: { blogId: id } }">
+          <el-card :body-style="{ padding: '0px' }" class="card" shadow="hover">
+            <img :src="cover" class="cardImage" />
+          </el-card>
+        </router-link>
       </el-col>
       <el-col :span="16">
         <div class="title">
-          <el-row><h1>{{ title }}</h1></el-row>
+          <router-link :to="{ path: '/detail', query: { blogId: id } }">
+            <el-row><h1>{{ title }}</h1></el-row>
+          </router-link>  
           <el-row><h2>{{ subTitle }}</h2></el-row>
           <el-row><tag class="tag" :tagVOList="tagVOList"></tag></el-row>
           <el-row class="bottomMsg">
@@ -28,6 +32,7 @@ import { formatDate } from "@/utils";
 export default {
   data() {
     return {
+      id: this.blogEntity.id,
       title: this.blogEntity.title,
       subTitle: this.blogEntity.subTitle,
       viewNum: this.blogEntity.viewNum,

@@ -14,9 +14,9 @@
     <el-divider></el-divider>
     <el-row :gutter="60">
       <el-col :span="8" v-for="item in newestList" :key="item.id">
-        <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
+        <!-- <router-link :to="{ path: 'detail', query: { blogId: item.id } }"> -->
           <blog-card :blogEntity=item></blog-card>
-        </router-link>
+        <!-- </router-link> -->
       </el-col>
     </el-row>
 
@@ -28,9 +28,9 @@
     <el-divider></el-divider>
     <el-row :gutter="60">
       <el-col :span="8" v-for="item in hotList" :key="item.id">
-        <router-link :to="{ path: 'detail', query: { blogId: item.id } }">
+        <!-- <router-link :to="{ path: 'detail', query: { blogId: item.id } }"> -->
           <blog-card :blogEntity=item></blog-card>
-        </router-link>
+        <!-- </router-link> -->
       </el-col>
     </el-row>
   </div>

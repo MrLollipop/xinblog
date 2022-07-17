@@ -85,7 +85,7 @@ export default {
       });
     },
     goBack() {
-      console.log("go back");
+      // console.log("go back");
       history.go(-1);
     },
   },

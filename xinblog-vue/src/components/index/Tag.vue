@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button :type="changeColor()" size="mini" plain v-for="tag in tagVOList" :key="tag.key" @click="toUrl(tag.key)">
+    <el-button :type="changeColor()" size="mini" plain v-for="tag in tagVOList" :key="tag.key" @click="toUrl(tag)">
       {{ tag.label }}
     </el-button>
   </div>
@@ -17,8 +17,14 @@ export default {
       const colors = ["primary", "success", "info", "danger", "warning"];
       return colors[Math.floor(Math.random() * colors.length)];
     },
-    toUrl(key) {
-      this.$router.push({ name: 'topic', params: {'key':key} });
+    toUrl(tag) {
+      this.$router.push({
+        name: 'topic', 
+        params: {
+          'key':tag.key,
+          'label':tag.label,
+          } 
+      });
     },
   },
   props: ["tagVOList"],
