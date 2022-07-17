@@ -276,14 +276,17 @@ public class BlogUserController {
      */
     @RequestMapping("/blogs/tag")
     public R getBlogsByTag(@RequestParam long key) {
+//        从tag->blogs缓存中取出对应blogs集合
         HashSet<Long> blogs = tagService.getBlogsByTag(key);
         if (null == blogs || blogs.isEmpty()) {
             return R.ok().put("blogs", null);
         }
         LinkedList<BlogEntityVO> blogList = new LinkedList<>();
         blogs.stream().forEach(blogId -> {
+//            先从博客缓存中查
             BlogEntityVO vo = (BlogEntityVO) myHashOperations.get(Constant.BLOG + blogId, String.valueOf(blogId));
             if (null == vo) {
+//                不存在，将DB结果放入缓存
                 BlogEntity blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
                 if (null != blog) {
                     vo = blogService.changeEntityToVO(blog);
