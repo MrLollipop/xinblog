@@ -15,23 +15,9 @@
               ><router-link to="/">首页</router-link></span
             ></el-menu-item
           >
-          <el-submenu index="2">
-            <template slot="title"
-              ><span class="menu-font">大纲</span></template
-            >
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="2-4-1">选项1</el-menu-item>
-              <el-menu-item index="2-4-2">选项2</el-menu-item>
-              <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
-          </el-submenu>
           <el-menu-item index="3"
             ><span class="menu-font"
-              ><router-link to="/hot">热门</router-link></span
+              ><router-link to="/hot">专题</router-link></span
             ></el-menu-item
           >
           <el-menu-item index="4"
@@ -43,7 +29,7 @@
       </el-header>
       <div class="banner">
         <h1>{{ bannerTitle }}</h1>
-        <h2>{{subBannerTitle}}</h2>
+        <h2>{{ subBannerTitle }}</h2>
       </div>
       <el-container>
         <el-main>
@@ -67,7 +53,7 @@
 </template>
  
 <script>
-import BackTop from './BackTop.vue';
+import BackTop from "./BackTop.vue";
 export default {
   name: "Index",
   data() {
@@ -99,10 +85,10 @@ export default {
       opacity = opacity > 1 ? 0.6 : 1;
       this.opacityStyle = { opacity };
     },
-    updateBannerTitle(title){
+    updateBannerTitle(title) {
       this.bannerTitle = title[0];
       this.subBannerTitle = title[1];
-    }
+    },
   },
   components: {
     BackTop,
