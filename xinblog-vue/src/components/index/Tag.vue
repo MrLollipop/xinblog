@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button :type="changeColor()" size="mini" plain v-for="tag in tagVOList" :key="tag.key" @click="toUrl(tag)">
+    <el-button class="singleTag" :type="changeColor()" size="mini" plain v-for="tag in tagVOList" :key="tag.key" @click="toUrl(tag)">
       {{ tag.label }}
     </el-button>
   </div>
@@ -30,3 +30,10 @@ export default {
   props: ["tagVOList"],
 };
 </script>
+
+<style scoped>
+.singleTag{
+  margin: 5px;
+  /* margin:3px 5px; */
+}
+</style>
