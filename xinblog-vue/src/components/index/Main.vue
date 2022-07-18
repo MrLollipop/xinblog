@@ -54,6 +54,7 @@ export default {
       hotList: [],
       newestListFrom: 0,
       hotListFrom: 0,
+      pageSize: 3,
     };
   },
   components: {
@@ -77,7 +78,7 @@ export default {
         method: "get",
         params: this.$http.adornParams({
           from: 0,
-          to: 3,
+          pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
         console.log(data);
@@ -93,20 +94,20 @@ export default {
     },
     // 获取最新博客列表
     getNewestList(){
-      let from = this.newestListFrom + 3;
+      let from = this.newestListFrom + this.pageSize;
       this.$http({
         url: this.$http.adornUrl("api/blog/user/newestList"),
         method: "get",
         params: this.$http.adornParams({
           'from': from,
-          'to': from + 3,
+           pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
         console.log(data);
         if (data.code === 10000) {
           this.newestList = data.newestList.list;
           if (data.newestList.from < from) {
-            this.newestListFrom = -3;
+            this.newestListFrom = 0 - this.pageSize;
           } else {
             this.newestListFrom = data.newestList.from;
           }
@@ -119,20 +120,20 @@ export default {
     },
     // 获取热门博客列表
     getHotList(){
-      let from = this.hotListFrom + 3;
+      let from = this.hotListFrom + this.pageSize;
       this.$http({
         url: this.$http.adornUrl("api/blog/user/hotList"),
         method: "get",
         params: this.$http.adornParams({
           'from': from,
-          'to': from + 3,
+           pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
         console.log(data);
         if (data.code === 10000) {
           this.hotList = data.hotList.list;
           if (data.hotList.from < from) {
-            this.hotListFrom = -3;
+            this.hotListFrom = 0 - this.pageSize;
           } else {
             this.hotListFrom = data.hotList.from;
           }

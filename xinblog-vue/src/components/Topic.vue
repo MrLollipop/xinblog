@@ -4,14 +4,20 @@
     <el-row type="flex" justify="center" :gutter="40">
       <div class="topic">
         <tag :tagVOList="tagVOList"></tag>
-        <el-page-header class="back" @back="goBack" content="" />
+        <el-row>
+          <el-col :span="20"><el-page-header class="back" @back="goBack" content="" /></el-col> 
+          <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()">换一批</el-button></el-col>
+        </el-row>
         <el-row class="row" :gutter="60" v-for="item in blogs" :key="item.id">
           <!-- <router-link :to="{ path: '/detail', query: { blogId: item.id } }"> -->
             <blog-card-2 :blogEntity="item"></blog-card-2>
           <!-- </router-link> -->
         </el-row>
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
-        <el-page-header class="back" @back="goBack" content="" />
+        <el-row>
+          <el-col :span="20"><el-page-header class="back" @back="goBack" content="" /></el-col> 
+          <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()">换一批</el-button></el-col>
+        </el-row>
       </div>
     </el-row>
   </div>
@@ -32,6 +38,8 @@ export default {
       blogs: [],
       noDataMsg: "",
       noDataShow: false,
+      pageSize: 3,
+      from: 0 - 3,
     };
   },
   watch: {
@@ -42,8 +50,9 @@ export default {
       this.noDataShow = false;
       this.tagKey = this.$route.params.key;
       this.label = this.$route.params.label;
-      this.getBlogsList();
       this.$emit("bannerTitle", ["欣 哥 工 作 室", this.label]);
+      this.from = 0 - this.pageSize;
+      this.getBlogsList();
     },
   },
   mounted() {
@@ -67,16 +76,24 @@ export default {
     },
     // 获取标签所属博客清单
     getBlogsList() {
+      let from2 = this.from + this.pageSize;
       this.$http({
         url: this.$http.adornUrl("api/blog/user/blogs/tag"),
         method: "get",
         params: this.$http.adornParams({
           key: this.tagKey,
+          from: from2,
+          pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
         console.log(data);
         if (data.code === 10000) {
-          this.blogs = data.blogs;
+          this.blogs = data.blogs.list;
+          if (data.blogs.from < from2) {
+            this.from = 0 - this.pageSize;
+          } else {
+            this.from = data.blogs.from;
+          }
         } else if (data.code === 10006) {
           this.noDataMsg = data.msg;
           this.noDataShow = true;
