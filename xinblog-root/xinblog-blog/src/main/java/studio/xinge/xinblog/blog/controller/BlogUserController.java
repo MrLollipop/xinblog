@@ -19,6 +19,7 @@ import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
 import studio.xinge.xinblog.blog.vo.BlogListVO;
+import studio.xinge.xinblog.blog.vo.PageVO;
 import studio.xinge.xinblog.blog.vo.TagVO;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.R;
@@ -191,7 +192,7 @@ public class BlogUserController {
      * @Date 2022/7/4
      */
     @RequestMapping("/indexData")
-    public R indexData(int from, int to) {
+    public R indexData(PageVO pageVO) {
         List topList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "topList", "topList");
         if (null == topList) {
 //          缓存不存在时,手动触发
@@ -204,27 +205,30 @@ public class BlogUserController {
         HashMap<String, Object> indexData = new HashMap<>();
 //        置顶博客数目已有阈值保护，故全部返回
         indexData.put("topList", topList);
-        indexData.put("newestList", getSubList(newestList, from, to));
-        indexData.put("hotList", getSubList(hotList, from, to));
+        indexData.put("newestList", getSubList(newestList, pageVO));
+        indexData.put("hotList", getSubList(hotList, pageVO));
         return R.ok().put("indexData", indexData);
     }
 
     /**
      * 截取每页显示的list
+     * 例如 pageVO.pageSize=3
      * 1.每页展示3个
      * 2.超出下标，返回最末3个
      *
      * @param list
-     * @param from
-     * @param to
+     * @param pageVO
      * @return BlogListVO
      * @Author xinge
      * @Description
-     * @Date 2022/7/9
+     * @Date 2022/7/18
      */
-    private BlogListVO getSubList(List list, int from, int to) {
-        if (from > list.size() - 1 || to > list.size() || from >= to) {
-            from = (list.size() - 3) < 0 ? 0 : list.size() - 3;
+    private BlogListVO getSubList(List list, PageVO pageVO) {
+        int from = pageVO.getFrom();
+        int to = from + pageVO.getPageSize();
+        int pageSize = pageVO.getPageSize();
+        if (from > list.size() - 1 || to > list.size()) {
+            from = (list.size() - pageSize) < 0 ? 0 : list.size() - pageSize;
             to = list.size();
         }
         return new BlogListVO(list.subList(from, to), from);
@@ -233,35 +237,33 @@ public class BlogUserController {
     /**
      * 最新列表
      *
-     * @param from
-     * @param to
+     * @param pageVO
      * @return R
      * @Author xinge
      * @Description
-     * @Date 2022/7/9
+     * @Date 2022/7/18
      */
     @RequestMapping("/newestList")
-    public R newestList(int from, int to) {
+    public R newestList(PageVO pageVO) {
         List<BlogEntity> newestList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "newestList", "newestList");
 
-        return R.ok().put("newestList", getSubList(newestList, from, to));
+        return R.ok().put("newestList", getSubList(newestList, pageVO));
     }
 
     /**
      * 热门列表
      *
-     * @param from
-     * @param to
+     * @param pageVO
      * @return R
      * @Author xinge
      * @Description
-     * @Date 2022/7/9
+     * @Date 2022/7/18
      */
     @RequestMapping("/hotList")
-    public R hotList(int from, int to) {
+    public R hotList(PageVO pageVO) {
         List<BlogEntity> hotList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "hotList", "hotList");
 
-        return R.ok().put("hotList", getSubList(hotList, from, to));
+        return R.ok().put("hotList", getSubList(hotList, pageVO));
     }
 
     /**
@@ -276,7 +278,7 @@ public class BlogUserController {
      * @Date 2022/7/16
      */
     @RequestMapping("/blogs/tag")
-    public R getBlogsByTag(@RequestParam long key) {
+    public R getBlogsByTag(@RequestParam long key, PageVO pageVO) {
 //        从tag->blogs缓存中取出对应blogs集合
         HashSet<Long> blogs = tagService.getBlogsByTag(key);
         if (null == blogs || blogs.isEmpty()) {
@@ -291,13 +293,13 @@ public class BlogUserController {
                 BlogEntity blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
                 if (null != blog) {
                     vo = blogService.changeEntityToVO(blog);
-                    myHashOperations.setHash(Constant.BLOG+blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
+                    myHashOperations.setHash(Constant.BLOG + blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
                 }
             }
             blogList.add(vo);
         });
 
-        return R.ok().put("blogs", blogList);
+        return R.ok().put("blogs", getSubList(blogList, pageVO));
     }
 
     /**
@@ -317,7 +319,7 @@ public class BlogUserController {
             tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
         }
         LinkedList<TagVO> vos = new LinkedList<>();
-        tagsCache.entrySet().stream().forEach(entry->{
+        tagsCache.entrySet().stream().forEach(entry -> {
             vos.add(new TagVO(entry.getKey(), entry.getValue()));
         });
         return R.ok().put("tags", vos);
