@@ -227,11 +227,13 @@ public class BlogUserController {
         int from = pageVO.getFrom();
         int to = from + pageVO.getPageSize();
         int pageSize = pageVO.getPageSize();
+        boolean end = false;
         if (from > list.size() - 1 || to > list.size()) {
             from = (list.size() - pageSize) < 0 ? 0 : list.size() - pageSize;
             to = list.size();
+            end = true;
         }
-        return new BlogListVO(list.subList(from, to), from);
+        return new BlogListVO(list.subList(from, to), end);
     }
 
     /**

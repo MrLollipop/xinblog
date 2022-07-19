@@ -16,11 +16,12 @@ public class BlogListVO implements Serializable {
     private static final long serialVersionUID = -7490334714363277722L;
 
     private List list;
-    private int from;
+//  是否到头 是true
+    private boolean end;
 
-    public BlogListVO(List list, int from) {
+    public BlogListVO(List list, boolean end) {
         this.list = list;
-        this.from = from;
+        this.end = end;
     }
 
     public BlogListVO() {
