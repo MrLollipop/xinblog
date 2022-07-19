@@ -6,7 +6,7 @@
         <tag :tagVOList="tagVOList"></tag>
         <el-row>
           <el-col :span="20"><el-page-header class="back" @back="goBack" content="" /></el-col> 
-          <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()">换一批</el-button></el-col>
+          <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()" icon="el-icon-refresh">换一换</el-button></el-col>
         </el-row>
         <el-row class="row" :gutter="60" v-for="item in blogs" :key="item.id">
             <blog-card-2 :blogEntity="item"></blog-card-2>
@@ -14,7 +14,7 @@
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <el-row>
           <el-col :span="20"><el-page-header class="back" @back="goBack" content="" /></el-col> 
-          <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()">换一批</el-button></el-col>
+          <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()" icon="el-icon-refresh">换一换</el-button></el-col>
         </el-row>
       </div>
     </el-row>

@@ -9,7 +9,7 @@
     <!-- 最新发布 -->
     <div class="blogClass">
       <span><i class="el-icon-document"></i> 最新发布</span>
-      <el-button plain size="small" style="float:right" @click="getNewestList()">换一批</el-button>
+      <el-button plain size="small" style="float:right" @click="getNewestList()" icon="el-icon-refresh">换一换</el-button>
     </div>
     <el-divider></el-divider>
     <el-row :gutter="60">
@@ -21,7 +21,7 @@
     <!-- 热门 -->
     <div class="blogClass">
       <span><i class="el-icon-document"></i> 热门</span>
-      <el-button plain size="small" style="float:right" @click="getHotList()">换一批</el-button>
+      <el-button plain size="small" style="float:right" @click="getHotList()" icon="el-icon-refresh">换一换</el-button>
     </div>
     <el-divider></el-divider>
     <el-row :gutter="60">
