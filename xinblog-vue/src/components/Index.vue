@@ -98,7 +98,7 @@ export default {
  
 <style>
 .el-header {
-  background-color: #00a8e2;
+  background-color: #6db8d1;
   height: 70px;
   width: 98.5vw;
   position: fixed;
@@ -135,13 +135,13 @@ export default {
 }
 
 .menu-font:hover {
-  color: #00a8e2;
-  border-bottom: 1px solid #00a8e2;
+  color: #6db8d1;
+  border-bottom: 1px solid #6db8d1;
 }
 
 .banner {
   width: 98.5vw;
-  background-color: #00a8e2;
+  background-color: #6db8d1;
 }
 
 .banner > h1 {
