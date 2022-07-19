@@ -106,14 +106,14 @@ export default {
         console.log(data);
         if (data.code === 10000) {
           this.newestList = data.newestList.list;
-          if (data.newestList.from < from) {
+          if (data.newestList.end) {
             this.newestListFrom = 0 - this.pageSize;
           } else {
-            this.newestListFrom = data.newestList.from;
+            this.newestListFrom = from;
           }
         } else {
           // this.dataList = [];
-
+          this.$message.error(data.msg);
         }
         // this.dataListLoading = false;
       });
@@ -132,16 +132,14 @@ export default {
         console.log(data);
         if (data.code === 10000) {
           this.hotList = data.hotList.list;
-          if (data.hotList.from < from) {
+          if (data.hotList.end) {
             this.hotListFrom = 0 - this.pageSize;
           } else {
-            this.hotListFrom = data.hotList.from;
+            this.hotListFrom = from;
           }
         } else {
-          // this.dataList = [];
-
+          this.$message.error(data.msg);
         }
-        // this.dataListLoading = false;
       });
     },
   },
