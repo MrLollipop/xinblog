@@ -7,7 +7,7 @@
     </el-row>
 
     <!-- 最新发布 -->
-    <el-row class="rowTitle">
+    <el-row class="rowTitle" style="margin-top:10px">
       <el-col :span="20"><span class="blogClass"><i class="el-icon-document"></i> 最新发布</span></el-col>
       <el-col :span="4"><el-button plain size="small" style="float:right" @click="getNewestList()" icon="el-icon-refresh">换一换</el-button></el-col>
     </el-row>
