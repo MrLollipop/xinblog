@@ -14,9 +14,7 @@
     <el-divider></el-divider>
     <el-row :gutter="60">
       <el-col :span="8" v-for="item in newestList" :key="item.id">
-        <!-- <router-link :to="{ path: 'detail', query: { blogId: item.id } }"> -->
           <blog-card :blogEntity=item></blog-card>
-        <!-- </router-link> -->
       </el-col>
     </el-row>
 
@@ -28,9 +26,7 @@
     <el-divider></el-divider>
     <el-row :gutter="60">
       <el-col :span="8" v-for="item in hotList" :key="item.id">
-        <!-- <router-link :to="{ path: 'detail', query: { blogId: item.id } }"> -->
           <blog-card :blogEntity=item></blog-card>
-        <!-- </router-link> -->
       </el-col>
     </el-row>
   </div>
@@ -72,7 +68,6 @@ export default {
   methods: {
     // 获取首页数据列表
     getIndexData() {
-      // this.dataListLoading = true;
       this.$http({
         url: this.$http.adornUrl("api/blog/user/indexData"),
         method: "get",
@@ -81,7 +76,7 @@ export default {
           pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.topList = data.indexData.topList;
           this.newestList = data.indexData.newestList.list;
@@ -89,7 +84,6 @@ export default {
         } else {
           this.$message.error(data.msg);
         }
-        // this.dataListLoading = false;
       });
     },
     // 获取最新博客列表
@@ -103,7 +97,7 @@ export default {
            pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.newestList = data.newestList.list;
           if (data.newestList.end) {
@@ -112,10 +106,8 @@ export default {
             this.newestListFrom = from;
           }
         } else {
-          // this.dataList = [];
           this.$message.error(data.msg);
         }
-        // this.dataListLoading = false;
       });
     },
     // 获取热门博客列表
@@ -129,7 +121,7 @@ export default {
            pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.hotList = data.hotList.list;
           if (data.hotList.end) {

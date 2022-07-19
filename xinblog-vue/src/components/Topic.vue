@@ -9,9 +9,7 @@
           <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()">换一批</el-button></el-col>
         </el-row>
         <el-row class="row" :gutter="60" v-for="item in blogs" :key="item.id">
-          <!-- <router-link :to="{ path: '/detail', query: { blogId: item.id } }"> -->
             <blog-card-2 :blogEntity="item"></blog-card-2>
-          <!-- </router-link> -->
         </el-row>
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <el-row>
@@ -68,7 +66,7 @@ export default {
         method: "get",
         params: this.$http.adornParams({}),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.tagVOList = data.tags;
         }
@@ -86,7 +84,7 @@ export default {
           pageSize: this.pageSize,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.blogs = data.blogs.list;
           if (data.blogs.end) {
@@ -98,11 +96,11 @@ export default {
           this.noDataMsg = data.msg;
           this.noDataShow = true;
         } else {
+          this.$message.error(data.msg);
         }
       });
     },
     goBack() {
-      // console.log("go back");
       history.go(-1);
     },
   },

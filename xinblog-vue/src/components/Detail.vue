@@ -49,7 +49,7 @@ export default {
         url: this.$http.adornUrl("api/blog/user/view/" + this.blogId),
         method: "get",
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.title = data.blog.title;
           this.subTitle = data.blog.subTitle;
@@ -71,11 +71,9 @@ export default {
       });
     },
     getMarkdown() {
-      // console.log(this.markdownAddr.substr(47, this.markdownAddr.length));
-      console.log(this.markdownAddr);
+      // console.log(this.markdownAddr);
       this.$http({
         url: this.$http.adornUrlByProxy(
-          // this.markdownAddr.substr(47, this.markdownAddr.length),
           this.markdownAddr,
           "/proxyOssApi/"
         ),
@@ -85,7 +83,6 @@ export default {
       });
     },
     goBack() {
-      // console.log("go back");
       history.go(-1);
     },
   },
