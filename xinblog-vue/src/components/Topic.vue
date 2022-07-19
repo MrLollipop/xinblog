@@ -38,8 +38,8 @@ export default {
       blogs: [],
       noDataMsg: "",
       noDataShow: false,
-      pageSize: 3,
-      from: 0 - 3,
+      pageSize: 5,
+      from: 0 - 5,
     };
   },
   watch: {
@@ -89,10 +89,10 @@ export default {
         console.log(data);
         if (data.code === 10000) {
           this.blogs = data.blogs.list;
-          if (data.blogs.from < from2) {
+          if (data.blogs.end) {
             this.from = 0 - this.pageSize;
           } else {
-            this.from = data.blogs.from;
+            this.from = from2;
           }
         } else if (data.code === 10006) {
           this.noDataMsg = data.msg;
