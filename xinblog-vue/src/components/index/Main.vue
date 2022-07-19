@@ -7,26 +7,26 @@
     </el-row>
 
     <!-- 最新发布 -->
-    <div class="blogClass">
-      <span><i class="el-icon-document"></i> 最新发布</span>
-      <el-button plain size="small" style="float:right" @click="getNewestList()" icon="el-icon-refresh">换一换</el-button>
-    </div>
-    <el-divider></el-divider>
+    <el-row class="rowTitle">
+      <el-col :span="20"><span class="blogClass"><i class="el-icon-document"></i> 最新发布</span></el-col>
+      <el-col :span="4"><el-button plain size="small" style="float:right" @click="getNewestList()" icon="el-icon-refresh">换一换</el-button></el-col>
+    </el-row>
+
     <el-row :gutter="60">
       <el-col :span="8" v-for="item in newestList" :key="item.id">
-          <blog-card :blogEntity=item></blog-card>
+        <blog-card :blogEntity=item></blog-card>
       </el-col>
     </el-row>
 
     <!-- 热门 -->
-    <div class="blogClass">
-      <span><i class="el-icon-document"></i> 热门</span>
-      <el-button plain size="small" style="float:right" @click="getHotList()" icon="el-icon-refresh">换一换</el-button>
-    </div>
-    <el-divider></el-divider>
+    <el-row class="rowTitle">
+      <el-col :span="20"><span class="blogClass"><i class="el-icon-document"></i> 热门</span></el-col>
+      <el-col :span="4"><el-button plain size="small" style="float:right" @click="getHotList()" icon="el-icon-refresh">换一换</el-button></el-col>
+    </el-row>
+
     <el-row :gutter="60">
       <el-col :span="8" v-for="item in hotList" :key="item.id">
-          <blog-card :blogEntity=item></blog-card>
+        <blog-card :blogEntity=item></blog-card>
       </el-col>
     </el-row>
   </div>
@@ -140,13 +140,18 @@ export default {
  
 <style>
 .blogClass {
-  height: 10px;
+  height: 100%;
   margin-left: 0;
-  margin-top: 25px;
   text-align: left;
   font-size: 20px;
   color: #999;
-  /* border-bottom: 1px solid #999; */
+  float: left;
+}
+.rowTitle {
+  border-bottom: 1px solid rgb(211, 209, 209);
+  padding-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 </style>
  
