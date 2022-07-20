@@ -74,6 +74,11 @@ export default {
     },
     // 获取标签所属博客清单
     getBlogsList() {
+      if(this.tagKey === undefined) {
+        this.noDataMsg = '请随便点你喜欢的标签看看';
+        this.noDataShow = true;
+        return ;
+      }
       let from2 = this.from + this.pageSize;
       this.$http({
         url: this.$http.adornUrl("api/blog/user/blogs/tag"),
