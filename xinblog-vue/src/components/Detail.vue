@@ -11,7 +11,18 @@
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <img class="headPic" :src="cover"/>
         <tag :tagVOList="tagVOList"></tag>
-        <markdown :content="content"></markdown>
+        
+        <!-- markdown-it插件解析 -->
+        <!-- <markdown :content="content"></markdown> -->
+
+        <!-- vue-markdown插件解析 -->
+        <div id="my-markdown" class="markdown-body">
+          <vue-markdown :source="content"
+           :toc="true" 
+           :toc-anchor-link="true"
+           :toc-anchor-link-space="true"		>
+          </vue-markdown>
+        </div>
         <el-page-header class="back" @back="goBack" content="" />
       </div>
     </el-row>
@@ -22,9 +33,11 @@
 import Markdown from "./Markdown.vue";
 import { formatDate } from "@/utils";
 import Tag from './index/Tag.vue';
+import VueMarkdown from "vue-markdown";
+
 
 export default {
-  components: { Markdown, Tag },
+  components: { Markdown, Tag, VueMarkdown, },
     data() {
     return {
       title: "文章加载中...",
@@ -90,6 +103,21 @@ export default {
 </script>
 
 <style scoped>
+/*  vue-markdown插件解析  */
+@import "github-markdown-css/github-markdown.css";
+.markdown-body {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 40px;
+  text-align: left;
+}
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
+}
+
+/*  markdown-it插件解析  */
 .markdown {
   width: 50vw;
   margin: 2px 0px;
