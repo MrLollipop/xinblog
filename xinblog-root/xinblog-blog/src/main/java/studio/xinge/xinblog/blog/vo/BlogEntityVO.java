@@ -23,7 +23,6 @@ import java.util.List;
  * @date 2021-07-19 14:35:51
  */
 @Data
-@TableName("t_blog")
 public class BlogEntityVO implements Serializable {
 
     private static final long serialVersionUID = -3157387596065398746L;

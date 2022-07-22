@@ -8,27 +8,18 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.IndexService;
 import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
-import studio.xinge.xinblog.blog.vo.BlogEntityVO;
-import studio.xinge.xinblog.blog.vo.BlogListVO;
-import studio.xinge.xinblog.blog.vo.PageVO;
-import studio.xinge.xinblog.blog.vo.TagVO;
+import studio.xinge.xinblog.blog.vo.*;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -288,20 +279,35 @@ public class BlogUserController {
         }
         LinkedList<BlogEntityVO> blogList = new LinkedList<>();
         blogs.stream().forEach(blogId -> {
-//            先从博客缓存中查
-            BlogEntityVO vo = (BlogEntityVO) myHashOperations.get(Constant.BLOG + blogId, String.valueOf(blogId));
-            if (null == vo) {
-//                不存在，将DB结果放入缓存
-                BlogEntity blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
-                if (null != blog) {
-                    vo = blogService.changeEntityToVO(blog);
-                    myHashOperations.setHash(Constant.BLOG + blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
-                }
-            }
+            BlogEntityVO vo = getBlogEntityVO(blogId);
             blogList.add(vo);
         });
 
         return R.ok().put("blogs", getSubList(blogList, pageVO));
+    }
+
+    /**
+     * 从缓存中取BlogEntityVO
+     * 不存在，查库，并放入缓存
+     *
+     * @param blogId
+     * @return BlogEntityVO
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/22
+     */
+    private BlogEntityVO getBlogEntityVO(Long blogId) {
+        //            先从博客缓存中查
+        BlogEntityVO vo = (BlogEntityVO) myHashOperations.get(Constant.BLOG + blogId, String.valueOf(blogId));
+        if (null == vo) {
+//                不存在，将DB结果放入缓存
+            BlogEntity blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
+            if (null != blog) {
+                vo = blogService.changeEntityToVO(blog);
+                myHashOperations.setHash(Constant.BLOG + blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
+            }
+        }
+        return vo;
     }
 
     /**
@@ -325,5 +331,40 @@ public class BlogUserController {
             vos.add(new TagVO(entry.getKey(), entry.getValue()));
         });
         return R.ok().put("tags", vos);
+    }
+
+    /**
+     * 找到相似博客（同样标签）
+     * 根据tags找到每个tag的博客列表 (tag->blogs)(去掉自己)
+     * 缓存bolgid->blogSimpleVO(id,title)
+     *
+     * @param keyStr
+     * @param selfId
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/22
+     */
+    @GetMapping("/similar")
+    public R getSimilarBlogs(String keyStr, long selfId) {
+        long[] keys = StrUtil.splitToLong(keyStr, ',');
+        Set<Long> similarIds = new HashSet<>();
+        List<BlogSimpleVO> similar = new LinkedList<>();
+        if (keys.length > 0) {
+            Arrays.stream(keys).forEach(key -> {
+                //        从tag->blogs缓存中取出对应blogs集合
+                HashSet<Long> blogs = tagService.getBlogsByTag(key);
+                similarIds.addAll(blogs);
+            });
+        }
+        // 去掉自己
+        similarIds.remove(selfId);
+
+        similarIds.stream().forEach(blogId -> {
+            BlogEntityVO vo = getBlogEntityVO(blogId);
+            similar.add(new BlogSimpleVO(vo));
+        });
+
+        return R.ok().put("blogs", similar);
     }
 }
