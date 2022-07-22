@@ -1,5 +1,7 @@
 package studio.xinge.xinblog.blog.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import studio.xinge.xinblog.common.valid.groups.Add;
 
@@ -16,6 +18,7 @@ import java.io.Serializable;
 public class BlogSimpleVO implements Serializable {
     private static final long serialVersionUID = -7840142468067717252L;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     private String title;
