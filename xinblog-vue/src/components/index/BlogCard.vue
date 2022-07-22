@@ -9,7 +9,7 @@
           <h1 style="  text-decoration: none;">{{ title }}</h1>
         </router-link>
         <tag  :tagVOList="tagVOList"></tag>
-        <span id="times"><i class="el-icon-reading"></i> {{ viewNum }} 次</span>
+        <span id="times"><i class="el-icon-view"></i> {{ viewNum }} 次</span>
         <span id="updateTime"><i class="el-icon-date"></i> {{ updateTime }}</span>
       </div>
     </el-card>
