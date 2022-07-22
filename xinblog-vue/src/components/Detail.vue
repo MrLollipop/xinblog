@@ -3,21 +3,37 @@
     <el-row type="flex" justify="center" :gutter="40">
       <div class="markdown">
         <el-page-header class="back" @back="goBack" content="" />
-        <!-- <h1 style="font-size:30px">{{ title }}</h1> -->
-        <el-row type="flex" class="row" justify="space-around">
-            <el-col :span="12"><span style="float:left">浏览量：{{ viewNum }}</span></el-col>
-            <el-col :span="12"><span style="float:right">最后更新时间：{{ updateTime }}</span></el-col>
-        </el-row>
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <img class="headPic" :src="cover"/>
+        <el-row type="flex" class="row" justify="space-around">
+            <el-col :span="6" :offset="6"><span style="float:left"><i class="el-icon-view"> {{ viewNum }} </i></span></el-col>
+            <el-col :span="6" ><span style="float:right"><i class="el-icon-date"> {{ updateTime }} </i></span></el-col>
+            <el-col :span="6"></el-col>
+        </el-row>
         <tag :tagVOList="tagVOList"></tag>
         
         <!-- markdown-it插件解析 -->
         <!-- <markdown :content="content"></markdown> -->
 
-        <!-- markdown-it-vue插件解析 -->
-        <markdown-it-vue class="md-body" :content="content" :options="options"></markdown-it-vue>
-
+        <el-row :gutter="40">
+          <el-col :span="18">
+            <!-- markdown-it-vue插件解析 -->
+            <markdown-it-vue class="md-body" :content="content" :options="options"></markdown-it-vue>
+          </el-col>
+          <el-col :span="6">
+            <div class="rightBox">
+              <h3>推荐阅读</h3>
+              <el-row>
+                <ul>
+                  <li v-for="simpleVO in simpleVOList" :key="simpleVO.id" >
+                    <router-link :to="{ path: 'detail', query: { blogId: simpleVO.id } }">{{simpleVO.title}}</router-link>
+                  </li>
+                </ul>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+       
         <el-page-header class="back" @back="goBack" content="" />
       </div>
     </el-row>
@@ -46,6 +62,8 @@ export default {
       noDataMsg: "",
       noDataShow: false,
       tagVOList: [],
+      tagIdStr: '',
+      simpleVOList: [],
       options: {
         markdownIt: {
           linkify: true
@@ -96,6 +114,7 @@ export default {
           this.$emit("bannerTitle", [this.title, this.subTitle]);
 
           this.getMarkdown();
+          this.getSimilar();
         } else if (data.code == 11004) {
           this.noDataMsg = data.msg;
           this.noDataShow = true;
@@ -116,6 +135,30 @@ export default {
         this.content = data;
       });
     },
+    getTagIds() {
+      var str = '';
+      this.tagVOList.forEach(function (element, index){
+        str = str + element.key + ',';
+      });
+      this.tagIdStr = str;
+    },
+    getSimilar() {
+      this.getTagIds();
+      this.$http({
+        url: this.$http.adornUrl("api/blog/user/similar"),
+        method: "get",
+        params: this.$http.adornParams({
+          keyStr: this.tagIdStr,
+          selfId: this.blogId,
+        }),
+      }).then(({ data }) => {
+        if (data.code === 10000) {
+          this.simpleVOList = data.blogs
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
+    },
     goBack() {
       history.go(-1);
     },
@@ -128,21 +171,29 @@ export default {
   text-align: left;
 }
 
-/*  markdown-it插件解析  */
 .markdown {
-  width: 50vw;
+  width: 60vw;
   margin: 2px 0px;
 }
+
 .back {
   margin-top: 15px;
   margin-bottom: 10px;
 }
 .row {
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 .headPic {
   width: 60%;
   margin-bottom: 20px;
+}
+
+.rightBox {
+  float: left;
+  text-align: left;
+  /* border-left: 1px solid lightgray; */
+}
+.rightBox h3 {
+  margin:3px 20px 5px;
 }
 </style>
