@@ -34,7 +34,7 @@
       <el-container>
         <el-main>
           <div class="main">
-            <router-view @bannerTitle="updateBannerTitle"></router-view>
+            <router-view @bannerTitle="updateBannerTitle" :key="$route.fullPath"></router-view>
           </div>
           <el-footer>
             <p>
