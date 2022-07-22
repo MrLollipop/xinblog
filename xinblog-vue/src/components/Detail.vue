@@ -15,14 +15,9 @@
         <!-- markdown-it插件解析 -->
         <!-- <markdown :content="content"></markdown> -->
 
-        <!-- vue-markdown插件解析 -->
-        <div id="my-markdown" class="markdown-body">
-          <vue-markdown :source="content"
-           :toc="true" 
-           :toc-anchor-link="true"
-           :toc-anchor-link-space="true"		>
-          </vue-markdown>
-        </div>
+        <!-- markdown-it-vue插件解析 -->
+        <markdown-it-vue class="md-body" :content="content" :options="options"></markdown-it-vue>
+
         <el-page-header class="back" @back="goBack" content="" />
       </div>
     </el-row>
@@ -33,11 +28,12 @@
 import Markdown from "./Markdown.vue";
 import { formatDate } from "@/utils";
 import Tag from './index/Tag.vue';
-import VueMarkdown from "vue-markdown";
+import MarkdownItVue from 'markdown-it-vue'
+import 'markdown-it-vue/dist/markdown-it-vue.css'
 
 
 export default {
-  components: { Markdown, Tag, VueMarkdown, },
+  components: { Markdown, Tag,  MarkdownItVue,},
     data() {
     return {
       title: "文章加载中...",
@@ -50,6 +46,31 @@ export default {
       noDataMsg: "",
       noDataShow: false,
       tagVOList: [],
+      options: {
+        markdownIt: {
+          linkify: true
+        },
+        linkAttributes: {
+          attrs: {
+            target: '_blank',
+            rel: 'noopener'
+          }
+        },
+        katex: {
+          throwOnError: false,
+          errorColor: '#cc0000'
+        },
+        icons: 'font-awesome',
+        githubToc: {
+          tocFirstLevel: 2,
+          tocLastLevel: 3,
+          tocClassName: 'toc',
+          anchorLinkSymbol: '',
+          anchorLinkSpace: false,
+          anchorClassName: 'anchor',
+          anchorLinkSymbolClassName: 'octicon octicon-link'
+        },
+      }
     };
   },
   mounted() {
@@ -103,18 +124,8 @@ export default {
 </script>
 
 <style scoped>
-/*  vue-markdown插件解析  */
-@import "github-markdown-css/github-markdown.css";
-.markdown-body {
-  box-sizing: border-box;
-  margin: 0 auto;
-  padding: 0 40px;
+.md-body {
   text-align: left;
-}
-@media (max-width: 767px) {
-    .markdown-body {
-        padding: 15px;
-    }
 }
 
 /*  markdown-it插件解析  */
