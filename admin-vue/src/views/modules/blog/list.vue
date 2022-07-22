@@ -149,7 +149,7 @@
           <el-tag v-else size="small">否</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="tagVOList" label="标签" width="70">
+      <el-table-column prop="tagVOList" label="标签" width="100">
           <template slot-scope="scope">
             <el-tag size="small" v-for="tag in scope.row.tagVOList" :key="tag.key">{{tag.label}}</el-tag>
           </template>
