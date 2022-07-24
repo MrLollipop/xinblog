@@ -1,5 +1,6 @@
 package studio.xinge.xinblog.blog.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -8,20 +9,27 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
+import studio.xinge.xinblog.blog.entity.TBlogReply;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.IndexService;
+import studio.xinge.xinblog.blog.service.TBlogReplyService;
 import studio.xinge.xinblog.blog.service.TTagService;
 import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.*;
 import studio.xinge.xinblog.common.utils.Constant;
 import studio.xinge.xinblog.common.utils.R;
 import studio.xinge.xinblog.common.utils.ReturnCode;
+import studio.xinge.xinblog.common.valid.groups.Add;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 针对于博客用户，对外开放接口
@@ -53,6 +61,9 @@ public class BlogUserController {
 
     @Autowired
     private TTagService tagService;
+
+    @Autowired
+    private TBlogReplyService replyService;
 
     @Autowired
     private ExecutorService threadPool;
@@ -366,5 +377,78 @@ public class BlogUserController {
         });
 
         return R.ok().put("blogs", similar);
+    }
+
+    /**
+     * 发布评论
+     * 1. 异步线程写入DB
+     * 2. 更新Cache
+     *
+     * @param vo
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/23
+     */
+    @PostMapping("reply")
+    public R reply(@Validated(Add.class) TBlogReplyVO vo) {
+        vo.setReplyerId((long) getIdWithHashCode(vo));
+        vo.setCreateTime(LocalDateTime.now());
+        TBlogReply tBlogReply = BeanUtil.copyProperties(vo, TBlogReply.class);
+        tBlogReply.setStatus(Constant.BlogStatus.NORMAL.getValue());
+
+        threadPool.submit(() -> {
+            replyService.saveAndUpdateCache(tBlogReply);
+        });
+
+        return R.ok();
+    }
+
+    private int getIdWithHashCode(@Validated(Add.class) TBlogReplyVO vo) {
+        return (vo.getReplyerNickName() + vo.getReplyerMail()).hashCode() & Integer.MAX_VALUE;
+    }
+
+    /**
+     * 获得回复列表
+     * 一级回复
+     * 二级回复
+     *
+     * @param blogId
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    @GetMapping("reply/list")
+    public R queryReply(Long blogId) {
+        String key = Constant.REPLY + StrUtil.toString(blogId);
+        List<TBlogReplyVO> replys = (List) myHashOperations.get(key, StrUtil.toString(blogId));
+        if (null == replys) {
+            replys = replyService.buildCache(blogId);
+        }
+        LinkedList<TBlogReplyVO> byLevels = sortReplyByLevel(replys);
+        return R.ok().put("reply", byLevels);
+    }
+
+    /**
+     * 按照层级排列回复
+     *
+     * @param replys
+     * @return LinkedList<TBlogReplyVO>
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    private LinkedList<TBlogReplyVO> sortReplyByLevel(List<TBlogReplyVO> replys) {
+        LinkedList<TBlogReplyVO> sorted = new LinkedList<>();
+
+        //            一级回复，筛选出回复id为空的
+        replys.stream().filter(item -> null == item.getReplyId()).forEach(item -> {
+            sorted.add(item);
+        //      二级回复，筛选出回复id等于一级id
+            List<TBlogReplyVO> level2 = replys.stream().filter(item2 -> null != item2.getReplyId() && item2.getReplyId().equals(item.getId())).collect(Collectors.toList());
+            sorted.addAll(level2);
+        });
+        return sorted;
     }
 }

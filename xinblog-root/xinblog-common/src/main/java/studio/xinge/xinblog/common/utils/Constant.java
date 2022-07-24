@@ -179,5 +179,7 @@ public class Constant {
     public static final String TAGS = "tags";
     //      Tag-BLOGS前缀 所有的tag关联blogIds
     public static final String TAG_BLOGS = "tag_blogs";
+    //
+    public static final Object REPLY = "reply_";
 
 }
