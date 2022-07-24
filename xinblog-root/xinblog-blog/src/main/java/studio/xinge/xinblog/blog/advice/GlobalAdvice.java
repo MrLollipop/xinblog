@@ -1,6 +1,7 @@
 package studio.xinge.xinblog.blog.advice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +24,19 @@ public class GlobalAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleMethodArgumentValidation(MethodArgumentNotValidException e) {
+        HashMap<String, String> errorFields = new HashMap<>();
+        BindingResult bindingResult = e.getBindingResult();
+        if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach((item) -> {
+                errorFields.put(item.getField(), item.getDefaultMessage());
+            });
+        }
+        log.warn("参数校验异常{}，类型{}", e.getMessage(), e.getClass());
+        return R.error(ReturnCode.PARAM_ERROR).put("error", errorFields);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public R handleBind(BindException e) {
         HashMap<String, String> errorFields = new HashMap<>();
         BindingResult bindingResult = e.getBindingResult();
         if (bindingResult.hasErrors()) {
