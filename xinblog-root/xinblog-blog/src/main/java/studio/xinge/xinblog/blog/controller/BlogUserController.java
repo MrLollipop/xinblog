@@ -392,7 +392,7 @@ public class BlogUserController {
      */
     @PostMapping("reply")
     public R reply(@Validated(Add.class) TBlogReplyVO vo) {
-        vo.setReplyerId((long) getIdWithHashCode(vo));
+        vo.setReplyerId(replyService.getIdWithHashCode(vo));
         vo.setCreateTime(LocalDateTime.now());
         TBlogReply tBlogReply = BeanUtil.copyProperties(vo, TBlogReply.class);
         tBlogReply.setStatus(Constant.BlogStatus.NORMAL.getValue());
@@ -402,10 +402,6 @@ public class BlogUserController {
         });
 
         return R.ok();
-    }
-
-    private int getIdWithHashCode(@Validated(Add.class) TBlogReplyVO vo) {
-        return (vo.getReplyerNickName() + vo.getReplyerMail()).hashCode() & Integer.MAX_VALUE;
     }
 
     /**
@@ -426,29 +422,8 @@ public class BlogUserController {
         if (null == replys) {
             replys = replyService.buildCache(blogId);
         }
-        LinkedList<TBlogReplyVO> byLevels = sortReplyByLevel(replys);
+        LinkedList<TBlogReplyVO> byLevels = replyService.sortReplyByLevel(replys);
         return R.ok().put("reply", byLevels);
     }
 
-    /**
-     * 按照层级排列回复
-     *
-     * @param replys
-     * @return LinkedList<TBlogReplyVO>
-     * @Author xinge
-     * @Description
-     * @Date 2022/7/24
-     */
-    private LinkedList<TBlogReplyVO> sortReplyByLevel(List<TBlogReplyVO> replys) {
-        LinkedList<TBlogReplyVO> sorted = new LinkedList<>();
-
-        //            一级回复，筛选出回复id为空的
-        replys.stream().filter(item -> null == item.getReplyId()).forEach(item -> {
-            sorted.add(item);
-        //      二级回复，筛选出回复id等于一级id
-            List<TBlogReplyVO> level2 = replys.stream().filter(item2 -> null != item2.getReplyId() && item2.getReplyId().equals(item.getId())).collect(Collectors.toList());
-            sorted.addAll(level2);
-        });
-        return sorted;
-    }
 }

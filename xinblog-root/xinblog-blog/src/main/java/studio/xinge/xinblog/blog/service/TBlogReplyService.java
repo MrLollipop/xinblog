@@ -4,6 +4,7 @@ import studio.xinge.xinblog.blog.entity.TBlogReply;
 import com.baomidou.mybatisplus.extension.service.IService;
 import studio.xinge.xinblog.blog.vo.TBlogReplyVO;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -38,4 +39,30 @@ public interface TBlogReplyService extends IService<TBlogReply> {
      * @Date 2022/7/24
      */
     List<TBlogReplyVO> buildCache(Long blogId);
+
+    /**
+     * 一个临时计算回复记录id方法
+     * 计算昵称、邮箱字符串哈希值
+     * 哈希值可能为负值，故与Integer.MAX_VALUE做与运算
+     *
+     * @param vo
+     * @return Long
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    Long getIdWithHashCode(TBlogReplyVO vo);
+
+    /**
+     * 按照层级排列回复
+     * 一级回复，筛选出回复id为空的
+     * 二级回复，筛选出回复id等于一级id
+     *
+     * @param replys
+     * @return LinkedList<TBlogReplyVO>
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    LinkedList<TBlogReplyVO> sortReplyByLevel(List<TBlogReplyVO> replys);
 }

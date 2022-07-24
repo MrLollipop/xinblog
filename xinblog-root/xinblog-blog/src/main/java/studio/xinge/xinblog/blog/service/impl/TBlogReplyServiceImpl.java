@@ -16,6 +16,7 @@ import studio.xinge.xinblog.common.utils.Constant;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -75,5 +76,46 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
             });
         }
         return cache;
+    }
+
+    /**
+     * 一个临时计算回复记录id方法
+     * 计算昵称、邮箱字符串哈希值
+     * 哈希值可能为负值，故与Integer.MAX_VALUE做与运算
+     *
+     * @param vo
+     * @return Long
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    @Override
+    public Long getIdWithHashCode(TBlogReplyVO vo) {
+        return (long) (vo.getReplyerNickName() + vo.getReplyerMail()).hashCode() & Integer.MAX_VALUE;
+    }
+
+    /**
+     * 按照层级排列回复
+     * 一级回复，筛选出回复id为空的
+     * 二级回复，筛选出回复id等于一级id
+     *
+     * @param replys
+     * @return LinkedList<TBlogReplyVO>
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    @Override
+    public LinkedList<TBlogReplyVO> sortReplyByLevel(List<TBlogReplyVO> replys) {
+        LinkedList<TBlogReplyVO> sorted = new LinkedList<>();
+
+        //            一级回复，筛选出回复id为空的
+        replys.stream().filter(item -> null == item.getReplyId()).forEach(item -> {
+            sorted.add(item);
+            //      二级回复，筛选出回复id等于一级id
+            List<TBlogReplyVO> level2 = replys.stream().filter(item2 -> null != item2.getReplyId() && item2.getReplyId().equals(item.getId())).collect(Collectors.toList());
+            sorted.addAll(level2);
+        });
+        return sorted;
     }
 }
