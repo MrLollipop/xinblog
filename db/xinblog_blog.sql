@@ -30,22 +30,22 @@ CREATE TABLE `t_blog` (
   KEY `t_blog_status_IDX2` (`status`,`top`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客表';
 
-/*==============================================================*/
-/* Table: t_blog_reply                                          */
-/*==============================================================*/
 -- xinblog_blog.t_blog_reply definition
 
 CREATE TABLE `t_blog_reply` (
   `id` bigint(20) NOT NULL,
-  `blog_id` bigint(20) DEFAULT NULL,
-  `to_reply_id` bigint(20) DEFAULT NULL,
-  `replyer_id` bigint(20) DEFAULT NULL,
+  `blog_id` bigint(20) DEFAULT NULL COMMENT '回复博客id',
+  `reply_id` bigint(20) DEFAULT NULL COMMENT '一级回复id',
+  `replyer_id` bigint(20) DEFAULT NULL COMMENT '回复者',
+  `replyer_nick_name` varchar(100) DEFAULT NULL COMMENT '回复者昵称',
+  `replyer_mail` varchar(100) DEFAULT NULL COMMENT '回复者邮箱',
   `content` varchar(1000) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `agree_num` int(11) DEFAULT '0',
   `status` tinyint(4) DEFAULT '1' COMMENT '0删除，1正常',
-  `is_top` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `top` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `t_blog_reply_blog_id_IDX` (`blog_id`,`status`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客回复表';
 
 -- xinblog_blog.t_tag definition
