@@ -47,18 +47,19 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
         this.save(tBlogReply);
 //        取缓存
         Long id = tBlogReply.getBlogId();
-        String key = Constant.REPLY + StrUtil.toString(id);
-        List<TBlogReplyVO> cache = (List) myHashOperations.get(key, StrUtil.toString(id));
+        String blogId = StrUtil.toString(id);
+        String key = Constant.REPLY + blogId;
+        List<TBlogReplyVO> cache = (List) myHashOperations.get(key, blogId);
         if (null == cache) {
             cache = buildCache(id);
         }
         TBlogReplyVO blogReplyVO = BeanUtil.copyProperties(tBlogReply, TBlogReplyVO.class, "status", "top");
         cache.add(blogReplyVO);
-        myHashOperations.put(key, StrUtil.toString(id), cache);
+        myHashOperations.put(key, blogId, cache);
     }
 
     /**
-     * 缓存不存在，构造缓存
+     * 回复缓存不存在，构造缓存
      *
      * @param id 博客id
      * @return List<TBlogReplyVO>
@@ -75,6 +76,7 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
                 cache.add(blogReplyVO);
             });
         }
+        myHashOperations.put(Constant.REPLY + StrUtil.toString(id), StrUtil.toString(id), cache);
         return cache;
     }
 

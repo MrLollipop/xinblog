@@ -89,7 +89,7 @@ public class BlogUserController {
     public R view(@PathVariable("id") String id) throws InterruptedException {
         String key = Constant.BLOG + id;
         String lockName = Constant.BLOG_LOCK + id;
-        R cache = blogService.checkCacheExist(key, id);
+        R cache = blogService.checkCacheExist(key, id, true);
         if (null != cache) {
             return cache;
         }
@@ -100,7 +100,7 @@ public class BlogUserController {
         try {
             lock.lock(200, TimeUnit.MILLISECONDS);
 //                高并发下，再次判断缓存是否存在
-            R cache2 = blogService.checkCacheExist(key, id);
+            R cache2 = blogService.checkCacheExist(key, id, true);
             if (null != cache2) {
                 return cache2;
             }
@@ -308,10 +308,19 @@ public class BlogUserController {
      */
     @GetMapping("reply/list")
     public R queryReply(Long blogId) {
-        String key = Constant.REPLY + StrUtil.toString(blogId);
-        List<TBlogReplyVO> replys = (List) myHashOperations.get(key, StrUtil.toString(blogId));
+        String blogId2 = StrUtil.toString(blogId);
+        String key = Constant.REPLY + blogId2;
+        List<TBlogReplyVO> replys = (List) myHashOperations.get(key, blogId2);
+//        先判断回复缓存是否存在
         if (null == replys) {
-            replys = replyService.buildCache(blogId);
+//            不存在，判断博客是否存在，若博客未经页面点击，缓存不存在
+            R r = blogService.checkCacheExist(Constant.BLOG + blogId2, blogId2, false);
+//            过滤不存在博客、伪造博客id
+            if (null != r && !r.equals(R.error(ReturnCode.BLOG_NOT_EXIST))) {
+                replys = replyService.buildCache(blogId);
+            } else {
+                return R.error(ReturnCode.BLOG_NOT_EXIST);
+            }
         }
         LinkedList<TBlogReplyVO> byLevels = replyService.sortReplyByLevel(replys);
         return R.ok().put("reply", byLevels);

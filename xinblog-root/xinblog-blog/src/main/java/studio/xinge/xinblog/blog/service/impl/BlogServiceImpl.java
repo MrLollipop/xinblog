@@ -275,7 +275,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
      * @Date 2022/7/8
      */
     @Override
-    public R checkCacheExist(String key, String id) {
+    public R checkCacheExist(String key, String id, boolean doViewNumUpdate) {
         Object entity = myHashOperations.get(key, id);
         if (null != entity) {
 //            不存在博客的处理
@@ -284,7 +284,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
             }
 //          取出是vo
             BlogEntityVO blogVO = (BlogEntityVO) entity;
-            this.updateViewNum(key, id, blogVO);
+            if (doViewNumUpdate) {
+                this.updateViewNum(key, id, blogVO);
+            }
             return R.ok().put("blog", blogVO);
         }
         return null;

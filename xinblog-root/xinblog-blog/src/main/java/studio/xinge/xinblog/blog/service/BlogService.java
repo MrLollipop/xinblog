@@ -120,6 +120,6 @@ public interface BlogService extends IService<BlogEntity> {
      * @Description
      * @Date 2022/7/8
      */
-    R checkCacheExist(String key, String id);
+    R checkCacheExist(String key, String id, boolean doViewNumUpdate);
 }
 
