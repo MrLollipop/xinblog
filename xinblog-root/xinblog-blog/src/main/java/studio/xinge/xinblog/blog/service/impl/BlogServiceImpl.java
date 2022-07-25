@@ -7,6 +7,8 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -21,11 +23,12 @@ import studio.xinge.xinblog.blog.mapper.BlogDao;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.service.BlogService;
 import studio.xinge.xinblog.blog.service.TTagService;
+import studio.xinge.xinblog.blog.util.MyHashOperations;
 import studio.xinge.xinblog.blog.vo.BlogEntityVO;
+import studio.xinge.xinblog.blog.vo.BlogListVO;
+import studio.xinge.xinblog.blog.vo.PageVO;
 import studio.xinge.xinblog.blog.vo.TagVO;
-import studio.xinge.xinblog.common.utils.Constant;
-import studio.xinge.xinblog.common.utils.PageUtils;
-import studio.xinge.xinblog.common.utils.Query;
+import studio.xinge.xinblog.common.utils.*;
 
 @Service
 public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements BlogService {
@@ -33,8 +36,20 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
     @Value("${top.blog.limit}")
     private int topBlogLimit;
 
+    @Value("${blog.cache.ttl.hours}")
+    private int blogCacheTTLHours;
+
+    @Value("${cache.update.threshold}")
+    private int updateThreshold;
+
+    @Autowired
+    private ExecutorService threadPool;
+
     @Autowired
     private TTagService tagService;
+
+    @Autowired
+    private MyHashOperations myHashOperations;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -164,6 +179,115 @@ public class BlogServiceImpl extends ServiceImpl<BlogDao, BlogEntity> implements
     @Override
     public Boolean updateViewNumById(Long id, Integer viewNum) {
         return this.getBaseMapper().updateViewNumById(id, viewNum);
+    }
+
+    /**
+     * 从缓存中取BlogEntityVO
+     * 不存在，查库，并放入缓存
+     *
+     * @param blogId
+     * @return BlogEntityVO
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/24
+     */
+    @Override
+    public BlogEntityVO getBlogEntityVO(Long blogId) {
+        //            先从博客缓存中查
+        BlogEntityVO vo = (BlogEntityVO) myHashOperations.get(Constant.BLOG + blogId, String.valueOf(blogId));
+        if (null == vo) {
+//                不存在，将DB结果放入缓存
+            BlogEntity blog = this.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
+            if (null != blog) {
+                vo = this.changeEntityToVO(blog);
+                myHashOperations.setHash(Constant.BLOG + blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
+            }
+        }
+        return vo;
+    }
+
+    /**
+     * 截取每页显示的list
+     * 例如 pageVO.pageSize=3
+     * 1.每页展示3个
+     * 2.超出下标，返回最末3个
+     *
+     * @param list
+     * @param pageVO
+     * @return BlogListVO
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/25
+     */
+    @Override
+    public BlogListVO getSubList(List list, PageVO pageVO) {
+        int from = pageVO.getFrom();
+        int to = from + pageVO.getPageSize();
+        int pageSize = pageVO.getPageSize();
+        boolean end = false;
+        if (from > list.size() - 1 || to > list.size()) {
+            from = (list.size() - pageSize) < 0 ? 0 : list.size() - pageSize;
+            to = list.size();
+            end = true;
+        }
+        return new BlogListVO(list.subList(from, to), end);
+    }
+
+    /**
+     * 更新访问量
+     * 1.cache实时更新，同时转vo
+     * 2.DB，积累到阈值，异步线程池中去更新
+     *
+     * @param key
+     * @param hashKey
+     * @param blogVO
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/25
+     */
+    @Override
+    public void updateViewNum(String key, String hashKey, BlogEntityVO blogVO) {
+        Integer viewNum = blogVO.getViewNum() == null ? 0 : blogVO.getViewNum();
+        viewNum++;
+        blogVO.setViewNum(viewNum);
+        myHashOperations.setHash(key, hashKey, blogVO, blogCacheTTLHours, TimeUnit.HOURS);
+//        积累到阈值，提交异步任务更新
+        Integer finalViewNum = viewNum;
+        if (finalViewNum % updateThreshold == 0) {
+            threadPool.submit(() -> {
+                this.updateViewNumById(blogVO.getId(), blogVO.getViewNum());
+            });
+        }
+    }
+
+    /**
+     * 检查缓存中是否已有数据
+     * 1.没有数据返回空
+     * 2.有数据，判断类型
+     * 字符型：返回错误提示。
+     * 3.Blog：更新访问量，返回正常。
+     *
+     * @param key
+     * @param id
+     * @return R
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/8
+     */
+    @Override
+    public R checkCacheExist(String key, String id) {
+        Object entity = myHashOperations.get(key, id);
+        if (null != entity) {
+//            不存在博客的处理
+            if (entity.getClass().equals(String.class) && entity.toString().equals(Constant.BLOG_NOT_EXIST)) {
+                return R.error(ReturnCode.BLOG_NOT_EXIST);
+            }
+//          取出是vo
+            BlogEntityVO blogVO = (BlogEntityVO) entity;
+            this.updateViewNum(key, id, blogVO);
+            return R.ok().put("blog", blogVO);
+        }
+        return null;
     }
 
 }

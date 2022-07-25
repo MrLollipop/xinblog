@@ -71,9 +71,6 @@ public class BlogUserController {
     @Value("${blog.cache.ttl.hours}")
     private int blogCacheTTLHours;
 
-    @Value("${cache.update.threshold}")
-    private int updateThreshold;
-
     /**
      * 详情页浏览：
      * 高并发访问，分布式锁控制从DB读数据
@@ -92,7 +89,7 @@ public class BlogUserController {
     public R view(@PathVariable("id") String id) throws InterruptedException {
         String key = Constant.BLOG + id;
         String lockName = Constant.BLOG_LOCK + id;
-        R cache = checkCacheExist(key, id);
+        R cache = blogService.checkCacheExist(key, id);
         if (null != cache) {
             return cache;
         }
@@ -103,14 +100,14 @@ public class BlogUserController {
         try {
             lock.lock(200, TimeUnit.MILLISECONDS);
 //                高并发下，再次判断缓存是否存在
-            R cache2 = checkCacheExist(key, id);
+            R cache2 = blogService.checkCacheExist(key, id);
             if (null != cache2) {
                 return cache2;
             }
 //                状态正常筛选
             blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", id).eq("status", Constant.BlogStatus.NORMAL.getValue()));
             if (null != blog) {
-                updateViewNum(key, id, blogService.changeEntityToVO(blog));
+                blogService.updateViewNum(key, id, blogService.changeEntityToVO(blog));
             } else {
 //                    第一次查询，对不存在的值做处理
                 myHashOperations.setHash(key, id, Constant.BLOG_NOT_EXIST, blogCacheTTLHours, TimeUnit.HOURS);
@@ -123,62 +120,6 @@ public class BlogUserController {
         }
 
         return R.ok().put("blog", blogService.changeEntityToVO(blog));
-    }
-
-    /**
-     * 检查缓存中是否已有数据
-     * 1.没有数据返回空
-     * 2.有数据，判断类型
-     * 字符型：返回错误提示。
-     * Blog：更新访问量，返回正常。
-     *
-     * @param key
-     * @param id
-     * @return R
-     * @Author xinge
-     * @Description
-     * @Date 2022/7/8
-     */
-    private R checkCacheExist(String key, String id) {
-        Object entity = myHashOperations.get(key, id);
-        if (null != entity) {
-//            不存在博客的处理
-            if (entity.getClass().equals(String.class) && entity.toString().equals(Constant.BLOG_NOT_EXIST)) {
-                return R.error(ReturnCode.BLOG_NOT_EXIST);
-            }
-//          取出是vo
-            BlogEntityVO blogVO = (BlogEntityVO) entity;
-            updateViewNum(key, id, blogVO);
-            return R.ok().put("blog", blogVO);
-        }
-        return null;
-    }
-
-
-    /**
-     * 更新访问量
-     * 1.cache实时更新，同时转vo
-     * 2.DB，积累到阈值，异步线程池中去更新
-     *
-     * @param key
-     * @param hashKey
-     * @param blogVO
-     * @Author xinge
-     * @Description
-     * @Date 2022/7/5
-     */
-    private void updateViewNum(String key, String hashKey, BlogEntityVO blogVO) {
-        Integer viewNum = blogVO.getViewNum() == null ? 0 : blogVO.getViewNum();
-        viewNum++;
-        blogVO.setViewNum(viewNum);
-        myHashOperations.setHash(key, hashKey, blogVO, blogCacheTTLHours, TimeUnit.HOURS);
-//        积累到阈值，提交异步任务更新
-        Integer finalViewNum = viewNum;
-        if (finalViewNum % updateThreshold == 0) {
-            threadPool.submit(() -> {
-                blogService.updateViewNumById(blogVO.getId(), blogVO.getViewNum());
-            });
-        }
     }
 
     /**
@@ -207,35 +148,9 @@ public class BlogUserController {
         HashMap<String, Object> indexData = new HashMap<>();
 //        置顶博客数目已有阈值保护，故全部返回
         indexData.put("topList", topList);
-        indexData.put("newestList", getSubList(newestList, pageVO));
-        indexData.put("hotList", getSubList(hotList, pageVO));
+        indexData.put("newestList", blogService.getSubList(newestList, pageVO));
+        indexData.put("hotList", blogService.getSubList(hotList, pageVO));
         return R.ok().put("indexData", indexData);
-    }
-
-    /**
-     * 截取每页显示的list
-     * 例如 pageVO.pageSize=3
-     * 1.每页展示3个
-     * 2.超出下标，返回最末3个
-     *
-     * @param list
-     * @param pageVO
-     * @return BlogListVO
-     * @Author xinge
-     * @Description
-     * @Date 2022/7/18
-     */
-    private BlogListVO getSubList(List list, PageVO pageVO) {
-        int from = pageVO.getFrom();
-        int to = from + pageVO.getPageSize();
-        int pageSize = pageVO.getPageSize();
-        boolean end = false;
-        if (from > list.size() - 1 || to > list.size()) {
-            from = (list.size() - pageSize) < 0 ? 0 : list.size() - pageSize;
-            to = list.size();
-            end = true;
-        }
-        return new BlogListVO(list.subList(from, to), end);
     }
 
     /**
@@ -251,7 +166,7 @@ public class BlogUserController {
     public R newestList(PageVO pageVO) {
         List<BlogEntity> newestList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "newestList", "newestList");
 
-        return R.ok().put("newestList", getSubList(newestList, pageVO));
+        return R.ok().put("newestList", blogService.getSubList(newestList, pageVO));
     }
 
     /**
@@ -267,7 +182,7 @@ public class BlogUserController {
     public R hotList(PageVO pageVO) {
         List<BlogEntity> hotList = (List<BlogEntity>) myHashOperations.get(Constant.BLOG_INDEX_CACHE + "hotList", "hotList");
 
-        return R.ok().put("hotList", getSubList(hotList, pageVO));
+        return R.ok().put("hotList", blogService.getSubList(hotList, pageVO));
     }
 
     /**
@@ -290,35 +205,11 @@ public class BlogUserController {
         }
         LinkedList<BlogEntityVO> blogList = new LinkedList<>();
         blogs.stream().forEach(blogId -> {
-            BlogEntityVO vo = getBlogEntityVO(blogId);
+            BlogEntityVO vo = blogService.getBlogEntityVO(blogId);
             blogList.add(vo);
         });
 
-        return R.ok().put("blogs", getSubList(blogList, pageVO));
-    }
-
-    /**
-     * 从缓存中取BlogEntityVO
-     * 不存在，查库，并放入缓存
-     *
-     * @param blogId
-     * @return BlogEntityVO
-     * @Author xinge
-     * @Description
-     * @Date 2022/7/22
-     */
-    private BlogEntityVO getBlogEntityVO(Long blogId) {
-        //            先从博客缓存中查
-        BlogEntityVO vo = (BlogEntityVO) myHashOperations.get(Constant.BLOG + blogId, String.valueOf(blogId));
-        if (null == vo) {
-//                不存在，将DB结果放入缓存
-            BlogEntity blog = blogService.getOne(new QueryWrapper<BlogEntity>().eq("id", blogId).eq("status", Constant.BlogStatus.NORMAL.getValue()));
-            if (null != blog) {
-                vo = blogService.changeEntityToVO(blog);
-                myHashOperations.setHash(Constant.BLOG + blogId, String.valueOf(blogId), vo, blogCacheTTLHours, TimeUnit.HOURS);
-            }
-        }
-        return vo;
+        return R.ok().put("blogs", blogService.getSubList(blogList, pageVO));
     }
 
     /**
@@ -372,7 +263,7 @@ public class BlogUserController {
         similarIds.remove(selfId);
 
         similarIds.stream().forEach(blogId -> {
-            BlogEntityVO vo = getBlogEntityVO(blogId);
+            BlogEntityVO vo = blogService.getBlogEntityVO(blogId);
             similar.add(new BlogSimpleVO(vo));
         });
 
