@@ -82,3 +82,24 @@ export function formatDate(timeStr) {
     dt.getSeconds()
   );
 }
+
+/**
+ * 将[xxx]emoji字符串 转义为<emoji>xxx</emoji>
+ * @param {*} text 文本
+ */
+export function parseEmoji(text) {
+  text = text.replace(new RegExp("\\[","g"), "<emoji>");
+  text = text.replace(new RegExp("\\]","g"), "</emoji>");
+  return text;
+}
+
+/**
+ * 将<emoji>xxx</emoji>字符串 转义为[xxx]
+ * @param {*} text 文本
+ * @returns 
+ */
+export function parseText2Emoji(text) {
+  text = text.replace(new RegExp("<emoji>","g"), "[");
+  text = text.replace(new RegExp("</emoji>","g"), "]");
+  return text;
+}

@@ -33,6 +33,10 @@
             </div>
           </el-col>
         </el-row>
+
+        <!-- <reply></reply> -->
+        <!-- <reply-2></reply-2> -->
+        <comment :commentNum="commentList.length" :commentList="commentList" @doSend="reply"></comment>
        
         <el-page-header class="back" @back="goBack" content="" />
       </div>
@@ -43,13 +47,15 @@
 <script>
 import Markdown from "./Markdown.vue";
 import { formatDate } from "@/utils";
+import { parseEmoji } from "@/utils";
 import Tag from './index/Tag.vue';
 import MarkdownItVue from 'markdown-it-vue'
 import 'markdown-it-vue/dist/markdown-it-vue.css'
-
+import Reply from './Reply.vue';
+import comment from "bright-comment";
 
 export default {
-  components: { Markdown, Tag,  MarkdownItVue,},
+  components: { Markdown, Tag,  MarkdownItVue, Reply, comment},
     data() {
     return {
       title: "文章加载中...",
@@ -88,7 +94,8 @@ export default {
           anchorClassName: 'anchor',
           anchorLinkSymbolClassName: 'octicon octicon-link'
         },
-      }
+      },
+      commentList:[],
     };
   },
   mounted() {
@@ -111,10 +118,14 @@ export default {
           this.viewNum = data.blog.viewNum;
           this.tagVOList = data.blog.tagVOList;
 
+          // banner标题显示
           this.$emit("bannerTitle", [this.title, this.subTitle]);
-
+          // 显示MarkDown文档
           this.getMarkdown();
+          // 获取推荐阅读列表
           this.getSimilar();
+          // 获取回复列表
+          this.getReplyList();
         } else if (data.code == 11004) {
           this.noDataMsg = data.msg;
           this.noDataShow = true;
@@ -154,6 +165,43 @@ export default {
       }).then(({ data }) => {
         if (data.code === 10000) {
           this.simpleVOList = data.blogs
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
+    },
+    reply(content){
+      // content = parseText2Emoji(content);
+      content = parseEmoji(content);
+      this.$http({
+        url: this.$http.adornUrl("api/blog/user/reply"),
+        method: "post",
+        params: this.$http.adornParams({
+            blogId: this.blogId,
+            replyerNickName: '王五',
+            replyerMail: 'wangwu@123.com',
+            content: content,
+        }),
+      }).then(({ data }) => {
+        if (data.code === 10000) {
+          // 触发获取回复
+          this.getReplyList();
+          this.$message.success("发送成功");
+        } else {
+          this.$message.error(data.msg);
+        }
+      });
+    },
+    getReplyList(){
+      this.$http({
+        url: this.$http.adornUrl("api/blog/user/reply/list"),
+        method: "get",
+        params: this.$http.adornParams({
+            blogId: this.blogId,
+        }),
+      }).then(({ data }) => {
+        if (data.code === 10000) {
+          this.commentList = data.reply;
         } else {
           this.$message.error(data.msg);
         }
