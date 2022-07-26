@@ -52,4 +52,19 @@ public class R extends HashMap<String, Object> implements Serializable {
         super.put(key, value);
         return this;
     }
+
+    /**
+     * 判断返回码是否相同
+     * 若code值相同，返回true
+     * 反之，false
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o.getClass().equals(R.class)){
+            if (((R) o).get("code").equals(this.get("code"))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
