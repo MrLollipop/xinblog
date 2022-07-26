@@ -322,7 +322,8 @@ public class BlogUserController {
                 return R.error(ReturnCode.BLOG_NOT_EXIST);
             }
         }
-        LinkedList<TBlogReplyVO> byLevels = replyService.sortReplyByLevel(replys);
+//        LinkedList<TBlogReplyVO> byLevels = replyService.sortReplyByLevel(replys);
+        LinkedList<CommentVO> byLevels = replyService.sortReply(replys);
         return R.ok().put("reply", byLevels);
     }
 

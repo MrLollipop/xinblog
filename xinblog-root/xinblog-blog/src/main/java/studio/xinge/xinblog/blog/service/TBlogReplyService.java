@@ -2,6 +2,7 @@ package studio.xinge.xinblog.blog.service;
 
 import studio.xinge.xinblog.blog.entity.TBlogReply;
 import com.baomidou.mybatisplus.extension.service.IService;
+import studio.xinge.xinblog.blog.vo.CommentVO;
 import studio.xinge.xinblog.blog.vo.TBlogReplyVO;
 
 import java.util.LinkedList;
@@ -65,4 +66,29 @@ public interface TBlogReplyService extends IService<TBlogReply> {
      * @Date 2022/7/24
      */
     LinkedList<TBlogReplyVO> sortReplyByLevel(List<TBlogReplyVO> replys);
+
+    /**
+     * 按照层级排列回复
+     * 一级回复，筛选出回复id为空的
+     * 二级回复，筛选出回复id等于一级id
+     * todo 递归
+     *
+     * @param replys
+     * @return LinkedList<CommentVO>
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/26
+     */
+    LinkedList<CommentVO> sortReply(List<TBlogReplyVO> replys);
+
+    /**
+     * 将VO类转为前端需要类型VO
+     *
+     * @param replyVO
+     * @return CommentVO
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/26
+     */
+    CommentVO toCommentVO(TBlogReplyVO replyVO);
 }
