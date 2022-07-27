@@ -36,6 +36,23 @@
 
         <!-- <reply></reply> -->
         <!-- <reply-2></reply-2> -->
+        <el-row>
+          <el-col><div class="sendComment">发表评论</div></el-col>
+        </el-row>
+        <el-row :gutter="40" style="margin-top:20px;">
+          <el-form :model="form" :rules="rule" label-width="60px">
+            <el-col :span="9" :offset="1">
+              <el-form-item label="昵称" prop="nickName">
+                <el-input v-model="form.nickName" placeholder="程序员里最帅的"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="9">
+              <el-form-item label="邮箱" prop="email">
+                <el-input v-model="form.email" placeholder="abc@def.com"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-form>
+        </el-row>
         <comment :commentNum="commentList.length" :commentList="commentList" @doSend="reply"></comment>
        
         <el-page-header class="back" @back="goBack" content="" />
@@ -48,6 +65,7 @@
 import Markdown from "./Markdown.vue";
 import { formatDate } from "@/utils";
 import { parseEmoji } from "@/utils";
+import { isEmail} from "@/utils/validate";
 import Tag from './index/Tag.vue';
 import MarkdownItVue from 'markdown-it-vue'
 import 'markdown-it-vue/dist/markdown-it-vue.css'
@@ -57,6 +75,13 @@ import comment from "bright-comment";
 export default {
   components: { Markdown, Tag,  MarkdownItVue, Reply, comment},
     data() {
+      var validateEmail = (rule, value, callback) => {
+        if (!isEmail(value)) {
+          callback(new Error("邮箱格式错误"));
+        } else {
+          callback();
+        }
+      };
     return {
       title: "文章加载中...",
       subTitle: "",
@@ -94,6 +119,19 @@ export default {
           anchorClassName: 'anchor',
           anchorLinkSymbolClassName: 'octicon octicon-link'
         },
+      },
+      form:{
+        nickName: '',
+        email:'',
+      },
+      rule: {
+        nickName: [
+          { required: true, message: "昵称不能为空", trigger: "blur" },
+        ],
+        email: [
+          { required: true, message: '邮箱不能为空', trigger: 'blur' },
+          { validator: validateEmail, trigger: 'blur' }
+        ],
       },
       commentList:[],
     };
@@ -177,8 +215,8 @@ export default {
         method: "post",
         params: this.$http.adornParams({
             blogId: this.blogId,
-            replyerNickName: '王五',
-            replyerMail: 'wangwu@123.com',
+            replyerNickName: this.form.nickName,
+            replyerMail: this.form.email,
             content: content,
         }),
       }).then(({ data }) => {
@@ -208,6 +246,12 @@ export default {
           this.$message.error(data.msg);
         }
       });
+    },
+    checkInput(text){
+      console.log(text);
+      if (text === null || text === '') {
+        this.$message.warn("昵称不可为空");
+      }
     },
     goBack() {
       history.go(-1);
@@ -245,5 +289,13 @@ export default {
 }
 .rightBox h3 {
   margin:3px 20px 5px;
+}
+.sendComment {
+  float: left;
+  font-size: 20px;
+  color: rgb(51,51,51);
+  border-left: 5px solid rgb(60, 179, 113);
+  margin: 40px 0 0 20px;
+  padding-left: 10px;
 }
 </style>
