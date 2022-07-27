@@ -171,7 +171,6 @@ export default {
       });
     },
     reply(content){
-      // content = parseText2Emoji(content);
       content = parseEmoji(content);
       this.$http({
         url: this.$http.adornUrl("api/blog/user/reply"),
@@ -184,9 +183,12 @@ export default {
         }),
       }).then(({ data }) => {
         if (data.code === 10000) {
-          // 触发获取回复
-          this.getReplyList();
           this.$message.success("发送成功");
+          // 回复方法是异步写入，收到success可能还没写完，故过500毫秒调用
+	        setTimeout(() => {
+		        // 方法区，触发获取回复
+            this.getReplyList();
+	        }, 500);
         } else {
           this.$message.error(data.msg);
         }
