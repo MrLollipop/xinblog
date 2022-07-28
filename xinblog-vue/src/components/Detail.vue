@@ -208,29 +208,46 @@ export default {
         }
       });
     },
+    checkInput(content){
+      if (content == null || content == "") {
+        this.$message.warning("评论内容不可为空");
+        return false;
+      }
+      if (this.form.nickName == "") {
+        this.$message.warning("昵称不可为空");
+        return false;
+      }
+      if (this.form.email == "") {
+        this.$message.warning("邮箱不可为空");
+        return false;
+      }
+      return true;
+    },
     reply(content){
-      content = parseEmoji(content);
-      this.$http({
-        url: this.$http.adornUrl("api/blog/user/reply"),
-        method: "post",
-        params: this.$http.adornParams({
-            blogId: this.blogId,
-            replyerNickName: this.form.nickName,
-            replyerMail: this.form.email,
-            content: content,
-        }),
-      }).then(({ data }) => {
-        if (data.code === 10000) {
-          this.$message.success("发送成功");
-          // 回复方法是异步写入，收到success可能还没写完，故过500毫秒调用
-	        setTimeout(() => {
-		        // 方法区，触发获取回复
-            this.getReplyList();
-	        }, 500);
-        } else {
-          this.$message.error(data.msg);
-        }
-      });
+      if(this.checkInput(content)) {
+        content = parseEmoji(content);
+        this.$http({
+          url: this.$http.adornUrl("api/blog/user/reply"),
+          method: "post",
+          params: this.$http.adornParams({
+              blogId: this.blogId,
+              replyerNickName: this.form.nickName,
+              replyerMail: this.form.email,
+              content: content,
+          }),
+        }).then(({ data }) => {
+          if (data.code === 10000) {
+            this.$message.success("发送成功");
+            // 回复方法是异步写入，收到success可能还没写完，故过500毫秒调用
+            setTimeout(() => {
+              // 方法区，触发获取回复
+              this.getReplyList();
+            }, 500);
+          } else {
+            this.$message.error(data.msg);
+          }
+        });
+      }
     },
     getReplyList(){
       this.$http({
@@ -246,12 +263,6 @@ export default {
           this.$message.error(data.msg);
         }
       });
-    },
-    checkInput(text){
-      console.log(text);
-      if (text === null || text === '') {
-        this.$message.warn("昵称不可为空");
-      }
     },
     goBack() {
       history.go(-1);
