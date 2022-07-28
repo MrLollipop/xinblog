@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import studio.xinge.xinblog.common.valid.groups.Add;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -50,14 +51,17 @@ public class TBlogReplyVO implements Serializable {
     /**
      * 回复者昵称
      */
+    @NotBlank(message = "昵称不可为空", groups = Add.class)
     private String replyerNickName;
 
     /**
      * 回复者邮箱
      */
     @Email(message = "请按邮箱格式输入", groups = Add.class)
+    @NotBlank(message = "邮箱不可为空", groups = Add.class)
     private String replyerMail;
 
+    @NotBlank(message = "回复内容不可为空", groups = Add.class)
     private String content;
 
     private LocalDateTime createTime;
