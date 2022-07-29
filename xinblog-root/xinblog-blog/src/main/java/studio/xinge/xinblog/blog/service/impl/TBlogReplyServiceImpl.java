@@ -1,9 +1,13 @@
 package studio.xinge.xinblog.blog.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.intern.InternUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import studio.xinge.xinblog.blog.entity.TBlogReply;
 import studio.xinge.xinblog.blog.mapper.TBlogReplyMapper;
@@ -15,9 +19,12 @@ import studio.xinge.xinblog.blog.vo.CommentVO;
 import studio.xinge.xinblog.blog.vo.ReplyUserVO;
 import studio.xinge.xinblog.blog.vo.TBlogReplyVO;
 import studio.xinge.xinblog.common.utils.Constant;
+import studio.xinge.xinblog.common.utils.PageUtils;
+import studio.xinge.xinblog.common.utils.Query;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -176,5 +183,27 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
         commentVO.setContent(content);
         commentVO.setCreateDate(DateUtil.format(replyVO.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
         return commentVO;
+    }
+
+    /**
+     * 管理台对回复数据的分页查询
+     *
+     * @param params
+     * @return PageUtils
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/29
+     */
+    @Override
+    public PageUtils listByConditions(Map<String, Object> params) {
+        QueryWrapper<TBlogReply> wrapper = new QueryWrapper<>();
+        Long blogId = Convert.toLong(params.get("blogId"));
+        if (null != blogId) {
+            wrapper.eq("blog_id", blogId);
+        }
+        wrapper.eq("status", Convert.toInt(params.get("status")));
+        wrapper.orderByDesc("id");
+        IPage<TBlogReply> page = this.page(new Query<TBlogReply>().getPage(params), wrapper);
+        return new PageUtils(page);
     }
 }

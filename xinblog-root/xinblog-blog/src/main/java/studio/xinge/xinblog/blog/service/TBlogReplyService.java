@@ -4,9 +4,11 @@ import studio.xinge.xinblog.blog.entity.TBlogReply;
 import com.baomidou.mybatisplus.extension.service.IService;
 import studio.xinge.xinblog.blog.vo.CommentVO;
 import studio.xinge.xinblog.blog.vo.TBlogReplyVO;
+import studio.xinge.xinblog.common.utils.PageUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -91,4 +93,15 @@ public interface TBlogReplyService extends IService<TBlogReply> {
      * @Date 2022/7/26
      */
     CommentVO toCommentVO(TBlogReplyVO replyVO);
+
+    /**
+     * 管理台对回复数据的分页查询
+     *
+     * @param params
+     * @return PageUtils
+     * @Author xinge
+     * @Description
+     * @Date 2022/7/29
+     */
+    PageUtils listByConditions(Map<String, Object> params);
 }
