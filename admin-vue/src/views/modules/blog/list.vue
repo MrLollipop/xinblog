@@ -48,7 +48,7 @@
     <!-- 搜索表单 -->
     <el-form :inline="true" :model="search" class="demo-form-inline">
       <el-form-item label="标题">
-        <el-input v-model="search.title" placeholder="搜索标题"></el-input>
+        <el-input v-model="search.title" placeholder="搜索标题" clearable></el-input>
       </el-form-item>
 
       <el-form-item label="状态">
