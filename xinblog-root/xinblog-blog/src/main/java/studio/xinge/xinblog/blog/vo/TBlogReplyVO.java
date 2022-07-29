@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -35,12 +36,14 @@ public class TBlogReplyVO implements Serializable {
     /**
      * 回复博客id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     @NotNull(message = "博客ID不可为空", groups = Add.class)
     private Long blogId;
 
     /**
      * 一级回复id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long replyId;
 
     /**

@@ -31,11 +31,13 @@ public class TBlogReply implements Serializable {
     /**
      * 回复博客id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long blogId;
 
     /**
      * 一级回复id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long replyId;
 
     /**
