@@ -2,6 +2,7 @@ package studio.xinge.xinblog.blog.controller;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import studio.xinge.xinblog.blog.entity.BlogEntity;
 import studio.xinge.xinblog.blog.entity.TBlogReply;
@@ -41,6 +42,7 @@ public class TReplyController {
     }
 
     @PostMapping("delete")
+    @Transactional(rollbackFor = Exception.class)
     public R delete(@RequestBody Long[] ids){
         Boolean result = false;
         LinkedList<TBlogReply> replies = new LinkedList<>();

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,6 +81,7 @@ public class BlogController {
      * 保存
      */
     @RequestMapping("/save")
+    @Transactional(rollbackFor = Exception.class)
     public R save(@Validated(Add.class) @RequestBody BlogEntityVO blogVO) {
 
         Date date = new Date();
@@ -111,6 +113,7 @@ public class BlogController {
      * 修改
      */
     @RequestMapping("/update")
+    @Transactional(rollbackFor = Exception.class)
     public R update(@Validated(Update.class) @RequestBody BlogEntityVO blogVO) {
         Date date = new Date();
         blogVO.setUpdateTime(date);
@@ -144,6 +147,7 @@ public class BlogController {
      * @Date 2021/9/20
      */
     @PostMapping("/delete")
+    @Transactional(rollbackFor = Exception.class)
     public R delete(@RequestBody Long[] ids) {
         Boolean result = false;
         LinkedList<BlogEntity> blogEntities = new LinkedList<>();
@@ -173,6 +177,7 @@ public class BlogController {
      * @Date 2021/9/21
      */
     @RequestMapping("/deletefromdb")
+    @Transactional(rollbackFor = Exception.class)
     public R deleteFromDB(@RequestBody Long[] ids) {
         blogService.removeByIds(Arrays.asList(ids));
         Arrays.stream(ids).forEach(id -> {

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import studio.xinge.xinblog.blog.entity.TBlogReply;
 import studio.xinge.xinblog.blog.mapper.TBlogReplyMapper;
 import studio.xinge.xinblog.blog.service.TBlogReplyService;
@@ -51,6 +52,7 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
      * @Date 2022/7/23
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveAndUpdateCache(TBlogReply tBlogReply) {
 //        入库
         this.save(tBlogReply);
