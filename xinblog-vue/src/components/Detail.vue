@@ -53,7 +53,7 @@
             </el-col>
           </el-form>
         </el-row>
-        <comment :commentNum="commentList.length" :commentList="commentList" @doSend="reply"></comment>
+        <comment :commentNum="commentList.length" :commentList="commentList" @doSend="reply" @doChidSend="reply"></comment>
        
         <el-page-header class="back" @back="goBack" content="" />
       </div>
