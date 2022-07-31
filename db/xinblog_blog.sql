@@ -8,6 +8,8 @@ drop table if exists t_blog;
 
 drop table if exists t_blog_reply;
 
+drop table if exists t_tag;
+
 -- xinblog_blog.t_blog definition
 
 CREATE TABLE `t_blog` (
@@ -24,11 +26,13 @@ CREATE TABLE `t_blog` (
   `top` tinyint(1) DEFAULT '0',
   `view_num` int(11) DEFAULT '0',
   `markdown_addr` varchar(500) DEFAULT NULL COMMENT 'markdown地址',
+  `tags` varchar(100) DEFAULT NULL COMMENT '标签数组',
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_blog_UN` (`id`,`status`),
   KEY `t_blog_status_IDX` (`status`) USING BTREE,
   KEY `t_blog_status_IDX2` (`status`,`top`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客表';
+
 
 -- xinblog_blog.t_blog_reply definition
 
@@ -48,6 +52,7 @@ CREATE TABLE `t_blog_reply` (
   KEY `t_blog_reply_blog_id_IDX` (`blog_id`,`status`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='博客回复表';
 
+
 -- xinblog_blog.t_tag definition
 
 CREATE TABLE `t_tag` (
@@ -56,5 +61,4 @@ CREATE TABLE `t_tag` (
   `disabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_tag_UN` (`label`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
