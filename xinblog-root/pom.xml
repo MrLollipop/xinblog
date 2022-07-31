@@ -32,7 +32,7 @@
         <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
         <spring.alibaba.version>2.2.0.RELEASE</spring.alibaba.version>
         <junit.version>4.12</junit.version>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j2.version>2.17.2</log4j2.version>
         <lombok.version>1.18.18</lombok.version>
         <mybatis.spring.boot.version>2.1.4</mybatis.spring.boot.version>
         <mybatis.plus.spring.boot.version>3.4.2</mybatis.plus.spring.boot.version>
@@ -89,6 +89,39 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <!--     升级Log4j2版本，2.17.0，无漏洞       -->
+<!--            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>${log4j2.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>-->
+
+            <!--核心log4j2jar包-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <!--用于与slf4j保持桥接-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <!--web工程需要包含log4j-web，非web工程不需要-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-web</artifactId>
+                <version>${log4j2.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>
