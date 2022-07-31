@@ -157,7 +157,9 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
             level2.stream().forEach(item2 -> {
                 childList.add(this.toCommentVO(item2));
             });
-            commentVO.setChildrenList(childList);
+            if (!childList.isEmpty()) {
+                commentVO.setChildrenList(childList);
+            }
         });
         return sorted;
     }
@@ -179,11 +181,13 @@ public class TBlogReplyServiceImpl extends ServiceImpl<TBlogReplyMapper, TBlogRe
         commentUser.setId(replyVO.getReplyerId());
         commentUser.setNickName(replyVO.getReplyerNickName());
         commentVO.setCommentUser(commentUser);
+//        commentVO.setTargetUser(commentUser);
         String content = replyVO.getContent();
         content = StrUtil.replace(content, "<emoji>", "[");
         content = StrUtil.replace(content, "</emoji>", "]");
         commentVO.setContent(content);
         commentVO.setCreateDate(DateUtil.format(replyVO.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+//        commentVO.setChildrenList(new LinkedList());
         return commentVO;
     }
 
