@@ -58,7 +58,7 @@ export default {
           // useVO: true,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           // totalCount: 13, pageSize: 10, totalPage: 2, currPage: 1,
           this.data = data.tags;

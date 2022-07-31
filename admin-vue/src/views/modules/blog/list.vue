@@ -290,7 +290,7 @@ export default {
           top: this.search.top,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.tableData = data.page.list;
           this.totalPage = data.page.totalPage;

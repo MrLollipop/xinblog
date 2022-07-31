@@ -110,7 +110,7 @@ export default {
           limit: this.pageSize,
         }),
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 10000) {
           this.tableData = data.page.list;
           this.totalPage = data.page.totalPage;
