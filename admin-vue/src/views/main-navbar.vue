@@ -26,15 +26,15 @@
         </el-menu-item>
         <el-menu-item index="2">
           <el-badge value="hot">
-            <a href="https://www.renren.io/" target="_blank">官方社区</a>
+            <a href="http://xinge.studio" target="_blank">欣哥工作室</a>
           </el-badge>
         </el-menu-item>
-        <el-submenu index="3">
+        <!-- <el-submenu index="3">
           <template slot="title">Git源码</template>
           <el-menu-item index="2-1"><a href="https://github.com/renrenio/renren-fast-vue" target="_blank">前端</a></el-menu-item>
           <el-menu-item index="2-2"><a href="https://gitee.com/renrenio/renren-fast" target="_blank">后台</a></el-menu-item>
           <el-menu-item index="2-3"><a href="https://gitee.com/renrenio/renren-generator" target="_blank">代码生成器</a></el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
         <el-menu-item class="site-navbar__avatar" index="3">
           <el-dropdown :show-timeout="0" placement="bottom">
             <span class="el-dropdown-link">
