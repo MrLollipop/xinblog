@@ -54,6 +54,8 @@
         <joda.time.version>2.9.9</joda.time.version>
         <gson.version>2.8.5</gson.version>
         <brave-instrumentation-dubbo.version>5.13.3</brave-instrumentation-dubbo.version>
+        <docker-maven-plugin.version>1.2.2</docker-maven-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：锁定版本+子modlue不用写groupId和version  -->
@@ -173,6 +175,18 @@
                 <groupId>io.zipkin.brave</groupId>
                 <artifactId>brave-instrumentation-dubbo</artifactId>
                 <version>${brave-instrumentation-dubbo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-plugin.version}</version>
             </dependency>
 
         </dependencies>
