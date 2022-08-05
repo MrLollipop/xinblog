@@ -5,7 +5,7 @@
   window.SITE_CONFIG = {};
 
   // api接口请求地址
-  window.SITE_CONFIG['baseUrl'] = 'http://demo.open.renren.io/renren-fast-server';
+  window.SITE_CONFIG['baseUrl'] = 'http://47.98.130.159/gateway';
 
   // cdn地址 = 域名 + 版本号
   window.SITE_CONFIG['domain']  = './'; // 域名
