@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import Markdown from "./Markdown.vue";
+// import Markdown from "./Markdown.vue";
 import { formatDate } from "@/utils";
 import { parseEmoji } from "@/utils";
 import { isEmail} from "@/utils/validate";

@@ -17,12 +17,8 @@
     "bright-comment": "^1.5.7",
     "element-ui": "^2.15.8",
     "github-markdown-css": "^5.1.0",
-    "markdown-it": "^13.0.1",
-    "markdown-it-highlightjs": "^4.0.1",
-    "markdown-it-katex": "^2.0.3",
     "markdown-it-vue": "^1.1.7",
     "qs": "^6.11.0",
-    "store": "^2.0.12",
     "utils": "^0.3.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
