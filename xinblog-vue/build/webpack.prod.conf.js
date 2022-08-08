@@ -32,10 +32,10 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   externals:{
     'axios':'axios',
-    'element-ui':'ElementUI',
-    'qs':'qs',
+    'element-ui':'ELEMENT',
+    'qs':'Qs',
     'vue':'Vue',
-    'vue-router':'Router',
+    'vue-router':'VueRouter',
   },
   plugins: [
     //  可以是`server`，`static`或`disabled`。
