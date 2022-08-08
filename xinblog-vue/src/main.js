@@ -9,7 +9,6 @@ import 'element-ui/lib/theme-chalk/index.css'; //避免后期打包样式不同�
 import App from './App'
 import router from './router'
 
-// import 'github-markdown-css/github-markdown.css'
 import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
 
 // 在Vue项目中使用element ui
