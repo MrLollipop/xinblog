@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>欣哥工作室</title>
     <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.5.0/build/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
     <script src="./static/config/index.js"></script>
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.5.0/build/highlight.min.js"></script>
     <% if (process.env.NODE_ENV === 'production') { %>
+      <script src="https://cdn.staticfile.org/vue/2.5.2/vue.min.js"></script>
+      <script src="https://cdn.staticfile.org/vue-router/3.0.1/vue-router.min.js"></script>
       <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
       <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/index.min.js"></script>
       <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/theme-chalk/index.min.css" rel="stylesheet">
       <script src="https://cdn.bootcdn.net/ajax/libs/qs/6.11.0/qs.min.js"></script>
-      <script src="https://cdn.staticfile.org/vue/2.5.2/vue.min.js"></script>
-      <script src="https://cdn.staticfile.org/vue-router/3.0.1/vue-router.min.js"></script>
     <% } %>
   </head>
   <body>
