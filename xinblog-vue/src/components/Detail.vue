@@ -73,7 +73,8 @@ import Reply from './Reply.vue';
 import comment from "bright-comment";
 
 export default {
-  components: { Markdown, Tag,  MarkdownItVue, Reply, comment},
+  // components: { Markdown, Tag,  MarkdownItVue, Reply, comment},
+  components: {  Tag,  MarkdownItVue, Reply, comment},
     data() {
       var validateEmail = (rule, value, callback) => {
         if (!isEmail(value)) {
