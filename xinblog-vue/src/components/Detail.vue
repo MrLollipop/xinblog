@@ -18,7 +18,7 @@
         <el-row :gutter="40">
           <el-col :span="18">
             <!-- markdown-it-vue插件解析 -->
-            <markdown-it-vue class="md-body" :content="content" :options="options"></markdown-it-vue>
+            <markdown-it-vue-light class="md-body" :content="content" :options="options" />
           </el-col>
           <el-col :span="6">
             <div class="rightBox">
@@ -67,14 +67,14 @@ import { formatDate } from "@/utils";
 import { parseEmoji } from "@/utils";
 import { isEmail} from "@/utils/validate";
 import Tag from './index/Tag.vue';
-import MarkdownItVue from 'markdown-it-vue'
-import 'markdown-it-vue/dist/markdown-it-vue.css'
+import MarkdownItVueLight from 'markdown-it-vue/dist/markdown-it-vue-light.umd.min.js'
+import 'markdown-it-vue/dist/markdown-it-vue-light.css'
 import Reply from './Reply.vue';
 import comment from "bright-comment";
 
 export default {
   // components: { Markdown, Tag,  MarkdownItVue, Reply, comment},
-  components: {  Tag,  MarkdownItVue, Reply, comment},
+  components: {  Tag,  MarkdownItVueLight, Reply, comment},
     data() {
       var validateEmail = (rule, value, callback) => {
         if (!isEmail(value)) {
