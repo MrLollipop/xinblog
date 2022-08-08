@@ -25,7 +25,6 @@ module.exports = {
   externals:{
     'axios':'axios',
     'element-ui':'ElementUI',
-    'github-markdown-css':'github-markdown-css',
     'qs':'qs',
     'vue':'Vue',
     'vue-router':'Router',
