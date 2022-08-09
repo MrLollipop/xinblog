@@ -175,8 +175,8 @@ export default {
     },
     getMarkdown() {
       // console.log(this.markdownAddr);
-      this.$http({
-        url: this.$http.adornUrlByProxy(
+      this.$httpNoCredentials({
+        url: this.$httpNoCredentials.adornUrlByProxy(
           this.markdownAddr,
           "/proxyOssApi/"
         ),

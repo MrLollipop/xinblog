@@ -10,14 +10,15 @@ import App from './App'
 import router from './router'
 
 import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
+import httpRequestNoCredentials from '@/utils/httpRequestNoCredentials'
 
 // 在Vue项目中使用element ui
 Vue.use(ElementUI); 
 
 Vue.config.productionTip = false
 // 挂载全局
-Vue.prototype.$baseUrl = process.env.baseUrl
 Vue.prototype.$http = httpRequest // ajax请求方法
+Vue.prototype.$httpNoCredentials = httpRequestNoCredentials // ajax请求方法,不带cookies
 
 /* eslint-disable no-new */
 new Vue({
