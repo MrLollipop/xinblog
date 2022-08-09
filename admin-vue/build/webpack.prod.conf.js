@@ -31,6 +31,17 @@ const webpackConfig = merge(baseWebpackConfig, {
     filename: utils.assetsPath('js/[name].js'),
     chunkFilename: utils.assetsPath('js/[id].js')
   },
+  // 引入外部库, 无需webpack打包处理
+  externals: {
+    mockjs: 'Mock',
+    echarts: 'echarts',
+    ueditor: 'UE',
+    'axios':'axios',
+    'element-ui':'ELEMENT',
+    'vue':'Vue',
+    'vuex':'Vuex',
+    'vue-router':'VueRouter',
+  },
   plugins: [
     //  可以是`server`，`static`或`disabled`。
     //  在`server`模式下，分析器将启动HTTP服务器来显示软件包报告。

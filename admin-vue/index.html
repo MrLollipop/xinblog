@@ -8,16 +8,24 @@
   <% if (process.env.NODE_ENV === 'production') { %>
     <!-- 生产环境 -->
     <script>document.write('<script src="./config/index.js?t=' + new Date().getTime() + '"><\/script>');</script>
+    <script src="https://cdn.staticfile.org/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue-router/3.0.1/vue-router.min.js"></script>
+    <script src="https://cdn.staticfile.org/vuex/3.0.1/vuex.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Mock.js/1.0.0/mock-min.js"></script>
+    <script src="https://cdn.staticfile.org/echarts/3.8.5/echarts.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.17.1/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/index.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/theme-chalk/index.min.css" rel="stylesheet">
   <% }else { %>
     <!-- 开发环境 -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/img/favicon.ico">
     <script src="./static/config/index.js"></script>
     <script src="./static/plugins/mock-1.0.0-beta3/mock-min.js"></script>
     <script src="./static/plugins/echarts-3.8.5/echarts.common.min.js"></script>
+    <% } %>
     <script src="./static/plugins/ueditor-1.4.3.3/ueditor.config.js"></script>
     <script src="./static/plugins/ueditor-1.4.3.3/ueditor.all.min.js"></script>
     <script src="./static/plugins/ueditor-1.4.3.3/lang/zh-cn/zh-cn.js"></script>
-  <% } %>
 </head>
 <body>
   <div id="app"></div>
