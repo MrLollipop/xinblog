@@ -1,12 +1,13 @@
 package studio.xinge.xinblog.gateway.config;
 
+import cn.hutool.core.util.StrUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.server.ServerWebExchange;
+import java.util.List;
 
 /**
  * @Author xinge
@@ -17,6 +18,9 @@ import org.springframework.web.server.ServerWebExchange;
 @Configuration
 public class CorsConfig {
 
+    @Value("${allowedOrigin}")
+    private String allowedOriginStr;
+
     @Bean
     public CorsWebFilter corsWebFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -24,7 +28,9 @@ public class CorsConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedOrigin("*");
+//        corsConfiguration.addAllowedOrigin("*");
+        List<String> allowedOriginList = StrUtil.split(allowedOriginStr, ",");
+        corsConfiguration.setAllowedOrigins(allowedOriginList);
         corsConfiguration.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**", corsConfiguration);
