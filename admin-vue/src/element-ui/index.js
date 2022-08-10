@@ -79,7 +79,7 @@ import {
   Image
 } from 'element-ui'
 
-// 非生产环境
+// 非生产环境放开注释,打包前必须全部注释
 if (process.env.NODE_ENV !== 'production') {
   Vue.use(Pagination)
   Vue.use(Dialog)
