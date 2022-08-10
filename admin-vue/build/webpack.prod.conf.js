@@ -33,11 +33,11 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   // 引入外部库, 无需webpack打包处理
   externals: {
-    mockjs: 'Mock',
-    echarts: 'echarts',
-    ueditor: 'UE',
+    'mockjs': 'Mock',
+    'echarts': 'echarts',
+    'ueditor': 'UE',
     'axios':'axios',
-    'element-ui':'ELEMENT',
+    "element-ui":"ELEMENT",
     'vue':'Vue',
     'vuex':'Vuex',
     'vue-router':'VueRouter',
@@ -65,7 +65,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     new UglifyJsPlugin({
       uglifyOptions: {
         compress: {
-          warnings: false
+          warnings: false,
+          drop_console:true,
         }
       },
       sourceMap: config.build.productionSourceMap,
@@ -157,11 +158,7 @@ if (config.build.productionGzip) {
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
-      test: new RegExp(
-        '\\.(' +
-        config.build.productionGzipExtensions.join('|') +
-        ')$'
-      ),
+      test: /\.(js|css|svg|woff|ttf|json|html)$/,
       threshold: 10240,
       minRatio: 0.8
     })
