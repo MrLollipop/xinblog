@@ -36,6 +36,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     'qs':'Qs',
     'vue':'Vue',
     'vue-router':'VueRouter',
+    // 'markdown-it-vue-light':'markdown-it-vue-light',
+    // 'bright-comment':'bright-comment',
   },
   plugins: [
     //  可以是`server`，`static`或`disabled`。
