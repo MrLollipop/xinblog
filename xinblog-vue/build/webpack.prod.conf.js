@@ -157,11 +157,7 @@ if (config.build.productionGzip) {
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
-      test: new RegExp(
-        '\\.(' +
-        config.build.productionGzipExtensions.join('|') +
-        ')$'
-      ),
+      test: /\.(js|css|svg|woff|ttf|json|html)$/,
       threshold: 10240,
       minRatio: 0.8
     })
