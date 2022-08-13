@@ -67,7 +67,7 @@ xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VU
 * Sleuth + Zipkin
 
 * Sentinel
-  
+
 * Docker
 
 ## 有啥用
@@ -75,7 +75,7 @@ xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VU
 1. 用于微服务治理、分布式等技术的学习
 2. 搭建欣哥工作室个人博客，作为技术交友平台，结实志同道合的朋友。分享、积累技术经验
 
-### 项目开源地址
+## 项目开源地址
 
 - Gitee：[欣博客: 基于微服务框架、前后端分离的个人博客](https://gitee.com/xinge2021/xinblog)
 - GitHub：[GitHub - MrLollipop/xinblog: 基于微服务框架、前后端分离的个人博客](https://github.com/MrLollipop/xinblog)
