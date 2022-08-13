@@ -36,9 +36,39 @@ xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VU
 
 ## 项目架构图
 
-<img src="https://img1.imgtp.com/2022/08/12/b3AK7ZED.jpg" title="" alt="Xinblog（欣博客）架构图.jpg" width="767">
+<img title="" src="https://img1.imgtp.com/2022/08/13/EF1sJikA.jpg" alt="Xinblog（欣博客）架构图.jpg" width="767">
 
-[b3AK7ZED.jpg (2661×1751) (imgtp.com)](https://img1.imgtp.com/2022/08/12/b3AK7ZED.jpg)
+[点击看高清大图](https://img1.imgtp.com/2022/08/13/EF1sJikA.jpg)
+
+## 项目使用技术栈
+
+* Nginx
+
+* VUE
+
+* ElementUI
+
+* Spring Boot
+
+* Spring Cloud
+
+* Spring Cloud Alibaba
+
+* Nacos
+
+* Redis
+
+* Redisson
+
+* MySQL
+
+* AliYun OSS
+
+* Sleuth + Zipkin
+
+* Sentinel
+  
+* Docker
 
 ## 有啥用
 
@@ -48,7 +78,7 @@ xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VU
 ### 项目开源地址
 
 - Gitee：[欣博客: 基于微服务框架、前后端分离的个人博客](https://gitee.com/xinge2021/xinblog)
-- GitHub:[GitHub - MrLollipop/xinblog: 基于微服务框架、前后端分离的个人博客](https://github.com/MrLollipop/xinblog)
+- GitHub：[GitHub - MrLollipop/xinblog: 基于微服务框架、前后端分离的个人博客](https://github.com/MrLollipop/xinblog)
 
 ## 技术交流
 
@@ -61,5 +91,3 @@ xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VU
   ![扫码_搜索联合传播样式-标准色版.png](https://img1.imgtp.com/2022/08/12/oCCz5SZu.png)
 
 - 知乎：欣哥工作室
-
-- 
