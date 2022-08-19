@@ -2,7 +2,7 @@
 
 ## 是什么
 
-xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VUE等技术，实现分布式、前后端分离的个人博客，提供个人建站技术支持。
+xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`、`VUE`等技术，微服务架构，实现分布式、前后端分离的个人博客，提供个人建站技术支持。
 
 ## 项目展示
 
@@ -42,38 +42,22 @@ xinblog（欣博客）开源项目，一个基于Spring Boot、Spring Cloud、VU
 
 ## 项目使用技术栈
 
-* Nginx
-
-* VUE
-
-* ElementUI
-
-* Spring Boot
-
-* Spring Cloud
-
-* Spring Cloud Alibaba
-
-* Nacos
-
-* Redis
-
-* Redisson
-
-* MySQL
-
-* AliYun OSS
-
-* Sleuth + Zipkin
-
-* Sentinel
-
-* Docker
+> 前端： `VUE` | `ElementUI` | `Nginx`
+> 
+> 服务端架构：基于 `Spring Cloud` 与 `Spring Cloud Alibaba` 微服务架构
+> 
+> 缓存：`Redis`
+> 
+> 持久层： `MySQL` | `AliYun OSS`
+> 
+> 流量监控： `Sleuth + Zipkin` | `Sentinel`
+> 
+> 容器化： `Docker`
 
 ## 有啥用
 
 1. 用于微服务治理、分布式等技术的学习
-2. 搭建欣哥工作室个人博客，作为技术交友平台，结实志同道合的朋友。分享、积累技术经验
+2. 搭建欣哥工作室个人博客，输出知识分享。
 
 ## 项目开源地址
 
