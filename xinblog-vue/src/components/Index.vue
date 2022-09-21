@@ -22,7 +22,7 @@
           >
           <el-menu-item index="4"
             ><span class="menu-font"
-              ><a href="http://xinge.studio" target="_blank">关于我</a></span
+              ><router-link to="/aboutMe">关于我</router-link></span
             >
           </el-menu-item>
         </el-menu>
