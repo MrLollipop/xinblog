@@ -4,7 +4,7 @@ import Index from '@/components/Index'
 import Main from '@/components/index/Main'
 import Detail from '@/components/Detail'
 import Topic from '@/components/Topic'
-import aboutMe from '@/components/AboutMe'
+import AboutMe from '@/components/AboutMe'
 
 Vue.use(Router)
 
@@ -50,7 +50,7 @@ export default new Router({
         {
           path: 'aboutMe',
           name: 'aboutMe',
-          component: aboutMe,
+          component: AboutMe,
         },
       ]
     },
