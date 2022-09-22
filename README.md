@@ -70,6 +70,10 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 - 作者邮箱：haoxin_2014@163.com
 
+- QQ群：程序员欣哥|学习交流|求职|职场互助群，群号：882838725
+  
+  ![粉丝群推广2.png](https://img1.imgtp.com/2022/09/21/pgVCweH8.png)
+
 - 公众号：欣哥工作室
   
   ![扫码_搜索联合传播样式-标准色版.png](https://img1.imgtp.com/2022/08/12/oCCz5SZu.png)
