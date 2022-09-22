@@ -5,6 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import studio.xinge.xinblog.blog.entity.TTag;
@@ -65,6 +66,7 @@ public class TTagController {
     }
 
     @RequestMapping("/create")
+    @Transactional(rollbackFor = Exception.class)
     public R create(@RequestBody TagVO tagVO) {
         TTag tag = new TTag();
         BeanUtil.copyProperties(tagVO, tag);
@@ -75,10 +77,12 @@ public class TTagController {
         if (!save) {
             return R.error();
         }
+        tagService.saveTagCache();
         return R.ok();
     }
 
     @RequestMapping("/update")
+    @Transactional(rollbackFor = Exception.class)
     public R update(@RequestBody TagVO tagVO) {
         TTag tag = new TTag();
         BeanUtil.copyProperties(tagVO, tag);
@@ -90,15 +94,18 @@ public class TTagController {
         if (!update) {
             return R.error();
         }
+        tagService.saveTagCache();
         return R.ok();
     }
 
     @RequestMapping("/delete")
+    @Transactional(rollbackFor = Exception.class)
     public R delete(@RequestBody Long[] ids) {
         boolean delete = tagService.removeByIds(Arrays.asList(ids));
         if (!delete) {
             return R.error();
         }
+        tagService.saveTagCache();
         return R.ok();
     }
 
