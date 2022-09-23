@@ -78,19 +78,24 @@
 
     <!--配置总的日志监听级别-->
     <loggers>
+        <!--   info&warn&error     -->
         <logger name="studio.xinge.xinblog" level="info" additivity="false">
             <appender-ref ref="Info_File"/>
+            <appender-ref ref="Warn_File"/>
         </logger>
-        <logger name="org.springframework" level="info" additivity="false">
+        <logger name="org" level="info" additivity="false">
             <appender-ref ref="Info_File"/>
+            <appender-ref ref="Warn_File"/>
         </logger>
-        <logger name="org.mybatis" level="error" additivity="false">
+        <logger name="com" level="info" additivity="false">
             <appender-ref ref="Info_File"/>
+            <appender-ref ref="Warn_File"/>
         </logger>
+        <!--   debug     -->
         <logger name="druid.sql" level="debug" additivity="false">
             <appender-ref ref="Debug_File"/>
         </logger>
-        <logger name="studio.xinge.xinblog.auth.mapper" level="debug" additivity="false">
+        <logger name="studio.xinge.xinblog.blog.mapper" level="debug" additivity="false">
             <appender-ref ref="Debug_File"/>
         </logger>
 
