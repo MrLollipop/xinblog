@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import studio.xinge.xinblog.blog.entity.TTag;
 import studio.xinge.xinblog.blog.mapper.TTagMapper;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022-07-13
  */
 @Service
+@Slf4j
 public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TTagService {
 
     @Autowired
@@ -47,6 +49,7 @@ public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TT
         if (null != tags && !tags.isEmpty()) {
             tags.stream().forEach(t -> {
                 tagsCache.put(t.getId(), t.getLabel());
+                myHashOperations.setHash(Constant.TAGS, StrUtil.toString(t.getId()), t.getLabel(), 30, TimeUnit.MINUTES);
             });
         }
         myHashOperations.setHash(Constant.TAGS, Constant.TAGS, tagsCache, 30, TimeUnit.MINUTES);
@@ -66,10 +69,9 @@ public class TTagServiceImpl extends ServiceImpl<TTagMapper, TTag> implements TT
         HashMap tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
         if (null == tagsCache) {
             saveTagCache();
-            tagsCache = (HashMap) myHashOperations.get(Constant.TAGS, Constant.TAGS);
         }
 
-        return (String) tagsCache.get(key);
+        return (String) myHashOperations.get(Constant.TAGS, StrUtil.toString(key));
     }
 
     /**
