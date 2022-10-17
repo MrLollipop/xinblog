@@ -72,15 +72,11 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 [(点击查看大图)](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E9%A6%96%E9%A1%B5.png)
 
-
-
 ![博客详情](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E8%AF%A6%E6%83%85-2.png)
 
 博客详情
 
 [(点击查看大图)](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E8%AF%A6%E6%83%85.png)
-
-
 
 ![标签分类](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E4%B8%93%E9%A2%98-2.png)
 
@@ -88,23 +84,17 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 [(点击查看大图)](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E4%B8%93%E9%A2%98.png)
 
-
-
 ![管理台登录](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E7%AE%A1%E7%90%86%E5%8F%B0%E7%99%BB%E5%BD%95-2.png)
 
 管理台登录
 
 [(点击查看大图)](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E7%AE%A1%E7%90%86%E5%8F%B0%E7%99%BB%E5%BD%95.png)
 
-
-
 ![博客列表](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E7%AE%A1%E7%90%86%E5%8F%B0%E5%8D%9A%E5%AE%A2%E5%88%97%E8%A1%A8-2.png)
 
 博客列表
 
 [(点击查看大图)](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E7%AE%A1%E7%90%86%E5%8F%B0%E5%8D%9A%E5%AE%A2%E5%88%97%E8%A1%A8.png)
-
-
 
 ![博客编辑](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/%E5%8D%9A%E5%AE%A2%E7%BC%96%E8%BE%91.png)
 
@@ -114,16 +104,14 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 ## 技术交流
 
-- 私信或留言
-
-- 作者邮箱：haoxin_2014@163.com
-
-- QQ群：程序员欣哥|学习交流|求职|职场互助群，群号：882838725
+- 欣哥VX：XingeStudio (备注例子：杭州-Java10年-来自B站)，免费领取大厂面试资料
   
-  ![粉丝群推广2.png](https://img1.imgtp.com/2022/09/21/pgVCweH8.png)
+  ![程序员欣哥 个人VX](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A5%E5%B7%A5%E4%BD%9C%E5%AE%A4VX-%E5%B0%8F.png)
 
-- 公众号：欣哥工作室
+- 程序员欣哥 学习交流、技术分享、职场互助 QQ群：882838725
   
-  ![扫码_搜索联合传播样式-标准色版.png](https://img1.imgtp.com/2022/08/12/oCCz5SZu.png)
+  ![程序员欣哥 QQ群](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%AC%A3%E5%93%A5QQ%E7%BE%A4-%E5%B0%8F.png)
 
-- 知乎：欣哥工作室
+- 公众号：搜一搜【程序员欣哥】
+
+- 知乎：【程序员欣哥】
