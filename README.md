@@ -36,9 +36,9 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 ## 项目架构图
 
-<img title="" src="https://img1.imgtp.com/2022/08/13/EF1sJikA.jpg" alt="Xinblog（欣博客）架构图.jpg" width="767">
+![](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/Xinblog%EF%BC%88%E6%AC%A3%E5%8D%9A%E5%AE%A2%EF%BC%89%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
 
-[点击看高清大图](https://img1.imgtp.com/2022/08/13/EF1sJikA.jpg)
+[点击看大图](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/w002/Xinblog%EF%BC%88%E6%AC%A3%E5%8D%9A%E5%AE%A2%EF%BC%89%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
 
 ## 项目使用技术栈
 
@@ -104,14 +104,15 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 ## 技术交流
 
-- 欣哥VX：XingeStudio (备注例子：杭州-Java10年-来自B站)，免费领取大厂面试资料
+> 欣哥，10年程序员经验，其中4年项目管理
+
+* 欣哥VX：【xinge-1024】 (备注例子：杭州-10年开发-来自GitHub)，加粉丝群，更多学习分享，职场交流
   
-  ![程序员欣哥 个人VX](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A5%E5%B7%A5%E4%BD%9C%E5%AE%A4VX-%E5%B0%8F.png)
-
-- 程序员欣哥 学习交流、技术分享、职场互助 QQ群：882838725
+  ![](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A51024/%E5%BE%AE%E4%BF%A1-%E5%B0%8F.png)
+- 公众号【欣哥1024】，回复【面试】，免费领取大厂面试资料
   
-  ![程序员欣哥 QQ群](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%AC%A3%E5%93%A5QQ%E7%BE%A4-%E5%B0%8F.png)
+  ![](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A51024/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg)
 
-- 公众号：搜一搜【程序员欣哥】
-
-- 知乎：【程序员欣哥】
+- 扫一扫 总有一款适合你
+  
+  ![](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A51024/6%E4%B8%AA%E8%A7%86%E9%A2%91%E5%8F%B7%E6%8E%A8%E5%B9%BF.png)
