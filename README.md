@@ -104,10 +104,9 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 ## 技术交流
 
-- 欣哥VX：XingeStudio (备注例子：杭州-Java10年-来自B站)，免费领取大厂面试资料
+* 欣哥VX：XingeStudio (备注例子：杭州-Java10年-来自B站)，免费领取大厂面试资料
   
-  ![程序员欣哥 个人VX](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A5%E5%B7%A5%E4%BD%9C%E5%AE%A4VX-%E5%B0%8F.png)
-
+  ![](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A5%E5%B7%A5%E4%BD%9C%E5%AE%A4VX-%E5%B0%8F.png)
 - 程序员欣哥 学习交流、技术分享、职场互助 QQ群：882838725
   
   ![程序员欣哥 QQ群](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%AC%A3%E5%93%A5QQ%E7%BE%A4-%E5%B0%8F.png)
