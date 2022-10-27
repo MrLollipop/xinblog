@@ -106,7 +106,7 @@ xinblog（欣博客）开源项目，一个基于`Spring Boot`、`Spring Cloud`�
 
 > 欣哥，10年程序员经验，其中4年项目管理
 
-* 欣哥VX：【xinge-1024】 (备注例子：杭州-10年开发-来自GitHub)，加粉丝群，更多学习分享，职场交流
+* 欣哥VX【xinge-1024】 加粉丝群，更多学习分享，职场交流，(备注例子：杭州-10年开发-来自GitHub)
   
   ![](https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/%E6%8E%A8%E5%B9%BF/%E6%AC%A3%E5%93%A51024/%E5%BE%AE%E4%BF%A1-%E5%B0%8F.png)
 - 公众号【欣哥1024】，回复【面试】，免费领取大厂面试资料
