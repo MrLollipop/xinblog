@@ -183,12 +183,6 @@
                 <version>${docker-maven-plugin.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-plugin.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -203,6 +197,17 @@
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.7.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>${dockerfile-maven-plugin.version}</version>
+                </plugin>
+
                 <!--        <plugin>
                           <artifactId>maven-project-info-reports-plugin</artifactId>
                           <version>3.0.0</version>
