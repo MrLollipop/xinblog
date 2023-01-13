@@ -42,8 +42,12 @@ public class IndexCacheUpdateTask {
             }
         } finally {
             if (tryLock) {
-                lock.unlock();
-                log.info("[{}]释放锁indexCacheUpdateTask", port);
+                if (lock.isLocked()) {
+                    lock.unlock();
+                    log.info("[{}]释放锁indexCacheUpdateTask", port);
+                } else {
+                    log.info("[{}]锁indexCacheUpdateTask已自动释放", port);
+                }
             } else {
                 log.info("[{}]本次不做indexCacheUpdateTask", port);
             }

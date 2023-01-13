@@ -49,8 +49,12 @@ public class TagCacheUpdateTask {
             }
         } finally {
             if (tryLock) {
-                lock.unlock();
-                log.info("[{}]释放锁tagCacheUpdateTask", port);
+                if (lock.isLocked()) {
+                    lock.unlock();
+                    log.info("[{}]释放锁tagCacheUpdateTask", port);
+                } else {
+                    log.info("[{}]锁tagCacheUpdateTask已自动释放", port);
+                }
             } else {
                 log.info("[{}]本次不做tagCacheUpdateTask", port);
             }
