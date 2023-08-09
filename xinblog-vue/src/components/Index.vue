@@ -3,27 +3,24 @@
   <div id="index" class="index">
     <el-container>
       <el-header :style="opacityStyle">
-        <h1 class="title">欣哥1024</h1>
+        <h1 class="auth">欣哥1024</h1>
         <el-menu
           :default-active="activeIndex"
           class="el-menu"
           mode="horizontal"
+          background-color="#397ad6"
+          text-color="#ffffff"
+          active-text-color="#ffffff"
         >
           <!-- @select="handleSelect" -->
-          <el-menu-item index="1"
-            ><span class="menu-font"
-              ><router-link to="/">首页</router-link></span
-            ></el-menu-item
-          >
-          <el-menu-item index="2"
-            ><span class="menu-font"
-              ><router-link to="/topic">专题</router-link></span
-            ></el-menu-item
-          >
-          <el-menu-item index="3"
-            ><span class="menu-font"
-              ><router-link to="/aboutMe">关于我</router-link></span
-            >
+          <el-menu-item index="1" >
+              <router-link to="/">首页</router-link>
+          </el-menu-item>
+          <el-menu-item index="2" >
+              <router-link to="/topic">专题</router-link>
+          </el-menu-item>
+          <el-menu-item index="3" >
+              <router-link to="/aboutMe">关于我</router-link>
           </el-menu-item>
         </el-menu>
       </el-header>
@@ -115,44 +112,27 @@ export default {
   z-index: 10;
 }
 
-.title {
+.auth {
   float: left;
   font-size: 15px;
   font-weight: 600;
   color: white;
   height: 70px;
   margin-top: 22px;
+  font-family:"Microsoft Yahei", "PingFang SC";
 }
 
 .el-menu {
-  background: none;
+  /* background: none; */
   width: fit-content;
   float: right;
-}
-
-.el-menu.el-menu--horizontal,
-.el-menu--horizontal > .el-menu-item.is-active {
-  border-bottom: none;
-  color: #397ad6;
-}
-
-.el-menu-item .is-active {
-  color: #397ad6;
-}
-.el-menu-item:hover {
-  color: #397ad6;
-}
-
-.menu-font {
   font-size: 15px;
   font-weight: 600;
-  color: white;
+  font-family:"Microsoft Yahei", "PingFang SC";
 }
 
-.menu-font:hover {
-  color: #397ad6;
-  border-bottom: 1px solid #397ad6;
-  visibility: visible;
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
 }
 
 #banner {
