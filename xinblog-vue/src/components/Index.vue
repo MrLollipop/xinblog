@@ -3,7 +3,7 @@
   <div id="index" class="index">
     <el-container>
       <el-header :style="opacityStyle">
-        <h1 class="title">欣哥工作室</h1>
+        <h1 class="title">欣哥1024</h1>
         <el-menu
           :default-active="activeIndex"
           class="el-menu"
@@ -38,7 +38,7 @@
           </div>
           <el-footer>
             <p>
-              <a href="http://xinge.studio">欣哥工作室</a> © 2021
+              <a href="http://xinge.studio">欣哥1024</a> © 2021
               浙ICP备2021021057号
             </p>
           </el-footer>
@@ -58,7 +58,8 @@ export default {
   name: "Index",
   data() {
     return {
-      bannerTitle: "欣 哥 工 作 室",
+      isTitleShow: false,
+      bannerTitle: "欣 哥 1024",
       subBannerTitle: "为程序员创造价值",
       mes: "这是第一个demo!!!",
       activeIndex: "1",

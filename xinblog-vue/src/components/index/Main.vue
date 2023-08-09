@@ -58,7 +58,7 @@ export default {
     BlogCard,
   },
   mounted() {
-    this.$emit("bannerTitle", ["欣 哥 工 作 室", "为程序员创造价值"]);
+    this.$emit("bannerTitle", ["欣 哥 1024", "为程序员创造价值"]);
     this.getIndexData();
     this.timer = setInterval(this.getNewestList, 8000);
   },
