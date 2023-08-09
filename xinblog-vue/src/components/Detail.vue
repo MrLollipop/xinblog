@@ -4,6 +4,8 @@
       <div class="markdown">
         <el-page-header class="back" @back="goBack" content="" />
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
+        <h1 id="title">{{ title }}</h1>
+        <h2 id="subTitle">{{ subTitle }}</h2>
         <img class="headPic" :src="cover"/>
         <el-row type="flex" class="row" justify="space-around">
             <el-col :span="6" :offset="6"><span style="float:left"><i class="el-icon-view"> {{ viewNum }} </i></span></el-col>
@@ -158,7 +160,7 @@ export default {
           this.tagVOList = data.blog.tagVOList;
 
           // banner标题显示
-          this.$emit("bannerTitle", [this.title, this.subTitle]);
+          // this.$emit("bannerTitle", [this.title, this.subTitle]);
           // 显示MarkDown文档
           this.getMarkdown();
           // 获取推荐阅读列表
@@ -273,6 +275,28 @@ export default {
 </script>
 
 <style scoped>
+#title {
+  font-size: 35px;
+  font-weight: 900;
+  /* color: white; */
+  /* color: #3366cc; */
+  color: black;
+  /* -webkit-text-stroke: 1px black; */
+  width: fit-content;
+  margin: 10px auto;
+  font-family:"Microsoft Yahei", "PingFang SC";
+}
+
+#subTitle {
+  font-size: 17px;
+  /* font-weight: 900; */
+  /* color: white; */
+  /* color: #3366cc; */
+  color: black;
+  width: fit-content;
+  margin: 20px auto;
+  font-family:"Microsoft Yahei", "PingFang SC";
+}
 .md-body {
   text-align: left;
 }

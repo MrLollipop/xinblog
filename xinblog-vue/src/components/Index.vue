@@ -15,22 +15,25 @@
               ><router-link to="/">首页</router-link></span
             ></el-menu-item
           >
-          <el-menu-item index="3"
+          <el-menu-item index="2"
             ><span class="menu-font"
               ><router-link to="/topic">专题</router-link></span
             ></el-menu-item
           >
-          <el-menu-item index="4"
+          <el-menu-item index="3"
             ><span class="menu-font"
               ><router-link to="/aboutMe">关于我</router-link></span
             >
           </el-menu-item>
         </el-menu>
       </el-header>
-      <div class="banner">
+      <div id="banner">
+          <!-- 背景空内容，只有高度 -->
+      </div>
+      <!-- <div id="title" v-show="isTitleShow">
         <h1>{{ bannerTitle }}</h1>
         <h2>{{ subBannerTitle }}</h2>
-      </div>
+      </div> -->
       <el-container>
         <el-main>
           <div class="main">
@@ -90,6 +93,9 @@ export default {
       this.bannerTitle = title[0];
       this.subBannerTitle = title[1];
     },
+    // updateTitileStatus(status) {
+    //   this.isTitleShow = status;
+    // },
   },
   components: {
     BackTop,
@@ -99,7 +105,7 @@ export default {
  
 <style>
 .el-header {
-  background-color: #6db8d1;
+  background-color: #397ad6;
   height: 70px;
   width: 98.5vw;
   position: fixed;
@@ -127,6 +133,14 @@ export default {
 .el-menu.el-menu--horizontal,
 .el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: none;
+  color: #397ad6;
+}
+
+.el-menu-item .is-active {
+  color: #397ad6;
+}
+.el-menu-item:hover {
+  color: #397ad6;
 }
 
 .menu-font {
@@ -136,29 +150,49 @@ export default {
 }
 
 .menu-font:hover {
-  color: #6db8d1;
-  border-bottom: 1px solid #6db8d1;
+  color: #397ad6;
+  border-bottom: 1px solid #397ad6;
+  visibility: visible;
 }
 
-.banner {
+#banner {
   width: 98.5vw;
-  background-color: #6db8d1;
+  /* height: 250px; */
+  height: 190px;
+  /* background-color: #6db8d1; */
+  /* background-image: url("https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/index/%E6%AC%A3%E5%93%A51024-banner-web.png"); */
+  background-image: url("https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/index/%E6%AC%A3%E5%93%A51024-banner-web-s.png");
+  /* background-image: url("https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/index/%E6%AC%A3%E5%93%A51024-banner-web-xs.png"); */
+  background-position: center 20px;
+  /* 通过百分比设置 */
+  /* background-size: 80% 140%;  */
+  /* background-position: center; */
 }
 
-.banner > h1 {
+#title {
+  width: 98.5vw;
+  /* background-color: #6db8d1; */
+  /* background-image: url("https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/index/%E6%AC%A3%E5%93%A51024-banner.png"); */
+}
+
+#title > h1 {
   font-size: 60px;
   font-weight: 900;
-  color: white;
+  /* color: white; */
+  /* color: #3366cc; */
+  color: black;
   /* -webkit-text-stroke: 1px black; */
   width: fit-content;
   margin: 40px auto;
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) */
 }
 
-.banner > h2 {
+#title > h2 {
   font-size: 20px;
   /* font-weight: 900; */
-  color: white;
+  /* color: white; */
+  /* color: #3366cc; */
+  color: black;
   width: fit-content;
   margin: 20px auto;
 }

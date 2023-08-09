@@ -4,6 +4,8 @@
       <div class="markdown">
         <el-page-header class="back" @back="goBack" content="" />
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
+        <h1 id="title">{{ title }}</h1>
+        <h2 id="subTitle">{{ subTitle }}</h2>
         <img class="headPic" :src="cover"/>
         
         <el-row :gutter="40">
@@ -130,12 +132,13 @@ export default {
   },
   methods: {
     getBlog() {
-        this.title = "关于我";
-        this.subTitle = "程序员欣哥";
-        this.markdownAddr = 'aboutMe/aboutMe.md';
-        this.cover = 'https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/aboutMe/aboutMe.png';
-        // banner标题显示
-        this.$emit("bannerTitle", [this.title, this.subTitle]);
+      this.title = "关于我";
+      this.subTitle = "程序员欣哥";
+      this.markdownAddr = 'aboutMe/aboutMe.md';
+      this.cover = 'https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/aboutMe/aboutMe.png';
+      // banner标题显示
+      // this.$emit("bannerTitle", [this.title, this.subTitle]);
+      // this.$emit("isTitleShow", true);
         // 显示MarkDown文档
         this.getMarkdown();
     },
@@ -214,6 +217,28 @@ export default {
 </script>
 
 <style scoped>
+#title {
+  font-size: 35px;
+  font-weight: 900;
+  /* color: white; */
+  /* color: #3366cc; */
+  color: black;
+  /* -webkit-text-stroke: 1px black; */
+  width: fit-content;
+  margin: 10px auto;
+  font-family:"Microsoft Yahei", "PingFang SC";
+}
+
+#subTitle {
+  font-size: 17px;
+  /* font-weight: 900; */
+  /* color: white; */
+  /* color: #3366cc; */
+  color: black;
+  width: fit-content;
+  margin: 20px auto;
+  font-family:"Microsoft Yahei", "PingFang SC";
+}
 .md-body {
   text-align: left;
 }
