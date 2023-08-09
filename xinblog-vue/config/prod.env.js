@@ -16,6 +16,6 @@
 module.exports = {
   NODE_ENV: '"production"',
   OPEN_PROXY: false, // 生产环境，无法使用VUE虚拟代理，无法识别路径。只能通过Nginx配置反向代理
-  baseUrl: '"http://xinge1024.com/gateway/"',
+  baseUrl: '"http://47.98.130.159/gateway/"',
   ossUrl: '"https://xinblog-a.oss-cn-hangzhou.aliyuncs.com/"',
 };
