@@ -48,13 +48,13 @@ export default {
       this.noDataShow = false;
       this.tagKey = this.$route.params.key;
       this.label = this.$route.params.label;
-      this.$emit("bannerTitle", ["欣 哥 工 作 室", this.label]);
+      this.$emit("bannerTitle", ["欣 哥 1024", this.label]);
       this.from = 0 - this.pageSize;
       this.getBlogsList();
     },
   },
   mounted() {
-    this.$emit("bannerTitle", ["欣 哥 工 作 室", this.label]);
+    this.$emit("bannerTitle", ["欣 哥 1024", this.label]);
     this.getTagList();
     this.getBlogsList();
   },
