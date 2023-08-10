@@ -67,10 +67,12 @@ export default {
   margin-bottom: 8px;
   height: 100%;
   border-bottom: 1px solid rgb(227, 228, 228);
+  font-family:"Microsoft Yahei", "PingFang SC";
 }
 .title h1 {
-  color: rgb(92, 84, 84);
-  font-size: 40px;
+  /* color: rgb(92, 84, 84); */
+  color: black;
+  font-size: 35px;
   margin-top: 2px;
   margin-bottom: 5px;
   padding: 2px;
