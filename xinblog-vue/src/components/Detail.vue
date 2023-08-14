@@ -322,6 +322,7 @@ export default {
   float: left;
   text-align: left;
   /* border-left: 1px solid lightgray; */
+  font-family:"Microsoft Yahei", "PingFang SC";
 }
 .rightBox h3 {
   margin:3px 20px 5px;
