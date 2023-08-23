@@ -38,8 +38,8 @@
           </div>
           <el-footer>
             <p>
-              <a href="http://xinge.studio">欣哥1024</a> © 2021
-              浙ICP备2021021057号
+              <a href="http://xinge1024.com">欣哥1024</a> © 2021
+              <a href="http://beian.miit.gov.cn/">浙ICP备2021021057号-2</a>
             </p>
           </el-footer>
         </el-main>
