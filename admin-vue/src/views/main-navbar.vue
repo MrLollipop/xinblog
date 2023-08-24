@@ -2,7 +2,7 @@
   <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
     <div class="site-navbar__header">
       <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
-        <a class="site-navbar__brand-lg" href="javascript:;">欣哥工作室</a>
+        <a class="site-navbar__brand-lg" href="javascript:;">欣哥1024</a>
         <a class="site-navbar__brand-mini" href="javascript:;">欣哥</a>
       </h1>
     </div>
@@ -26,7 +26,7 @@
         </el-menu-item>
         <el-menu-item index="2">
           <el-badge value="hot">
-            <a href="http://xinge.studio" target="_blank">欣哥工作室</a>
+            <a href="http://xinge1024.com" target="_blank">欣哥1024</a>
           </el-badge>
         </el-menu-item>
         <!-- <el-submenu index="3">

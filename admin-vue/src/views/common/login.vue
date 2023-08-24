@@ -3,8 +3,8 @@
     <div class="site-content__wrapper">
       <div class="site-content">
         <div class="brand-info">
-          <h2 class="brand-info__text">欣 哥 工 作 室 - 管 理 台</h2>
-          <p class="brand-info__intro">欣哥工作室，为程序员创造价值</p>
+          <h2 class="brand-info__text">欣 哥 1024 - 管 理 台</h2>
+          <p class="brand-info__intro">欣哥1024，为程序员创造价值</p>
         </div>
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>
