@@ -28,7 +28,7 @@
               <el-row>
                 <ul>
                   <li v-for="simpleVO in simpleVOList" :key="simpleVO.id" >
-                    <router-link :to="{ path: 'detail', query: { blogId: simpleVO.id } }">{{simpleVO.title}}</router-link>
+                    <router-link :to="{ path: 'detail', query: { blogId: simpleVO.id } }"><div>{{simpleVO.title}}</div></router-link>
                   </li>
                 </ul>
               </el-row>
@@ -326,6 +326,22 @@ export default {
 }
 .rightBox h3 {
   margin:3px 20px 5px;
+}
+.rightBox ul {
+  padding-left: 20px;
+}
+.rightBox li {
+  list-style-type: none;
+  margin: 5px auto;
+  cursor: pointer;
+  width: 250px;
+}
+.rightBox li:hover {
+  font-weight: bolder;
+  background-color: rgb(242,246,249);
+}
+.rightBox li div {
+  width: 250px;
 }
 .sendComment {
   float: left;
