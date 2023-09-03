@@ -49,6 +49,10 @@ export default {
   border-radius: 15px;
   padding: 0;
 }
+.card:hover { 
+  width: 101%;
+  /* height: 110%; */
+}
 .card:hover h1 {
   font-size: 17px;
 }
@@ -65,6 +69,7 @@ export default {
 .title h1 {
   color: #000;
   font-size: 15px;
+  font-family:"Microsoft Yahei", "PingFang SC";
   height: 10px;
   margin-top: 2px;
   margin-bottom: 15px;
@@ -73,6 +78,7 @@ export default {
 #times {
   color: #999;
   font-size: 12px;
+  font-family:"Microsoft Yahei", "PingFang SC";
   margin-top: 5px;
   margin-left: 25px;
   float: left;
@@ -81,6 +87,7 @@ export default {
 #updateTime {
   color: #999;
   font-size: 12px;
+  font-family:"Microsoft Yahei", "PingFang SC";
   margin-top: 5px;
   margin-right: 25px;
   float: right;

@@ -9,7 +9,7 @@
           <el-col :span="4"><el-button plain size="small" style="float:right" @click="getBlogsList()" icon="el-icon-refresh">换一换</el-button></el-col>
         </el-row>
         <el-row class="row" :gutter="60" v-for="item in blogs" :key="item.id">
-            <blog-card-2 :blogEntity="item"></blog-card-2>
+            <blog-card-h :blogEntity="item"></blog-card-h>
         </el-row>
         <el-empty :description="noDataMsg" v-show="noDataShow"></el-empty>
         <el-row>
@@ -22,11 +22,11 @@
 </template>
  
 <script>
-import BlogCard2 from "./BlogCard2.vue";
+import BlogCardH from "./BlogCardH.vue";
 import Tag from "./index/Tag.vue";
 
 export default {
-  components: { Tag, BlogCard2 },
+  components: { Tag, BlogCardH },
   name: "Hot",
   data() {
     return {
