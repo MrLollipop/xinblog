@@ -6,6 +6,11 @@
       <el-col :sm="24" :lg="20"><carousel :topList=topList></carousel></el-col>
     </el-row>
 
+    <!-- 热门标签 -->
+    <el-row justify="center">
+      <el-col :span="20" :offset="2"><tag :tagVOList="tagVOList"></tag></el-col>
+    </el-row>
+
     <!-- 最新发布 -->
     <el-row class="rowTitle" style="margin-top:10px">
       <el-col :span="20"><span class="blogClass"><i class="el-icon-document"></i> 最新发布</span></el-col>
@@ -35,6 +40,7 @@
 <script>
 import BlogCard from "./BlogCard.vue";
 import carousel from "./Carousel.vue";
+import Tag from "./Tag.vue";
 export default {
   name: "Main",
   data() {
@@ -51,16 +57,19 @@ export default {
       newestListFrom: 0,
       hotListFrom: 0,
       pageSize: 3,
+      tagVOList: [],
     };
   },
   components: {
     carousel,
     BlogCard,
+    Tag,
   },
   mounted() {
     this.$emit("bannerTitle", ["欣 哥 1024", "为程序员创造价值"]);
     this.getIndexData();
     this.timer = setInterval(this.getNewestList, 8000);
+    this.getTagList();
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -134,6 +143,19 @@ export default {
         }
       });
     },
+    // 获取缓存Tags清单
+    getTagList() {
+      this.$http({
+        url: this.$http.adornUrl("api/blog/user/tags"),
+        method: "get",
+        params: this.$http.adornParams({}),
+      }).then(({ data }) => {
+        // console.log(data);
+        if (data.code === 10000) {
+          this.tagVOList = data.tags;
+        }
+      });
+    },
   },
 };
 </script>
@@ -142,8 +164,10 @@ export default {
 .blogClass {
   height: 100%;
   margin-left: 0;
+  padding-bottom: 0;
   text-align: left;
   font-size: 20px;
+  font-family:"Microsoft Yahei", "PingFang SC";
   color: #999;
   float: left;
 }
