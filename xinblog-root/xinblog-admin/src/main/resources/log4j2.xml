@@ -4,7 +4,8 @@
     <!-- 参数声明 -->
     <Properties>
         <!-- 日志文件存放根路径 -->
-        <property name="DEFAULT_LOG_ROOT_PATH" value="/usr/local/xinblog-admin"/>
+<!--        <property name="DEFAULT_LOG_ROOT_PATH" value="/usr/local/log/xinblog-admin"/>-->
+        <property name="DEFAULT_LOG_ROOT_PATH" value="${env:HOME}/dev/log/xinblog-admin"/>
         <!-- 日志格式 -->
         <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -- %style{[%t]}{bright,magenta} %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %logger{36}.%M - %msg%n"/>
         <!-- 日志文件最大文件大小全局配置,单位可以为KB、MB或GB，一天之内最大文件产生数量全局配置 -->
@@ -12,21 +13,21 @@
         <property name="MAX_FILE_NUM" value="30"/>
 
         <!-- debug 日志文件位置及名称，在rollFile的时候老文件的生成规则 -->
-        <property name="DEBUG_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/logs/current/debug.log"/>
+        <property name="DEBUG_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/current/debug.log"/>
         <!--  filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz"> 备份时使用gz格式压缩-->
-        <property name="DEBUG_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/logs/history/$${date:yyyy-MM-dd}/debug-%d{yyyy-MM-dd}.%i.log"/>
+        <property name="DEBUG_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/history/$${date:yyyy-MM-dd}/debug-%d{yyyy-MM-dd}.%i.log"/>
 
         <!-- info 日志文件位置及名称，在rollFile的时候老文件的生成规则 -->
-        <property name="INFO_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/logs/current/info.log"/>
-        <property name="INFO_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/logs/history/$${date:yyyy-MM-dd}/info-%d{yyyy-MM-dd}.%i.log"/>
+        <property name="INFO_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/current/info.log"/>
+        <property name="INFO_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/history/$${date:yyyy-MM-dd}/info-%d{yyyy-MM-dd}.%i.log"/>
 
         <!-- error 日志文件位置及名称，在rollFile的时候老文件的生成规则 -->
-        <property name="ERROR_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/logs/current/error.log"/>
-        <property name="ERROR_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/logs/history/$${date:yyyy-MM-dd}/error-%d{yyyy-MM-dd}.%i.log"/>
+        <property name="ERROR_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/current/error.log"/>
+        <property name="ERROR_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/history/$${date:yyyy-MM-dd}/error-%d{yyyy-MM-dd}.%i.log"/>
 
         <!-- warn 日志文件位置及名称，在rollFile的时候老文件的生成规则 -->
-        <property name="WARN_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/logs/current/warn_error.log"/>
-        <property name="WARN_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/logs/history/$${date:yyyy-MM-dd}/warn_error-%d{yyyy-MM-dd}.%i.log"/>
+        <property name="WARN_FILE_PATH_ING" value="${DEFAULT_LOG_ROOT_PATH}/current/warn_error.log"/>
+        <property name="WARN_FILE_PATH_ED" value="${DEFAULT_LOG_ROOT_PATH}/history/$${date:yyyy-MM-dd}/warn_error-%d{yyyy-MM-dd}.%i.log"/>
     </Properties>
 
     <appenders>
